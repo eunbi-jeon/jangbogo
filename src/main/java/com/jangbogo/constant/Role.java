@@ -1,5 +1,5 @@
 package com.jangbogo.constant;
 
 public enum Role {
-    ADMIN, MEMBER
+    ROLE_ADMIN, ROLE_MEMBER
 }
