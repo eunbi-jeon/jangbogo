@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../../../../React_Proj"
+		},
+		{
+			"path": "../../../../../../../../React_Proj/movie-demo"
+		},
+		{
+			"path": "../../../../../../../../FrontEnd-dev/FrontEnd/cartking"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "cartking"
+	}
+}
