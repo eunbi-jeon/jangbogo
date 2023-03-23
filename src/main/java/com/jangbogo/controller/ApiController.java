@@ -1,21 +1,28 @@
 package com.jangbogo.controller;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
-@SpringBootApplication
+import com.jangbogo.dto.ApiRequestDTO;
+import com.jangbogo.dto.ApiResponseDTO;
+import com.jangbogo.service.ApiService;
+
 @RestController
 public class ApiController {
+    private final ApiService apiService;
 
-	public static void main(String[] args) {
-		// 테스트
+    @Autowired
+    public ApiController(ApiService apiService) {
+        this.apiService = apiService;
     }
+
+
+    @GetMapping("/price")
+    public ResponseEntity<ApiResponseDTO> getPriceList(ApiRequestDTO requestDto) {
+        ApiResponseDTO responseDto = apiService.getPriceList(requestDto);
+        return ResponseEntity.ok(responseDto);
+    }
+
 }
