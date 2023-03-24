@@ -11,6 +11,8 @@ function App() {
   <Header/>
     <Routes>
       <Route path="/search" element={<Search/>}/>
+      <Route path="/search" element={<Search/>}/>
+      
    </Routes>
   </BrowserRouter>
      </div>
