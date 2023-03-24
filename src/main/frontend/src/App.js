@@ -1,18 +1,25 @@
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Header from './components/Header';
+import Main from './components/Main';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import NotFound from './components/NotFound';
+
 
 function App() {
-   const [hello, setHello] = useState('')
-
-    useEffect(() => {
-        axios.get('/api/hello')
-        .then(response => setHello(response.data))
-        .catch(error => console.log(error))
-    }, []);
-
     return (
-        <div>
-            백엔드에서 가져온 데이터입니다 : {hello}
+        <div className='App'>
+            <BrowserRouter>
+                <Header />
+                <Routes>
+                    <Route path='/' element={<Main />}></Route>
+                    <Route path='/login' element={<Login />}></Route>
+                    <Route path='/signup' element={<Signup />}></Route>
+                    {/* 규칙에 적용되지 않는 나머지 모든 경로 처리 */}
+                    <Route path='*'element={<NotFound />}></Route>
+                </Routes>
+            </BrowserRouter>
         </div>
     );
 }

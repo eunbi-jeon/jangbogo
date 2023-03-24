@@ -7,6 +7,10 @@
     justify-content: center;
 }
 
+a{
+    text-decoration: none;
+}
+
 .header-wrap {
     width: 1160px;
     margin: auto;
@@ -23,8 +27,9 @@
     align-items: center;
 }
 
-#logo-img > img {
-    width: 100px;
+.logo-img {
+    width: 110px;
+    margin-right: 10px;
 }
 
 .search-form {
@@ -44,18 +49,19 @@
 }
 
 button {
-    width: 80px;
-    height: 40px;
-    font-size: 14px;
+    width: 60px;
+    height: 24px;
+    font-size: 12px;
     margin-left: 10px;
     border-radius: 20px;
     border: none;
-    background-color: rgb(255, 225, 169);
+    background-color: rgb(255, 235, 199);
     color: black;
+    font-weight: bold;
 }
 
 .header-menu {
-    width: 100%;
+    width: 100vw;
     height: 50px;
     background-color: rgb(255, 245, 216);
     display: flex;
