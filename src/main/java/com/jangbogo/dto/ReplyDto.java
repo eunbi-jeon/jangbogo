@@ -1,5 +1,8 @@
 package com.jangbogo.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Getter;

@@ -12,6 +12,9 @@ public interface ReplyService {
 	// 댓글 생성
 	Reply createReply(Board board, String content, Member nickName);
 	
+	// 대댓글 생성
+	Reply createChildReply(Board board, Long parentId, String content, Member nickName);
+	
 	// 댓글 삭제
 	void deleteReply(Reply reply);
 	
@@ -19,9 +22,8 @@ public interface ReplyService {
 	Reply getReply(Long id);
 	
 	// 댓글 수정
-	void modifyReply(Reply reply, String content);
+	void modifyReply(Long replyId, String content);
 	
-	// 댓글 신고
-	void report(Reply reply, Member member);
+	
 
 }

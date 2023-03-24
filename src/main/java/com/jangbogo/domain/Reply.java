@@ -1,43 +1,43 @@
 package com.jangbogo.domain;
 
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
 
-import com.jangbogo.domain.common.BaseTimeEntity;
+import com.jangbogo.domain.baseEntity.BaseAnswer;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter @Setter
-public class Reply extends BaseTimeEntity{
+public class Reply extends BaseAnswer{
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
 	
-	@Column(length = 500)
-	private String content;
+	// 대댓글 부모
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "parent_id")
+	private Reply parent;
 	
-	@ManyToOne		
-	private Board board;
+	// 대댓글 자식, mappedBy 를 부모키에 연관관계를 맞춰야 부모 댓글을 삭제할때 자식 대댓글도 삭제됨
+	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+	private List<Reply> child = new ArrayList<>();
 	
-	@ManyToOne 
-    private Member author;
+	private Integer depth;
+	
 	
 	// 신고 받은 횟수
 	private Integer report;
 	
+	// 신고 메소드
 	public void incrementRepot() {
 		if(report == null) {
 			report = 1;

@@ -65,33 +65,33 @@ public class AnswerController {
     }
     
     // 댓글수정 처리
-//    @PostMapping("/answer/modify/{id}")
-//    	public String answerModify(@Valid AnswerDto answerDto, BindingResult bindingResult, @PathVariable("id") Long id, Principal principal) {
-//    		if(bindingResult.hasErrors()) {
-//    			return "answer_form";
-//    		}
-//    		Answer answer = this.answerService.getAnswer(id);
-//    		if(!answer.getAuthor().getNickName().equals(principal.getName())) {
-//    			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-//    		}
-//    		this.answerService.modifyAnswer(answer, answerDto.getContent());
-//    		
-//    		return String.format("redirect:/board/detail/%s#answer_%s", answer.getBoard().getId, answer.getId());
-//    	}
+    @PostMapping("/answer/modify/{id}")
+    	public String answerModify(@Valid AnswerDto answerDto, BindingResult bindingResult, @PathVariable("id") Long id, Principal principal) {
+    		if(bindingResult.hasErrors()) {
+    			return "answer_form";
+    		}
+    		Answer answer = this.answerService.getAnswer(id);
+    		if(!answer.getAuthor().getNickName().equals(principal.getName())) {
+    			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+    		}
+    		this.answerService.modifyAnswer(answer, answerDto.getContent());
+    		
+    		return String.format("redirect:/board/detail/%s#answer_%s", answer.getBoard().getId(), answer.getId());
+    	}
     
     //댓글 삭제 
-//	 @GetMapping("/answer/delete/{id}") 
-//	 public String answerDelete(Principal principal, @PathVariable("id") Long id) {
-//	 
-//	 Answer answer = this.answerService.getAnswer(id);
-//	 
-//	 if (!answer.getAuthor().getNickName().equals(principal.getName())) { throw
-//	 new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다."); }
-//	 
-//	 this.answerService.deleteAnswer(answer);
-//	 
-//	 return String.format("redirect:/board/detail/%s", answer.getBoard().getId());
-//	 
-//	 }
+	 @GetMapping("/answer/delete/{id}") 
+	 public String answerDelete(Principal principal, @PathVariable("id") Long id) {
+	 
+	 Answer answer = this.answerService.getAnswer(id);
+	 
+	 if (!answer.getAuthor().getNickName().equals(principal.getName())) { throw
+	 new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다."); }
+	 
+	 this.answerService.deleteAnswer(answer);
+	 
+	 return String.format("redirect:/board/detail/%s", answer.getBoard().getId());
+	 
+	 }
     
 }
