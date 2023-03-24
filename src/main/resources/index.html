@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="basic.js"></script>
+    <title>나만의 셀렉샵</title>
+</head>
+<body>
+<div class="header">
+    Select Shop
+</div>
+<div class="nav">
+    <div class="nav-see active">
+        모아보기
+    </div>
+    <div class="nav-search">
+        탐색하기
+    </div>
+</div>
+<div id="see-area">
+    <div id="product-container">
+    </div>
+</div>
+<div id="search-area">
+    <div>
+        <input type="text" id="query">
+        <!--    <img src="images/icon-search.png" alt="">-->
+    </div>
+    <div id="search-result-box">
+    </div>
+    <div id="container" class="popup-container">
+        <div class="popup">
+            <button id="close" class="close">
+                X
+            </button>
+            <h1>⏰최저가 설정하기</h1>
+            <p>최저가를 설정해두면 선택하신 상품의 최저가가 떴을 때<br/> 표시해드려요!</p>
+            <div>
+                <input type="text" id="myprice" placeholder="200,000">원
+            </div>
+            <button class="cta" onclick="setMyprice()">설정하기</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

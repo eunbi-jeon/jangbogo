@@ -1,20 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-
+import React from 'react';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import Search from "./pages/Search";
+import Header from './components/Header';
 function App() {
-   const [hello, setHello] = useState('')
+    
+  return (
+    <div className="root-wrap"> 
 
-    useEffect(() => {
-        axios.get('/api/hello')
-        .then(response => setHello(response.data))
-        .catch(error => console.log(error))
-    }, []);
-
-    return (
-        <div>
-            백엔드에서 가져온 데이터입니다 : {hello}
-        </div>
-    );
+  <BrowserRouter>
+  <Header/>
+    <Routes>
+      <Route path="/search" element={<Search/>}/>
+   </Routes>
+  </BrowserRouter>
+     </div>
+   
+  );
 }
 
 export default App;
