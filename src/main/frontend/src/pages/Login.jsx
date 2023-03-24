@@ -18,10 +18,10 @@ export default function Login() {
                 </div>
                 <div style={{fontSize:14}}>아직 회원이 아니신가요?</div>
                 <button className='signup-btn'><Link to='/signup'>간편 회원가입하기</Link></button>
-                <span style={{fontSize:16, marginRight:10}}>이메일 찾기</span>
-                <span style={{fontSize:16, marginLeft:10}}>비밀번호 찾기</span>
+                <span style={{fontSize:14, marginRight:10}}><Link to='/email/find'>이메일 찾기</Link></span>
+                <span style={{fontSize:14}}>ㅣ</span>
+                <span style={{fontSize:14, marginLeft:10}}><Link to='/password/find'>비밀번호 재설정</Link></span>
             </div>
-         
         </div>
     )
 }
