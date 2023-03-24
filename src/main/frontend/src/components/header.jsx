@@ -20,7 +20,7 @@ export default function Header() {
                         </div>
                     </div>
                     <div class="button">
-                        <button id="sign-up"><Link to='/signup'>회원가입</Link></button>
+                        <button id="sign-up"><Link to='/mypage'>마이페이지</Link></button>
                         <button id="login"><Link to='/login'>로그인</Link></button>
                     </div>
                 </div>
