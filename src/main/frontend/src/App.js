@@ -1,33 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import fetchData from './fetchData';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
 
 function App() {
-  const [data, setData] = useState([]);
+   const [hello, setHello] = useState('')
 
-  useEffect(() => {
-    async function getData() {
-      const result = await fetchData();
-      setData(result);
-    }
-    getData();
-  }, []);
+    useEffect(() => {
+        axios.get('/api/hello')
+        .then(response => setHello(response.data))
+        .catch(error => console.log(error))
+    }, []);
 
-  return (
-    <div>
-      <h1>API 데이터</h1>
-      {data.map((item, index) => (
-        <div key={index}>
-          <h2>{item.item_name}</h2>
-          <p>Item Code: {item.itemcode}</p>
-          <p>Kind Name: {item.kind_name}</p>
-          <p>Kind Code: {item.kindcode}</p>
-          <p>Unit: {item.unit}</p>
-          <p>Day: {item.day1}</p>
-          <p>Price: {item.dpr1}</p>
+    return (
+        <div>
+            백엔드에서 가져온 데이터입니다 : {hello}
         </div>
-      ))}
-    </div>
-  );
+    );
 }
 
 export default App;
