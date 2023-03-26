@@ -125,7 +125,6 @@ const SignUpForm = () => {
     const onSubmitHandler = (event) => {
         event.preventDefault(); //리프레시 방지-> 방지해야 이 아래 라인의 코드들 실행 가능
 
-
         // 비밀번호와 비밀번호 확인 같을때 회원가입 되게 함
         if (password !== checkpw) {
             return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
@@ -133,17 +132,11 @@ const SignUpForm = () => {
 
         axios.post("http://localhost:8080/auth/create", data)
             .then((req) => {
-                alert('회원가입이 완료되었습니다.').then(res=>{
-                    if (res.isConfirmed){
-                        window.location.href = "/login";
-                    }
-                })
+                alert('회원가입이 완료되었습니다.');
+                window.location.href = "/login";
             }).catch(err => {
-                alert('회원가입에 실패하였습니다. 관리자에게 문의해주세요.').then(res=>{
-                if (res.isConfirmed){
-                    window.location.href = "/signup";
-                }
-            })
+                alert('회원가입에 실패하였습니다. 관리자에게 문의해주세요.');
+                window.location.href = "/";
         })
 
     }
@@ -164,7 +157,7 @@ const SignUpForm = () => {
 
                     if (req.data === 1) alert('중복된 닉네임입니다.');
                     else if (req.data === 0) {
-                        alert('사용가능한 닉네임 입니다..');
+                        alert('사용가능한 닉네임 입니다.');
                         setNameMes("")
                     }
 
