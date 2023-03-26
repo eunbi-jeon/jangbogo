@@ -27,7 +27,7 @@ h1 {
     margin: 5px 0px;
 }
 
-.loginbox>form>button {
+.submit-btn {
     padding: 20px;
     width: 488px;
     background-color: rgb(200, 205, 207);
@@ -38,22 +38,9 @@ h1 {
     height: 60px;
 }
 
-.loginbox {
+.signUpbox {
     margin-bottom: 60px;
 }
-
-.signup-btn {
-    padding: 20px;
-    width: 488px;
-    background-color: white;
-    border: solid 1px black;
-    font-size: 18px;
-    color: white;
-    border-radius: 0px;
-    margin: 15px 0px 20px 0px;
-    height: 60px;
-}
-
 
 .form-item {
     width: 100%;
@@ -92,3 +79,28 @@ label {
   [type="radio"]:checked {
     border: 0.4em solid tomato;
   }
+
+.check-btn {
+    width: 60px;
+    font-size: 12px;
+    border-radius: 0;
+    color: white;
+    background-color: rgb(200, 205, 207);
+    margin-left: 0;
+}
+
+.err-msg {
+    margin-left: 10px;
+    font-size: 12px;
+    color: tomato;
+    text-align: left;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.err-box {
+    margin-top: 3px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}

@@ -133,20 +133,74 @@ const SignUpForm = () => {
 
         axios.post("http://localhost:8080/auth/create", data)
             .then((req) => {
-                alert('가입성공').then(res=>{
+                alert('회원가입이 완료되었습니다.').then(res=>{
                     if (res.isConfirmed){
                         window.location.href = "/login";
                     }
                 })
             }).catch(err => {
-                alert('오류').then(res=>{
+                alert('회원가입에 실패하였습니다. 관리자에게 문의해주세요.').then(res=>{
                 if (res.isConfirmed){
-                    window.location.href = "/join";
+                    window.location.href = "/signup";
                 }
             })
         })
 
     }
+
+    // 닉네임 중복체크
+    const handleNameCheck = (e) => {
+        e.preventDefault();
+        console.log(nickname);
+        if (!nickname) {
+            setNameMes("닉네임은 필수입력 항목입니다.");
+        }else {
+            axios.get("http://localhost:8080/auth/nameCheck",
+                {
+                    params: {nickname: nickname}
+                })
+                .then((req) => {
+                    console.log("데이터 전송 성공")
+
+                    if (req.data === 1) alert('중복된 닉네임입니다.');
+                    else if (req.data === 0) {
+                        alert('사용가능한 닉네임 입니다..');
+                        setNameMes("")
+                    }
+
+                }).catch(err => {
+                console.log(`데이터 전송 실패 ${err}`)
+            })
+
+        }
+
+
+    }
+
+    //이메일 중복체크
+        const handleEmailCheck = (e) => {
+            e.preventDefault();
+            console.log(email);
+            if (!email) {
+                setEmailMes("이메일은 필수입력 항목입니다.");
+            }else {
+                axios.get("http://localhost:8080/auth/emailCheck",
+                    {
+                        params: {email: email}
+                    })
+                    .then((req) => {
+                        console.log("데이터 전송 성공")
+                        if (req.data === 1) alert('중복된 이메일입니다.');
+                        else if (req.data === 0){
+                            alert('사용가능한 이메일입니다.');
+                            setEmailMes("")
+                        }
+                    }).catch(err => {
+                    console.log(`데이터 전송 실패 ${err}`)
+                })
+            }
+        }
+
 
     return (
         <div>
@@ -154,17 +208,26 @@ const SignUpForm = () => {
             <div className='loginwrap'>
                 <h1>회원가입</h1>
                 <div className="loginline"></div>
-                <div className="loginbox">
+                <div className="signUpbox">
                     <form onSubmit={onSubmitHandler}>
                         <input type="text" name='email' placeholder='이메일을 입력해주세요' className="form-input" 
                                 value={email}  onChange={onChangeEmail} required/>
-                        <div className="err-msg">{emailMes}</div>
-                        <input type="password" name='password' placeholder='비밀번호를 입력해주세요' className="form-input" 
+                        <div className='err-box'>
+                        <button onClick={handleEmailCheck} className='check-btn'>중복확인</button>
+                        <span className="err-msg" style={{marginBottom:0, marginLeft:10}}>{emailMes}</span>
+                        </div>
+                        <input type="password" name='password' placeholder='비밀번호를 입력해주세요.' className="form-input" 
                                 value={password}  onChange={onPasswordHandler} required/>
+                        <span className="err-msg">{pwMes}</span>
                         <input type="password" name='checkpw' placeholder='비밀번호 확인' className="form-input" 
                                 value={checkpw}  onChange={onConfirmPasswordHandler} required/>
+                        <span className="err-msg">{confirmPasswordMes}</span>
                         <input type="text" name='nickname' placeholder='닉네임을 입력해주세요' className="form-input" 
                                 value={nickname} onChange={onNameHandler} required/>
+                        <div className='err-box'>
+                        <button onClick={handleNameCheck} className='check-btn'>중복확인</button>
+                        <span className="err-msg" style={{marginBottom:0, marginLeft:10}}>{nameMes}</span>
+                        </div>
                         <div className="form-item">
                         <label htmlFor="region" className="form-title">지역 </label>
                         {regions.map((region) => (
@@ -197,7 +260,7 @@ const SignUpForm = () => {
                             </div>
                         ))}
                         </div>
-                    <button type="submit" disabled={!(isEmail && isName && isPassword && isConfirmPassword)}>회원가입 하기</button>
+                    <button type="submit" className='submit-btn' disabled={!(isEmail && isName && isPassword && isConfirmPassword)}>회원가입 하기</button>
                     </form>
                 </div>
             </div>

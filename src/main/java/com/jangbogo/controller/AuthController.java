@@ -6,11 +6,9 @@ import com.jangbogo.dto.TokenDto;
 import com.jangbogo.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -26,6 +24,19 @@ public class AuthController {
         return ResponseEntity.ok(authService.signup(requestDto));
     }
 
+    @GetMapping("/emailCheck")
+    public int emailCheck(@RequestParam("email") String email) throws Exception {
+        int result = authService.emailCheck(email);
+
+        return result;
+    }
+
+    @GetMapping("/nameCheck")
+    public int nickNameCheck(@RequestParam("nickname") String nickname) throws Exception {
+        int result = authService.nameCheck(nickname);
+
+        return result;
+    }
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
         return ResponseEntity.ok(authService.login(requestDto));

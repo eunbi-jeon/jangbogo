@@ -23,14 +23,30 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-
     public MemberResponseDto signup(MemberRequestDto requestDto) {
-        if (memberRepository.existsByEmail(requestDto.getEmail())) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다");
-        }
 
         Member member = requestDto.toMember(passwordEncoder);
         return MemberResponseDto.of(memberRepository.save(member));
+    }
+
+    //이메일 중복확인
+    public int emailCheck(String email) {
+        int result = 0;
+
+        if(memberRepository.existsByEmail(email)){
+            return result = 1;
+        }
+        return result;
+    }
+
+    //닉네임 중복확인
+    public int nameCheck(String name) {
+        int result = 0;
+
+        if(memberRepository.existsByNickName(name)){
+            return result = 1;
+        }
+        return result;
     }
 
     public TokenDto login(MemberRequestDto requestDto) {

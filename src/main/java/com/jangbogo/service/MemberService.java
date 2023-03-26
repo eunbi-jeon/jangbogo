@@ -24,6 +24,8 @@ public class MemberService {
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
     }
 
+    
+
     //닉네임 변경
     @Transactional
     public MemberResponseDto changeMemberNickname(String email, String nickname) {
