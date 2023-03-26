@@ -35,6 +35,7 @@ public class WebSecurityConfig{
         http
                 .httpBasic().disable() //https만 사용하기위해 httpBasic disable
                 .csrf().disable() //CSRF 미사용
+                .cors().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //스프링 시큐리티에서 세션 생성X
 
                 .and()

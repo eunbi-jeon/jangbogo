@@ -8,11 +8,16 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.3.4",
     "http-proxy-middleware": "^2.0.6",
+    "immer": "^9.0.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
+    "redux": "^4.2.1",
+    "redux-action": "^1.2.2",
     "web-vitals": "^2.1.4",
-    "proxy" : "http://localhost:8080"
+    "proxy": "http://localhost:8080"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -37,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "redux-devtools-extension": "^2.13.9"
   }
 }
