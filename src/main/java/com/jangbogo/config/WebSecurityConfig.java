@@ -30,10 +30,12 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        /* REST API를 위한 설정 */
         http
                 .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .csrf().disable() //CSRF 미사용
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //서버 무상태성 유지, 스프링 시큐리티에서 세션 생성X
 
                 .and()
                 .exceptionHandling()
@@ -42,7 +44,7 @@ public class WebSecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/","/auth/**", "/h2-console", "/css/**", "/js/**", "/img/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
