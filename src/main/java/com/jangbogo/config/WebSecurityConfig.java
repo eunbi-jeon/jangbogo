@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Configuration
 @EnableWebSecurity
 @Component
-public class WebSecurityConfig {
+public class WebSecurityConfig{
 
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -33,9 +33,9 @@ public class WebSecurityConfig {
 
         /* REST API를 위한 설정 */
         http
-                .httpBasic().disable()
+                .httpBasic().disable() //https만 사용하기위해 httpBasic disable
                 .csrf().disable() //CSRF 미사용
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //서버 무상태성 유지, 스프링 시큐리티에서 세션 생성X
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //스프링 시큐리티에서 세션 생성X
 
                 .and()
                 .exceptionHandling()
@@ -44,12 +44,18 @@ public class WebSecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/","/auth/**", "/h2-console", "/css/**", "/js/**", "/img/**").permitAll()
+                .antMatchers("/","/auth/**", "/h2-console/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
 
+
+        http.headers()
+                .frameOptions()
+                .sameOrigin();
+
         return http.build();
     }
+
 }

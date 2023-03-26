@@ -1,8 +1,40 @@
-import React from 'react';
+import React, { useState} from 'react';
 import "../css/signup.css"
 import "../css/root.css"
 
-export default function Signup() {
+const regions = [
+    { id: 'seoul', value: '서울' },
+    { id: 'gyeonggi', value: '경기' },
+    { id: 'incheon', value: '인천' },
+    { id: 'gangwon', value: '강원' },
+    { id: 'chungcheong', value: '충청' },
+    { id: 'daejeon', value: '대전' },
+    { id: 'daegu', value: '대구' },
+    { id: 'gwangju', value: '광주' },
+    { id: 'busan', value: '부산' },
+    { id: 'ulsan', value: '울산' },
+    { id: 'jeonla', value: '전라' },
+    { id: 'gyeongsang', value: '경상' },
+    { id: 'jeju', value: '제주' }
+  ];
+
+
+  const ages = [
+    { id: '10s', value: '10대' },
+    { id: '20s', value: '20대' },
+    { id: '30s', value: '30대' },
+    { id: '40s', value: '40대' },
+    { id: '50s', value: '50대' },
+    { id: '60s', value: '60대' },
+    { id: 'none', value: '체크 안 함' }
+  ];
+
+
+const SignUpForm = () => {
+
+    const [selectedRegion, setSelectedRegion] = useState('');
+    const [selectedAge, setSelectedAge] = useState('');
+
     return (
         <div>
         <div className='loginContainer'>
@@ -10,78 +42,41 @@ export default function Signup() {
                 <h1>회원가입</h1>
                 <div className="loginline"></div>
                 <div className="loginbox">
-                    <form onSubmit="#">
+                    <form onSubmit='#'>
                         <input type="text" name='email' placeholder='이메일을 입력해주세요' className="form-input" required />
-                        <input type="password" name='password' placeholder='이메일을 입력해주세요' className="form-input" required />
+                        <input type="password" name='password' placeholder='비밀번호를 입력해주세요' className="form-input" />
+                        <input type="text" name='nickname' placeholder='닉네임을 입력해주세요' className="form-input" />
                         <div className="form-item">
-                            <label for="region" className="form-title">지역 </label>
-                            <div className="radio-btn">
-                                <input type="radio" id="seoul" name="region" value="seoul" required />
-                                <label for="seoul">서울</label>
+                        <label htmlFor="region" className="form-title">지역 </label>
+                        {regions.map((region) => (
+                            <div key={region.id} className="radio-btn">
+                            <input
+                                type="radio"
+                                id={region.id}
+                                name="region"
+                                value={region.value}
+                                checked={selectedRegion === region.value}
+                                onChange={(e) => setSelectedRegion(e.target.value)}
+                            />
+                            <label htmlFor={region.id}>{region.value}</label>
                             </div>
-                            <div className="radio-btn" >
-                                <input type="radio" id="busan" name="region" value="busan" required />
-                                <label for="busan">부산</label>
-                            </div>
-                            <div className="radio-btn">
-                                <input type="radio" id="incheon" name="region" value="incheon" required />
-                                <label for="incheon">인천</label>
-                            </div>
-                            <div className="radio-btn">
-                                <input type="radio" id="daegu" name="region" value="daegu" required />
-                                <label for="daegu">대구</label>
-                            </div>
-                            <div className="radio-btn">
-                                <input type="radio" id="gwangju" name="region" value="gwangju" required />
-                                <label for="gwangju">광주</label>
-                            </div>
-                            <div className="radio-btn">
-                                <input type="radio" id="daejeon" name="region" value="daejeon" required />
-                                <label for="daejeon">대전</label>
-                            </div>
-                            <div className="radio-btn">
-                                <input type="radio" id="ulsan" name="region" value="ulsan" required />
-                                <label for="ulsan">울산</label>
-                            </div>
-                            <div className="radio-btn">
-                                <input type="radio" id="gyeonggi" name="region" value="gyeonggi" required />
-                                <label for="gyeonggi">경기</label>
-                            </div>
-                            <div className="radio-btn">
-                                <input type="radio" id="gangwon" name="region" value="gangwon" required />
-                                <label for="gangwon">강원</label>
-                            </div>
+                        ))}
                         </div>
                         <div className="form-item">
-                            <label for="age" className="form-title">연령 </label>
-                            <div className="radio-btn">
-                                <input type="radio" name="age" value="10s" required />
-                                <label for="10s">10대</label>
+                        <label htmlFor="age" className="form-title">연령</label>
+                        {ages.map((age) => (
+                            <div key={age.id} className="radio-btn">
+                            <input
+                                type="radio"
+                                id={age.id}
+                                name="age"
+                                value={age.value}
+                                checked={selectedAge === age.value}
+                                onChange={(e) => setSelectedAge(e.target.value)}
+                            />
+                            <label htmlFor={age.id}>{age.value}</label>
                             </div>
-                            <div className="radio-btn">
-                                <input type="radio" name="age" value="20s" required />
-                                <label for="20s">20대</label>
-                            </div>
-                            <div className="radio-btn">
-                                <input type="radio" name="age" value="30s" required />
-                                <label for="30s">30대</label>
-                            </div>
-                            <div className="radio-btn">
-                                <input type="radio" name="age" value="40s" required />
-                                <label for="40s">40대</label>
-                            </div>
-                            <div className="radio-btn">
-                                <input type="radio" name="age" value="50s" required />
-                                <label for="50s">50대</label>
-                            </div>
-                            <div className="radio-btn">
-                                <input type="radio" name="age" value="60s" required />
-                                <label for="60s">60대</label>
-                            </div>
-                            <div className="radio-btn">
-                                <input type="radio" name="age" value="none" required />
-                                <label for="none">해당 없음</label>
-                            </div>
+                        ))}
                         </div>
                     <button type="submit">회원가입 하기</button>
                     </form>
@@ -90,4 +85,6 @@ export default function Signup() {
         </div>
         </div>
     )
-}
+};
+
+export default SignUpForm;

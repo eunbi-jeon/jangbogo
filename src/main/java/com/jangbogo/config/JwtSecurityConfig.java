@@ -12,6 +12,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
+    //직접 만든 TokenProvider와 JwtFilter를 SecurityConfig에 적용할 때 사용
+
     private final TokenProvider tokenProvider;
 
     @Override

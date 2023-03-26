@@ -24,11 +24,12 @@ import java.util.stream.Collectors;
 @Component
 public class TokenProvider {
 
-    private static final String AUTHORITIES_KEY = "auth";
-    private static final String BEARER_TYPE = "bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
-    private final Key key;
+    private static final String AUTHORITIES_KEY = "auth"; //토큰 생성 및 검증
+    private static final String BEARER_TYPE = "bearer"; //토큰 생성 및 검증
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //토큰 만료 시간
+    private final Key key; //암호화 키값을 사용하기 위해 자바 Key 사용
 
+    //@Value 어노테이션을 통해 설정파일에 있는 secret 키를 가져온 후 decode하여 사용
     public TokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
@@ -62,6 +63,7 @@ public class TokenProvider {
                 .build();
     }
 
+    //토큰을 받았을 때 토큰 정보를 꺼내옴
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
 
@@ -74,11 +76,14 @@ public class TokenProvider {
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
+        //스프링 시큐리티 유저에 토큰정보와 권한정보를 대입
         UserDetails principal = new User(claims.getSubject(), "", authorities);
 
+        //대입한 유저정보와 권한정보를 반환
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
+    //토큰 검증
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
@@ -95,6 +100,7 @@ public class TokenProvider {
         return false;
     }
 
+    //권한 정보 여부 체크
     private Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();

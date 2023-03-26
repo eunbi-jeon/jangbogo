@@ -15,10 +15,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Builder
 public class MemberRequestDto {
 
+    //Request를 받을 때 쓰이는 dto
+
     private String email;
     private String password;
     private String nickname;
-    private String location;
+    private String region;
     private String age;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
@@ -26,12 +28,13 @@ public class MemberRequestDto {
                 .email(email)
                 .pass(passwordEncoder.encode(password))
                 .nickName(nickname)
-                .loc(location)
+                .region(region)
                 .age(age)
                 .role(Role.ROLE_MEMBER)
                 .build();
     }
 
+    //UsernamePasswordAuthenticationToken를 반환하여 아이디와 비밀번호가 일치하는지 검증하는 로직을 넣을 수 있게함
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(email, password);
     }

@@ -26,7 +26,7 @@ public class Member extends BaseTimeEntity {
     private String pass;
 
     private String age;
-    private String loc; //지역정보
+    private String region; //지역정보
 
     private Integer report; //신고 받은 횟수
 
@@ -37,22 +37,12 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
-    /** 닉네임, 비밀번호 수정에 사용 **/
-    public void setNickname(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public void setPassword(String pass) {
-        this.pass = pass;
-    }
-
     @Builder
-    public Member(String email, String nickName, String pass, String loc, Role role) {
+    public Member(String email, String nickName, String pass, String region, Role role) {
         this.email = email;
         this.nickName = nickName;
         this.pass = pass;
-        this.loc = loc;
+        this.region = region;
         this.role = role;
     }
 
