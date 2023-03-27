@@ -32,6 +32,9 @@ dependencies {
 	// json
 	implementation 'org.json:json:20210307'
 	
+	// Apache HttpComponents HttpClient사용을 위한 HttpComponents dependency 추가
+	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+	
 }
 
 tasks.named('test') {

@@ -1,22 +1,32 @@
-package com.jangbogo;
+package com.jangbogo.controller;
 
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 
-public class PriceData {
-    public static void main(String[] args) {
-    	
-    	/*
-    	// 실행 시 시간으로 설정
-    	String today = LocalDate.now().toString();
-    	System.out.println(today);
-    	*/
-    	
+import org.apache.http.HttpStatus;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+@RestController
+public class PriceController {
+
+    @GetMapping("/api/price")
+    public ResponseEntity<String> getPrice() {
+
+        // 실행 시 시간으로 데이터 불러옴 (주말인 경우 그 주의 금요일 정보 출력)
+    	 LocalDate date = LocalDate.now();
+         if (date.getDayOfWeek() == DayOfWeek.SATURDAY) {
+             date = date.minusDays(1);
+         } else if (date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+             date = date.minusDays(2);
+         }
+        String startDate = date.toString();
+
         String url = "http://www.kamis.or.kr/service/price/xml.do";
         String action = "dailyPriceByCategoryList";
         String certKey = "1e5a1d54-9b74-4b76-858d-bb13e17176b2";
@@ -25,7 +35,7 @@ public class PriceData {
         String productClsCode = "01";
         String itemCategoryCode = "100";
         String countryCode = "1101";
-        String regday = "2023-03-24" ; // today 변수 넣기 // 주말 날짜 오류 발생
+        String regday = startDate ;
         String convertKgYn = "Y";
 
         RestTemplate restTemplate = new RestTemplateBuilder()
@@ -47,10 +57,16 @@ public class PriceData {
         ResponseEntity<String> response = restTemplate.getForEntity(builder.toUriString(), String.class);
 
         if (response.getStatusCode().is2xxSuccessful()) {
-            String result = response.getBody();
-            System.out.println(result);
+        	
+        	
+        	
+            return response;
+            
         } else {
-            System.out.println("Request failed with status code: " + response.getStatusCodeValue());
+            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Request failed");
         }
     }
+    
+    
+    
 }
