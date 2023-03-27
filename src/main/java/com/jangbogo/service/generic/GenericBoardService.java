@@ -7,6 +7,6 @@ import java.util.List;
 public interface GenericBoardService<T extends BaseBoard> {
     T create(T t);
     List<T> getList();
-
+    T getBoard(Long id);
     void delete(Long id);
 }

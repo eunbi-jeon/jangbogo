@@ -13,23 +13,25 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	
-	//lombok
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	
-	//JPA 라이브러리
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	
-	//validation javax : spring boot 2.3 이상에서 사용 설정
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.4'
-	
-	//h2 DB
-	runtimeOnly 'com.h2database:h2'
-	
-	
+   implementation 'org.springframework.boot:spring-boot-starter-web'
+   testImplementation 'org.springframework.boot:spring-boot-starter-test'
+   
+   //lombok
+   compileOnly 'org.projectlombok:lombok'
+   annotationProcessor 'org.projectlombok:lombok'
+   
+   //JPA 라이브러리
+   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+   //thymeleaf
+   implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+   implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+   //validation javax : spring boot 2.3 이상에서 사용 설정
+   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.4'
+ //  implementation 'org.springframework.boot:spring-boot-starter-security'
+   //h2 DB
+   runtimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {

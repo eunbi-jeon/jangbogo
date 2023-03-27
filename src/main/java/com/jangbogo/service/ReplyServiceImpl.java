@@ -5,24 +5,30 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.jangbogo.domain.Answer;
 import com.jangbogo.domain.Board;
 import com.jangbogo.domain.Member;
 import com.jangbogo.domain.Reply;
+import com.jangbogo.repository.AnswerRepository;
 import com.jangbogo.repository.ReplyRepository;
+import com.jangbogo.service.generic.GenericAnswerServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Service
-public class ReplyServiceImpl implements ReplyService{
+public class ReplyServiceImpl extends GenericAnswerServiceImpl<Reply> implements ReplyService {
 	
 	private final ReplyRepository replyRepository;
-	
-	
+	 
+    public ReplyServiceImpl(ReplyRepository replyRepository) {
+        super(replyRepository);
+        this.replyRepository = replyRepository;
+    }
+    
 	// 부모 댓글 생성
 	@Override
 	 public Reply createReply(Board board, String content, Member nickName) {
-	
+	 
 		Reply reply = new Reply();
 		
 		reply.setBoard(board);
@@ -53,36 +59,6 @@ public class ReplyServiceImpl implements ReplyService{
 		childReply.setParent(parentReply);
 		
 		return replyRepository.save(childReply);
-	}
-	
-	
-	// 댓글 삭제
-	@Override
-	public void deleteReply(Reply reply) {
-		
-		this.replyRepository.delete(reply);
-	}
-	 
-	 // 댓글 조회
-	@Override
-	public Reply getReply(Long replyId) {
-		 
-		Optional<Reply> reply = this.replyRepository.findById(replyId);
-		 
-		return reply.get();
-		
-	}
-
-	
-	// 댓글 수정
-	@Override
-	public void modifyReply(Long replyId, String content) {
-		
-		Reply reply = new Reply();
-		
-		reply.setContent(content);
-		reply.setModifiedAt(LocalDateTime.now());
-		this.replyRepository.save(reply);
 	}
 	
 

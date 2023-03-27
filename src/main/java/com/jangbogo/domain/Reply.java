@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.jangbogo.domain.baseEntity.BaseAnswer;
 
@@ -19,6 +20,7 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
+@Table(name = "reply")
 public class Reply extends BaseAnswer{
 	
 	
