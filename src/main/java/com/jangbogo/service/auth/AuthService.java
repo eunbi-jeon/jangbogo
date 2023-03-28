@@ -104,7 +104,7 @@ public class AuthService {
         DefaultAssert.isTrue(!memberRepository.existsByEmail(signUpRequest.getEmail()), "해당 이메일이 존재하지 않습니다.");
 
         Member member = Member.builder()
-                .nickName(signUpRequest.getName())
+                .name(signUpRequest.getName())
                 .email(signUpRequest.getEmail())
                 .password(passwordEncoder.encode(signUpRequest.getPassword()))
                 .provider(Provider.local)

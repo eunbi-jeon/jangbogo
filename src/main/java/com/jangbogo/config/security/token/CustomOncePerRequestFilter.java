@@ -1,6 +1,8 @@
 package com.jangbogo.config.security.token;
 
-import io.jsonwebtoken.io.IOException;
+import java.io.IOException;
+
+import com.jangbogo.service.auth.CustomTokenProviderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

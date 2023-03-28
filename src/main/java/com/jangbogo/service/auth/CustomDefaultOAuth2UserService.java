@@ -55,7 +55,7 @@ public class CustomDefaultOAuth2UserService extends DefaultOAuth2UserService {
         Member member = Member.builder()
                 .provider(Provider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
                 .providerId(oAuth2UserInfo.getId())
-                .nickName(oAuth2UserInfo.getName())
+                .name(oAuth2UserInfo.getName())
                 .email(oAuth2UserInfo.getEmail())
                 .region(oAuth2UserInfo.getRegion())
                 .age(oAuth2UserInfo.getAge())

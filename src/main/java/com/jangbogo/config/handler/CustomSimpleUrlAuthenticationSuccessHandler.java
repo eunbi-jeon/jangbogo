@@ -6,6 +6,8 @@ import com.jangbogo.config.security.util.CustomCookie;
 import com.jangbogo.domain.member.entity.Token;
 import com.jangbogo.domain.member.mapping.TokenMapping;
 import com.jangbogo.repository.auth.CustomAuthorizationRequestRepository;
+import com.jangbogo.repository.auth.TokenRepository;
+import com.jangbogo.service.auth.CustomTokenProviderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;

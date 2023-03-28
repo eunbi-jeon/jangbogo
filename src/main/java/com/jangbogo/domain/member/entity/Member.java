@@ -24,7 +24,7 @@ public class Member extends BaseTimeEntity {
     private String email;
 
     @Column(nullable = false, unique = true)
-    private String nickName;
+    private String name;
 
     @Column(nullable = false)
     @JsonIgnore
@@ -50,10 +50,10 @@ public class Member extends BaseTimeEntity {
     private Role role;
 
     @Builder
-    public Member(String email, String password, String nickName, Role role, Provider provider, String region, String age, String providerId, String imageUrl) {
+    public Member(String email, String password, String name, Role role, Provider provider, String region, String age, String providerId, String imageUrl) {
         this.email = email;
         this.password = password;
-        this.nickName = nickName;
+        this.name = name;
         this.provider = provider;
         this.region = region;
         this.age = age;
@@ -62,8 +62,8 @@ public class Member extends BaseTimeEntity {
     }
 
     //닉네임 변경
-    public void updateName(String nickName){
-        this.nickName = nickName;
+    public void updateName(String name){
+        this.name = name;
     }
 
     //프로필 이미지
