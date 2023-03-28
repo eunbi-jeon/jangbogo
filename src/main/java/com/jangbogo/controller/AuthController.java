@@ -6,7 +6,6 @@ import com.jangbogo.dto.TokenDto;
 import com.jangbogo.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +37,10 @@ public class AuthController {
         return result;
     }
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
-        return ResponseEntity.ok(authService.login(requestDto));
+    public TokenDto login(@RequestBody MemberRequestDto requestDto) {
+        log.info("login 컨트롤러 실행");
+        log.info("접속 아이디 = {}", requestDto.getEmail());
+        log.info("접속 패스워드 = {}", requestDto.getPassword());
+        return authService.login(requestDto);
     }
 }

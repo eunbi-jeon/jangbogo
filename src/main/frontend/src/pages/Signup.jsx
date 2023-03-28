@@ -113,7 +113,6 @@ const SignUpForm = () => {
             /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
 
         if (!emailRegExp.test(currentEmail)) {
-
             setEmailMes("이메일 형식으로 작성해주세요.");
             setIsEmail(false);
         } else {
