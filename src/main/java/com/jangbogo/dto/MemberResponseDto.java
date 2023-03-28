@@ -1,6 +1,6 @@
 package com.jangbogo.dto;
 
-import com.jangbogo.domain.Member;
+import com.jangbogo.domain.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

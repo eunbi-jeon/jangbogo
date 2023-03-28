@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import "../css/header.css"
 import "../css/root.css"
 import logoImg from "../img/logo.png"
-import { Link } from 'react-router-dom';
 
-export default function Header() {
-    return (
+class Header extends Component {
+    render() {
+        return (
         <div>
             <div className="header-container">
                 <div className="header-wrap">
@@ -19,10 +20,17 @@ export default function Header() {
                             <input type="text" placeholder="검색어를 입력해주세요" />
                         </div>
                     </div>
-                    <div className="button">
+                        { this.props.authenticated ? (
+                        <div className="button">
                         <button id="sign-up"><Link to='/mypage'>마이페이지</Link></button>
+                        <button id="login" onClick={this.props.onLogout}>로그아웃</button>
+                            </div>
+                              ): (
+                        <div className="button">
+                        <button id="sign-up"><Link to='/singup'>회원가입</Link></button>
                         <button id="login"><Link to='/login'>로그인</Link></button>
-                    </div>
+                        </div>
+                        )}
                 </div>
             </div>
             <div className="line"></div>
@@ -37,4 +45,7 @@ export default function Header() {
             </div>
         </div>
     )
+    }
 }
+
+export default Header;

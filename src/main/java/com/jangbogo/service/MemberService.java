@@ -1,7 +1,7 @@
 package com.jangbogo.service;
 
 import com.jangbogo.config.SecurityUtil;
-import com.jangbogo.domain.Member;
+import com.jangbogo.domain.member.Member;
 import com.jangbogo.dto.MemberResponseDto;
 import com.jangbogo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

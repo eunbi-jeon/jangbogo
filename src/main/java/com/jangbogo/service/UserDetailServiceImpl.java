@@ -1,6 +1,6 @@
 package com.jangbogo.service;
 
-import com.jangbogo.domain.Member;
+import com.jangbogo.domain.member.Member;
 import com.jangbogo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

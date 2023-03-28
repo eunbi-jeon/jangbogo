@@ -1,4 +1,4 @@
-package com.jangbogo.domain;
+package com.jangbogo.domain.member;
 
 import com.jangbogo.domain.common.BaseEntity;
 import lombok.Getter;
