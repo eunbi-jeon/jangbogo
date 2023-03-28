@@ -22,5 +22,9 @@ public abstract class Oauth2UserInfo {
 
     public abstract String getEmail();
 
+    public abstract String getRegion();
+
+    public abstract String getAge();
+
     public abstract String getImageUrl();
 }
