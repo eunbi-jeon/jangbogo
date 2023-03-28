@@ -36,7 +36,7 @@ export function getCurrentUser() {
 
 export function login(loginRequest) {
     return request({
-        url: API_BASE_URL + "/auth/login",
+        url: API_BASE_URL + "/auth/signin",
         method: 'POST',
         body: JSON.stringify(loginRequest)
     });

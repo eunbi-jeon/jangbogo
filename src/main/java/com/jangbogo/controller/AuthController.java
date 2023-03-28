@@ -105,6 +105,7 @@ public class AuthController {
     public ResponseEntity<?> signup(
             @Parameter(description = "Schemas의 SignUpRequest를 참고해주세요.", required = true) @Valid @RequestBody SignUpRequest signUpRequest
     ) {
+        log.info("회원가입 실행");
         return authService.signup(signUpRequest);
     }
 
@@ -139,4 +140,18 @@ public class AuthController {
         return authService.signout(tokenRefreshRequest);
     }
 
+
+    @GetMapping("/emailCheck")
+    public int emailCheck(@RequestParam("email") String email) throws Exception {
+        int result = authService.emailCheck(email);
+
+        return result;
+    }
+
+    @GetMapping("/nameCheck")
+    public int nickNameCheck(@RequestParam("name") String name) throws Exception {
+        int result = authService.nameCheck(name);
+
+        return result;
+    }
 }

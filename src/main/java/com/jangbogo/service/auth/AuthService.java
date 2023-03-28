@@ -108,7 +108,7 @@ public class AuthService {
                 .email(signUpRequest.getEmail())
                 .password(passwordEncoder.encode(signUpRequest.getPassword()))
                 .provider(Provider.local)
-                .role(Role.ADMIN)
+                .role(Role.USER)
                 .build();
 
         memberRepository.save(member);
@@ -175,6 +175,26 @@ public class AuthService {
         DefaultAssert.isTrue(token.get().getUserEmail().equals(authentication.getName()), "사용자 인증에 실패하였습니다.");
 
         return true;
+    }
+
+    //이메일 중복확인
+    public int emailCheck(String email) {
+        int result = 0;
+
+        if(memberRepository.existsByEmail(email)){
+            return result = 1;
+        }
+        return result;
+    }
+
+    //닉네임 중복확인
+    public int nameCheck(String name) {
+        int result = 0;
+
+        if(memberRepository.existsByName(name)){
+            return result = 1;
+        }
+        return result;
     }
 
 

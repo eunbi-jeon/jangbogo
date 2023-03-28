@@ -90,7 +90,7 @@ class LoginForm extends Component {
             localStorage.setItem(ACCESS_TOKEN, response.accessToken);
             localStorage.setItem(REFRESH_TOKEN, response.refreshToken);
             alert("로그인에 성공하였습니다.");
-            this.props.history.push("/");
+            window.location.href = "/";
         }).catch(error => {
             alert((error && error.message) || '로그인에 실패하였습니다.');
         });
