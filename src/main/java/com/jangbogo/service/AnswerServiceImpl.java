@@ -28,7 +28,7 @@ public class AnswerServiceImpl extends GenericAnswerServiceImpl<Answer> implemen
 	 Answer answer = new Answer(); 
 	 answer.setBoard(board); 
 	 answer.setContent(content);
-	 answer.setAuthor(nickName); 
+	 answer.setNickName(nickName); 
 	 answer.setCreateAt(LocalDateTime.now());
 	  
 	 this.answerRepository.save(answer);

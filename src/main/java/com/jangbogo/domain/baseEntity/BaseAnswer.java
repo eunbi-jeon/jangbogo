@@ -33,7 +33,7 @@ public class BaseAnswer {
 	private Board board;
 	
 	@ManyToOne 
-    private Member author;
+    private Member nickName;
 
     private LocalDateTime createAt;
     

@@ -1,9 +1,7 @@
 package com.jangbogo.service;
 
-import java.util.List;
-import java.util.Optional;
+import org.springframework.data.domain.Page;
 
-import com.jangbogo.domain.Answer;
 import com.jangbogo.domain.Board;
 import com.jangbogo.domain.Member;
 import com.jangbogo.domain.Reply;
@@ -15,6 +13,9 @@ public interface ReplyService extends GenericAnswerService<Reply> {
 	Reply createReply(Board board, String content, Member nickName);
 	
 	// 대댓글 생성
-	Reply createChildReply(Board board, Long parentId, String content, Member nickName);	
+	Reply createChildReply(Board board, Long parentId, String content, Member nickName);
+	
+	// 댓글 대댓글 정렬
+	Page<Reply> getList(int page);
 
 }
