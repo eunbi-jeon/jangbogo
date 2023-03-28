@@ -1,4 +1,4 @@
-package com.jangbogo.config;
+package com.jangbogo.config.security;
 
 import com.jangbogo.jwt.JwtAccessDeniedHandler;
 import com.jangbogo.jwt.JwtAuthenticationEntryPoint;

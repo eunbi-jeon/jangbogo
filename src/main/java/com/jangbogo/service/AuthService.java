@@ -1,6 +1,6 @@
 package com.jangbogo.service;
 
-import com.jangbogo.domain.member.Member;
+import com.jangbogo.domain.member.entity.Member;
 import com.jangbogo.dto.MemberRequestDto;
 import com.jangbogo.dto.MemberResponseDto;
 import com.jangbogo.dto.TokenDto;

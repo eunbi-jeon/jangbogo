@@ -1,7 +1,6 @@
-package com.jangbogo.domain.member;
+package com.jangbogo.domain.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jangbogo.constant.Role;
 import com.jangbogo.domain.common.BaseTimeEntity;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -46,7 +45,7 @@ public class Member extends BaseTimeEntity {
     private Provider provider;
 
     private String providerId;
-    
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
