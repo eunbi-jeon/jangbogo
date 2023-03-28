@@ -23,10 +23,9 @@ public class Member extends BaseTimeEntity {
     @Email
     private String email;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     @JsonIgnore
     private String password;
 

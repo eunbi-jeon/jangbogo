@@ -57,8 +57,8 @@ public class CustomDefaultOAuth2UserService extends DefaultOAuth2UserService {
                 .providerId(oAuth2UserInfo.getId())
                 .name(oAuth2UserInfo.getName())
                 .email(oAuth2UserInfo.getEmail())
-                .region(oAuth2UserInfo.getRegion())
-                .age(oAuth2UserInfo.getAge())
+//                .region(oAuth2UserInfo.getRegion())
+//                .age(oAuth2UserInfo.getAge())
                 .imageUrl(oAuth2UserInfo.getImageUrl())
                 .role(Role.USER)
                 .build();

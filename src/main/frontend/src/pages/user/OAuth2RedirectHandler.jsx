@@ -19,7 +19,7 @@ class OAuth2RedirectHandler extends Component {
             localStorage.setItem(ACCESS_TOKEN, token);
             localStorage.setItem(REFRESH_TOKEN, null);
             return <Redirect to={{
-                pathname: "/profile",
+                pathname: "/",
                 state: { from: this.props.location }
             }}/>; 
         } else {

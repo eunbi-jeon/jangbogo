@@ -35,13 +35,10 @@ class Login extends Component {
         return (
             <div className="login-container">
                 <div className="login-content">
-                    <h1 className="login-title">Sign In</h1>
-                    <SocialLogin />
                     <div className="or-separator">
-                        <span className="or-text">OR</span>
-                    </div>
                     <LoginForm {...this.props} />
-                    <span className="signup-link">New user? <Link to="/signup">Sign up!</Link></span>
+                    <SocialLogin />
+                    </div>
                 </div>
             </div>
         );
@@ -53,9 +50,9 @@ class SocialLogin extends Component {
         return (
             <div className="social-login">
                 <a className="btn btn-block social-btn kakao" href={KAKAO_AUTH_URL}>
-                    <img src={kakaoLogo} alt="Kakao" /> Sign in with Kakao</a>
+                    <img src={kakaoLogo} style={{marginRight:3}} alt="Kakao" /></a>
                 <a className="btn btn-block social-btn kakao" href={NAVER_AUTH_URL}>
-                    <img src={naverLogo} alt="Naver" /> Sign in with Naver</a>
+                    <img src={naverLogo} style={{height:45, marginLeft:3}} alt="Naver" /></a>
 
             </div>
         );

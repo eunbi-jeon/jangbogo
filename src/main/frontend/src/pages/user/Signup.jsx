@@ -49,32 +49,13 @@ class Signup extends Component {
         return (
             <div className="signup-container">
                 <div className="signup-content">
-                    <h1 className="signup-title">Sign Up</h1>
-                    <SocialSignup />
-                    <div className="or-separator">
-                        <span className="or-text">OR</span>
-                    </div>
                     <SignupForm {...this.props} />
-                    <span className="login-link">Already have an account? <Link to="/login">Login!</Link></span>
                 </div>
             </div>
         );
     }
 }
 
-
-class SocialSignup extends Component {
-    render() {
-        return (
-            <div className="social-signup">
-                <a className="btn btn-block social-btn kakao" href={KAKAO_AUTH_URL}>
-                    <img src={kakaoLogo} alt="Kakao" /> Sign up with Kakao</a>
-                <a className="btn btn-block social-btn kakao" href={NAVER_AUTH_URL}>
-                    <img src={naverLogo} alt="Naver" /> Sign up with Naver</a>
-            </div>
-        );
-    }
-}
 
 class SignupForm extends Component {
     constructor(props) {
@@ -135,7 +116,7 @@ class SignupForm extends Component {
                         <input type="password" name='checkpw' placeholder='비밀번호 확인' className="form-input" 
                                 value={this.state.checkpw}  onChange={this.handleInputChange} required/>
                         {/* <span className="err-msg">{confirmPasswordMes}</span> */}
-                        <input type="text" name='nickname' placeholder='닉네임을 입력해주세요' className="form-input" 
+                        <input type="text" name='name' placeholder='닉네임을 입력해주세요' className="form-input" 
                                 value={this.state.name} onChange={this.handleInputChange} required/>
                         <div className='err-box'>
                         {/* <button onClick={handleNameCheck} className='check-btn'>중복확인</button> */}

@@ -53,3 +53,11 @@ h1 {
     margin: 15px 0px 20px 0px;
     height: 60px;
 }
+
+.or-separator {
+    text-align: center;
+}
+
+.social-login {
+    margin-top: 50px;
+}
