@@ -42,6 +42,8 @@ public class AuthService {
     private final TokenRepository tokenRepository;
 
 
+
+    /* 회원 정보 조회 */
     public ResponseEntity<?> whoAmI(UserPrincipal userPrincipal){
         Optional<Member> member = memberRepository.findById(userPrincipal.getId());
         DefaultAssert.isOptionalPresent(member);
@@ -50,6 +52,7 @@ public class AuthService {
         return ResponseEntity.ok(apiResponse);
     }
 
+    /* 회원 탈퇴 */
     public ResponseEntity<?> delete(UserPrincipal userPrincipal){
         Optional<Member> user = memberRepository.findById(userPrincipal.getId());
         DefaultAssert.isTrue(user.isPresent(), "유저가 올바르지 않습니다.");
@@ -65,6 +68,8 @@ public class AuthService {
         return ResponseEntity.ok(apiResponse);
     }
 
+
+    /* 회원정보 수정 */
     public ResponseEntity<?> modify(UserPrincipal userPrincipal, ChangePasswordRequest passwordChangeRequest){
         Optional<Member> user = memberRepository.findById(userPrincipal.getId());
         boolean passwordCheck = passwordEncoder.matches(passwordChangeRequest.getOldPassword(),user.get().getPassword());
@@ -107,6 +112,8 @@ public class AuthService {
                 .name(signUpRequest.getName())
                 .email(signUpRequest.getEmail())
                 .password(passwordEncoder.encode(signUpRequest.getPassword()))
+                .age(signUpRequest.getAge())
+                .region(signUpRequest.getRegion())
                 .provider(Provider.local)
                 .role(Role.USER)
                 .build();

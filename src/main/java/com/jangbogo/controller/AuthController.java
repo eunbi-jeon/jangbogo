@@ -68,7 +68,8 @@ public class AuthController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "유저 정보 갱신 성공",
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class) ) } ),
-            @ApiResponse(responseCode = "400", description = "유저 정보 갱신 실패", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class) ) } ),
+            @ApiResponse(responseCode = "400", description = "유저 정보 갱신 실패", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponse.class) ) } ),
     })
     @PutMapping(value = "/")
     public ResponseEntity<?> modify(
@@ -78,6 +79,8 @@ public class AuthController {
         return authService.modify(userPrincipal, passwordChangeRequest);
     }
 
+
+    /* 로그인 */
     @Operation(summary = "유저 로그인", description = "유저 로그인을 수행합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "유저 로그인 성공",
@@ -94,6 +97,8 @@ public class AuthController {
         return authService.signin(signInRequest);
     }
 
+
+    /* 회원가입 */
     @Operation(summary = "유저 회원가입", description = "유저 회원가입을 수행합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원가입 성공",
@@ -125,6 +130,7 @@ public class AuthController {
     }
 
 
+    /* 로그아웃 */
     @Operation(summary = "유저 로그아웃", description = "유저 로그아웃을 수행합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "로그아웃 성공",
@@ -141,6 +147,7 @@ public class AuthController {
     }
 
 
+    /* 이메일 중복확인 */
     @GetMapping("/emailCheck")
     public int emailCheck(@RequestParam("email") String email) throws Exception {
         int result = authService.emailCheck(email);
@@ -148,6 +155,7 @@ public class AuthController {
         return result;
     }
 
+    /* 닉네임 중복확인 */
     @GetMapping("/nameCheck")
     public int nickNameCheck(@RequestParam("name") String name) throws Exception {
         int result = authService.nameCheck(name);

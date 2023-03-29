@@ -27,7 +27,7 @@ class Header extends Component {
                             </div>
                               ): (
                         <div className="button">
-                        <button id="sign-up"><Link to='/singup'>회원가입</Link></button>
+                        <button id="sign-up"><Link to='/signup'>회원가입</Link></button>
                         <button id="login"><Link to='/login'>로그인</Link></button>
                         </div>
                         )}

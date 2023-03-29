@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Header from '../common/Header';
+import Footer from '../common/Footer';
 import Main from '../pages/Main';
 import Login from '../pages/user/Login';
 import Signup from '../pages/user/Signup';
@@ -80,6 +81,9 @@ class App extends Component {
             <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
             <Route component={NotFound}></Route>
           </Switch>
+        </div>
+        <div className="app-bottom-box">
+          <Footer />
         </div>
       </div>
     );

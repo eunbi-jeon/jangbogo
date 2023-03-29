@@ -21,4 +21,11 @@ public class SignUpRequest {
     @Schema( type = "string", example = "string", description="계정 비밀번호 입니다.")
     @NotBlank
     private String password;
+
+    @Schema( type = "string", example = "string", description="계정 연령 정보 입니다.")
+    private String age;
+
+    @Schema( type = "string", example = "string", description="계정 지역 정보 입니다.")
+    private String region;
+
 }
