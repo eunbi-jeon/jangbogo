@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import '../../css/myPage.css';
 
@@ -28,7 +29,7 @@ class Mypage extends Component {
                            <h2>{this.props.currentUser.information.name}</h2>
                            <p className="profile-email">{this.props.currentUser.information.email}</p>
                         </div>
-                        <button className='modify-btn'>회원정보 수정</button>
+                        <button className='modify-btn'><Link to='/setting/profile'>회원정보 수정</Link></button>
                     </div>
                     <div className='profile-info-etc'>
                         <div className='etc-box'>

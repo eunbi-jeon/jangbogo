@@ -7,6 +7,8 @@ import Main from '../pages/Main';
 import Login from '../pages/user/Login';
 import Signup from '../pages/user/Signup';
 import Mypage from '../pages/user/Mypage';
+import ProfileModify from '../pages/user/ProfileModify'
+
 
 import OAuth2RedirectHandler from '../pages/user/OAuth2RedirectHandler';
 import NotFound from '../common/NotFound';
@@ -74,6 +76,8 @@ class App extends Component {
             <Route exact path="/" component={Main}></Route>           
             <PrivateRoute path="/mypage" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
               component={Mypage}></PrivateRoute>
+            <PrivateRoute path="/setting/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+              component={ProfileModify}></PrivateRoute>
             <Route path="/login"
               render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
             <Route path="/signup"
