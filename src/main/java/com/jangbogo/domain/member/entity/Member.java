@@ -70,4 +70,11 @@ public class Member extends BaseTimeEntity {
         this.imageUrl = imageUrl;
     }
 
+    public void updateMember(String name, String password, String region, String age) {
+        this.name = name;
+        this.password = password;
+        this.region = region;
+        this.age = age;
+    }
+
 }
