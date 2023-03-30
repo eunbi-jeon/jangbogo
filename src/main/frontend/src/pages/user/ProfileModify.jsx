@@ -53,6 +53,7 @@ const SignUpForm = (props) => {
     const [isConfirmPassword, setIsConfirmPassword] = useState(false)
 
     const data = {
+        email: props.currentUser.information.email,
         password: password,
         name: nickname,
         region: selectedRegion,
@@ -107,18 +108,19 @@ const SignUpForm = (props) => {
     const onSubmitHandler = (event) => {
         event.preventDefault(); //리프레시 방지-> 방지해야 이 아래 라인의 코드들 실행 가능
 
+        console.log(data);
         // 비밀번호와 비밀번호 확인 같을때 회원가입 되게 함
         if (password !== checkpw) {
             return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
         }   //여기서 걸리면 아래로 못감
 
-        axios.post("http://localhost:8080/auth/modify", data)
+        axios.post("http://localhost:8080/auth/update", data)
             .then(response => {
                 alert("회원정보 수정에 성공하였습니다.");
-                window.location.href = "/mypage";
+                // window.location.href = "/mypage";
             }).catch(error => {
                 alert((error && error.message) || '정보수정에 실패하였습니다. 관리자에게 문의하세요.');
-                window.location.href = "/setting/profile";           
+                // window.location.href = "/setting/profile";           
             })
     }
 
@@ -147,9 +149,23 @@ const SignUpForm = (props) => {
             })
 
         }
-
-
     }
+
+    //회원 탈퇴 처리
+    const onRemove = () => {
+        if (window.confirm("회원 탈퇴 처리를 진행하시겠습니까?")) {
+            axios.delete("http://localhost:8080/auth/delete", props.currentUser)
+            .then(response => {
+                alert("회원탈퇴에 성공하였습니다.");
+                // window.location.href = "/";
+            }).catch(error => {
+                alert((error && error.message) || '회원 탈퇴에 실패하였습니다. 관리자에게 문의하세요.');
+                // window.location.href = "/mypage";           
+            })
+        } else {
+        alert("취소합니다.");
+        }
+    };
 
     return (
         <div>
@@ -208,7 +224,7 @@ const SignUpForm = (props) => {
                     <button type="submit" className='submit-btn' disabled={!(isName && isPassword && isConfirmPassword)}>회원정보 수정</button>
                     </form>
                 </div>
-                <button type="submit" className='member-delete-btn'>회원탈퇴</button>
+                <button onClick={onRemove} className='member-delete-btn'>회원탈퇴</button>
             </div>
         </div>
         </div>

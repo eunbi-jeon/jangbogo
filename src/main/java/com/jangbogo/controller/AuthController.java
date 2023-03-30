@@ -10,6 +10,7 @@ import com.jangbogo.payload.request.auth.SignInRequest;
 import com.jangbogo.payload.request.auth.SignUpRequest;
 import com.jangbogo.payload.response.AuthResponse;
 import com.jangbogo.payload.response.Message;
+import com.jangbogo.service.MemberService;
 import com.jangbogo.service.auth.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,6 +34,7 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
+    private final MemberService memberService;
 
     @Operation(summary = "유저 정보 확인", description = "현제 접속된 유저정보를 확인합니다.")
     @ApiResponses(value = {
@@ -57,7 +59,7 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "유저 삭제 실패",
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class) ) } ),
     })
-    @DeleteMapping(value = "/")
+    @DeleteMapping(value = "/delete")
     public ResponseEntity<?> delete(
             @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
     ){
@@ -144,6 +146,24 @@ public class AuthController {
             @Parameter(description = "Schemas의 RefreshTokenRequest를 참고해주세요.", required = true) @Valid @RequestBody RefreshTokenRequest tokenRefreshRequest
     ) {
         return authService.signout(tokenRefreshRequest);
+    }
+
+
+    @Operation(summary = "유저 정보 갱신", description = "현제 접속된 유저의 정보를 수정 합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "유저 정보 갱신 성공",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class) ) } ),
+            @ApiResponse(responseCode = "400", description = "유저 정보 갱신 실패", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponse.class) ) } ),
+    })
+    @PostMapping("/update")
+    public ResponseEntity<?> update(
+            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal,
+            @Parameter(description = "Schemas의 SignUpRequest를 참고해주세요.", required = true) @Valid @RequestBody SignUpRequest signUpRequest
+    ) {
+
+        log.info("회원 정보 수정 컨트롤러 처리");
+        return authService.modifyMember(userPrincipal, signUpRequest);
     }
 
 

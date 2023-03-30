@@ -30,17 +30,4 @@ public class MemberService {
         return ResponseEntity.ok(apiResponse);
     }
 
-    /** 회원 정보 수정 **/
-    public ResponseEntity<?> modifyMember(UserPrincipal userPrincipal, SignUpRequest signUpRequest) {
-
-        log.info("회원 정보 수정 서비스 처리");
-        Member member = memberRepository.findById(userPrincipal.getId())
-                .orElseThrow(()-> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id="+userPrincipal.getId()));
-
-        String password = passwordEncoder.encode(signUpRequest.getPassword());
-        member.updateMember(signUpRequest.getName(), password, signUpRequest.getRegion(), signUpRequest.getAge());
-
-        log.info("회원 정보 수정 완료");
-        return ResponseEntity.ok(true);
-    }
 }

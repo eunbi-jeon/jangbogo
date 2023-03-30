@@ -18,6 +18,7 @@ import com.jangbogo.repository.auth.TokenRepository;
 import com.jangbogo.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +31,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class AuthService {
@@ -40,8 +42,6 @@ public class AuthService {
 
     private final MemberRepository memberRepository;
     private final TokenRepository tokenRepository;
-
-
 
     /* 회원 정보 조회 */
     public ResponseEntity<?> whoAmI(UserPrincipal userPrincipal){
@@ -68,8 +68,23 @@ public class AuthService {
         return ResponseEntity.ok(apiResponse);
     }
 
+    /** 회원 정보 수정 **/
+    public ResponseEntity<?> modifyMember(UserPrincipal userPrincipal, SignUpRequest signUpRequest) {
 
-    /* 회원정보 수정 */
+        log.info("회원 정보 수정 서비스 처리");
+        Member member = memberRepository.findById(userPrincipal.getId())
+                .orElseThrow(()-> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id="+userPrincipal.getId()));
+
+        String password = passwordEncoder.encode(signUpRequest.getPassword());
+        member.updateMember(signUpRequest.getName(), password, signUpRequest.getRegion(), signUpRequest.getAge());
+
+        log.info("회원정보 = {}, {}, {}", signUpRequest.getName(), signUpRequest.getRegion(), signUpRequest.getAge());
+
+        log.info("회원 정보 수정 완료");
+        return ResponseEntity.ok(true);
+    }
+
+    /* 패스워드 수정 */
     public ResponseEntity<?> modify(UserPrincipal userPrincipal, ChangePasswordRequest passwordChangeRequest){
         Optional<Member> user = memberRepository.findById(userPrincipal.getId());
         boolean passwordCheck = passwordEncoder.matches(passwordChangeRequest.getOldPassword(),user.get().getPassword());
@@ -84,6 +99,7 @@ public class AuthService {
         return ResponseEntity.ok(true);
     }
 
+    /** 로그인 **/
     public ResponseEntity<?> signin(SignInRequest signInRequest){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -105,6 +121,7 @@ public class AuthService {
         return ResponseEntity.ok(authResponse);
     }
 
+    /** 회원가입 **/
     public ResponseEntity<?> signup(SignUpRequest signUpRequest){
         DefaultAssert.isTrue(!memberRepository.existsByEmail(signUpRequest.getEmail()), "해당 이메일이 존재하지 않습니다.");
 
@@ -155,6 +172,8 @@ public class AuthService {
         return ResponseEntity.ok(authResponse);
     }
 
+
+    /** 로그아웃 **/
     public ResponseEntity<?> signout(RefreshTokenRequest tokenRefreshRequest){
         boolean checkValid = valid(tokenRefreshRequest.getRefreshToken());
         DefaultAssert.isAuthentication(checkValid);
