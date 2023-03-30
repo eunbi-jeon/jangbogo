@@ -21,6 +21,7 @@ const request = (options) => {
             return json;
         })
     );
+    
 };
 
 export function getCurrentUser() {
@@ -51,9 +52,13 @@ export function signup(signupRequest) {
 }
 
 export function updateUser(updateRequest) {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    
     return request({
         url: API_BASE_URL + "/auth/update",
-        method: 'POST',
+        method: 'PATCH',
         body: JSON.stringify(updateRequest)
     });
 }

@@ -5,8 +5,7 @@ import "../../css/root.css"
 import axios from "axios";
 
 import { updateUser, deleteUser } from '../../util/APIUtils';
-
-
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../constants';
 
 const regions = [
     { id: 'seoul', value: '서울' },
@@ -107,23 +106,23 @@ const SignUpForm = (props) => {
         [password]
     )
 
-
+    //회원 정보 수정
     const onSubmitHandler = (event) => {
         event.preventDefault(); //리프레시 방지-> 방지해야 이 아래 라인의 코드들 실행 가능
 
         console.log(data);
-        // 비밀번호와 비밀번호 확인 같을때 회원가입 되게 함
+        // 비밀번호와 비밀번호 확인 같을때 수정되도록 함
         if (password !== checkpw) {
             return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
-        }   //여기서 걸리면 아래로 못감
+        } 
 
-        updateUser()
+        updateUser(data)
             .then(response => {
                 alert("회원정보 수정에 성공하였습니다.");
-                // window.location.href = "/mypage";
+                window.location.href = "/mypage";
             }).catch(error => {
                 alert((error && error.message) || '정보수정에 실패하였습니다. 관리자에게 문의하세요.');
-                // window.location.href = "/setting/profile";           
+                window.location.href = "/setting/profile";           
             })
     }
 
@@ -160,10 +159,12 @@ const SignUpForm = (props) => {
             deleteUser()
                 .then(response => {
                     alert("회원탈퇴에 성공하였습니다.");
-                    // window.location.href = "/";
+                    localStorage.removeItem(ACCESS_TOKEN);
+                    localStorage.removeItem(REFRESH_TOKEN);
+                    window.location.href = "/";
                 }).catch(error => {
                     alert((error && error.message) || '회원 탈퇴에 실패하였습니다. 관리자에게 문의하세요.');
-                    // window.location.href = "/mypage";           
+                    window.location.href = "/mypage";           
                 })
         } else {
         alert("취소합니다.");

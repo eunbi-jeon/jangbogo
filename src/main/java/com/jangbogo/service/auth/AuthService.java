@@ -77,6 +77,7 @@ public class AuthService {
 
         log.info("회원정보 = {}, {}, {}", updateRequest.getName(), updateRequest.getRegion(), updateRequest.getAge());
 
+        memberRepository.save(member);
         log.info("회원 정보 수정 완료");
         return ResponseEntity.ok(true);
     }

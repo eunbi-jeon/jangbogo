@@ -153,12 +153,12 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "유저 정보 갱신 실패", content = { @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ErrorResponse.class) ) } ),
     })
-    @PostMapping("/update")
+    @PatchMapping("/update")
     public ResponseEntity<?> update(
             @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal,
             @Parameter(description = "Schemas의 SignUpRequest를 참고해주세요.", required = true) @Valid @RequestBody UpdateRequest updateRequest
     ) {
-
+        log.info(userPrincipal.getEmail());
         log.info("회원 정보 수정 컨트롤러 처리");
         return authService.modifyMember(userPrincipal, updateRequest);
     }
