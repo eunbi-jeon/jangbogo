@@ -4,10 +4,7 @@ import com.jangbogo.advice.payload.ErrorResponse;
 import com.jangbogo.config.security.token.CurrentUser;
 import com.jangbogo.config.security.token.UserPrincipal;
 import com.jangbogo.domain.member.entity.Member;
-import com.jangbogo.payload.request.auth.ChangePasswordRequest;
-import com.jangbogo.payload.request.auth.RefreshTokenRequest;
-import com.jangbogo.payload.request.auth.SignInRequest;
-import com.jangbogo.payload.request.auth.SignUpRequest;
+import com.jangbogo.payload.request.auth.*;
 import com.jangbogo.payload.response.AuthResponse;
 import com.jangbogo.payload.response.Message;
 import com.jangbogo.service.MemberService;
@@ -159,11 +156,11 @@ public class AuthController {
     @PostMapping("/update")
     public ResponseEntity<?> update(
             @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal,
-            @Parameter(description = "Schemas의 SignUpRequest를 참고해주세요.", required = true) @Valid @RequestBody SignUpRequest signUpRequest
+            @Parameter(description = "Schemas의 SignUpRequest를 참고해주세요.", required = true) @Valid @RequestBody UpdateRequest updateRequest
     ) {
 
         log.info("회원 정보 수정 컨트롤러 처리");
-        return authService.modifyMember(userPrincipal, signUpRequest);
+        return authService.modifyMember(userPrincipal, updateRequest);
     }
 
 

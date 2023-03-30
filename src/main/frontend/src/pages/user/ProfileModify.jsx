@@ -4,6 +4,9 @@ import "../../css/profilemodify.css"
 import "../../css/root.css"
 import axios from "axios";
 
+import { updateUser, deleteUser } from '../../util/APIUtils';
+
+
 
 const regions = [
     { id: 'seoul', value: '서울' },
@@ -114,7 +117,7 @@ const SignUpForm = (props) => {
             return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
         }   //여기서 걸리면 아래로 못감
 
-        axios.post("http://localhost:8080/auth/update", data)
+        updateUser()
             .then(response => {
                 alert("회원정보 수정에 성공하였습니다.");
                 // window.location.href = "/mypage";
@@ -154,14 +157,14 @@ const SignUpForm = (props) => {
     //회원 탈퇴 처리
     const onRemove = () => {
         if (window.confirm("회원 탈퇴 처리를 진행하시겠습니까?")) {
-            axios.delete("http://localhost:8080/auth/delete", props.currentUser)
-            .then(response => {
-                alert("회원탈퇴에 성공하였습니다.");
-                // window.location.href = "/";
-            }).catch(error => {
-                alert((error && error.message) || '회원 탈퇴에 실패하였습니다. 관리자에게 문의하세요.');
-                // window.location.href = "/mypage";           
-            })
+            deleteUser()
+                .then(response => {
+                    alert("회원탈퇴에 성공하였습니다.");
+                    // window.location.href = "/";
+                }).catch(error => {
+                    alert((error && error.message) || '회원 탈퇴에 실패하였습니다. 관리자에게 문의하세요.');
+                    // window.location.href = "/mypage";           
+                })
         } else {
         alert("취소합니다.");
         }

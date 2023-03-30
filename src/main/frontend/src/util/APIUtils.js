@@ -49,3 +49,22 @@ export function signup(signupRequest) {
         body: JSON.stringify(signupRequest)
     });
 }
+
+export function updateUser(updateRequest) {
+    return request({
+        url: API_BASE_URL + "/auth/update",
+        method: 'POST',
+        body: JSON.stringify(updateRequest)
+    });
+}
+
+export function deleteUser() {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/auth/delete",
+        method: 'DELETE'
+    });
+}

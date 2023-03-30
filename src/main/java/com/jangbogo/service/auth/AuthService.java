@@ -7,10 +7,7 @@ import com.jangbogo.domain.member.entity.Provider;
 import com.jangbogo.domain.member.entity.Role;
 import com.jangbogo.domain.member.entity.Token;
 import com.jangbogo.domain.member.mapping.TokenMapping;
-import com.jangbogo.payload.request.auth.ChangePasswordRequest;
-import com.jangbogo.payload.request.auth.RefreshTokenRequest;
-import com.jangbogo.payload.request.auth.SignInRequest;
-import com.jangbogo.payload.request.auth.SignUpRequest;
+import com.jangbogo.payload.request.auth.*;
 import com.jangbogo.payload.response.ApiResponse;
 import com.jangbogo.payload.response.AuthResponse;
 import com.jangbogo.payload.response.Message;
@@ -69,16 +66,16 @@ public class AuthService {
     }
 
     /** 회원 정보 수정 **/
-    public ResponseEntity<?> modifyMember(UserPrincipal userPrincipal, SignUpRequest signUpRequest) {
+    public ResponseEntity<?> modifyMember(UserPrincipal userPrincipal, UpdateRequest updateRequest) {
 
         log.info("회원 정보 수정 서비스 처리");
         Member member = memberRepository.findById(userPrincipal.getId())
                 .orElseThrow(()-> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id="+userPrincipal.getId()));
 
-        String password = passwordEncoder.encode(signUpRequest.getPassword());
-        member.updateMember(signUpRequest.getName(), password, signUpRequest.getRegion(), signUpRequest.getAge());
+        String password = passwordEncoder.encode(updateRequest.getPassword());
+        member.updateMember(updateRequest.getName(), password, updateRequest.getRegion(), updateRequest.getAge());
 
-        log.info("회원정보 = {}, {}, {}", signUpRequest.getName(), signUpRequest.getRegion(), signUpRequest.getAge());
+        log.info("회원정보 = {}, {}, {}", updateRequest.getName(), updateRequest.getRegion(), updateRequest.getAge());
 
         log.info("회원 정보 수정 완료");
         return ResponseEntity.ok(true);
