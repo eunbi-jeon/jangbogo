@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+
+import { ChangeThumbnail } from '../../util/APIUtils';
 import '../../css/myPage.css';
 import defaultimg  from '../../img/default-profile-img.png';
 
@@ -27,6 +29,16 @@ class Mypage extends Component {
                                     alt={this.props.currentUser.information.name}/>
                                 )
                             }
+                        </div>
+                        <div>
+                            <form>
+                                <input type="file" accept="image/*"
+                                        name="thumbnail" ref={inputRef}
+                                        onChange={onUploadImage}
+                                    />
+                                <Button label="이미지 업로드" onClick={onUploadImageButtonClick} />
+                                <Button label="이미지 제거" onClick={onDeleteImage} />
+                            </form>
                         </div>
                         <div className="profile-name">
                            <h2>{this.props.currentUser.information.name}</h2>

@@ -19,10 +19,10 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI openAPI(@Value("OpenAPI") String appVersion) {
-        Info info = new Info().title("Demo API").version(appVersion)
-                .description("Spring Boot를 이용한 Demo 웹 애플리케이션 API입니다.")
+        Info info = new Info().title("Jangbogo API").version(appVersion)
+                .description("카트왕 장보고의 API입니다.")
                 .termsOfService("http://swagger.io/terms/")
-                .contact(new Contact().name("name").url("https://name.name.name/").email("name@name.name"))
+                .contact(new Contact().name("카트왕 장보고").url("https://name.name.name/").email("jangbogo@gmail.com"))
                 .license(new License().name("Apache License Version 2.0")
                         .url("http://www.apache.org/licenses/LICENSE-2.0"));
 
