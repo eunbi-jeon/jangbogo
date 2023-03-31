@@ -46,7 +46,7 @@ export function login(loginRequest) {
 
 export function signup(signupRequest) {
     return request({
-        url: API_BASE_URL + "/auth/create",
+        url: API_BASE_URL + "/auth/signup",
         method: 'POST',
         body: JSON.stringify(signupRequest)
     });
@@ -76,17 +76,17 @@ export function deleteUser() {
 }
 
 export function changeThumbnail(file) {
-    if(!localStorage.getItem(ACCESS_TOKEN)) {
+  if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
     }
 
-    const headers = new Headers({
-        'Content-Type': 'multipart/form-data',
-    })
-    
-    if(localStorage.getItem(ACCESS_TOKEN)) {
-        headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
-    }
-
+    return request({
+        url: API_BASE_URL + "/auth/thumbnail/update",
+        method: 'POST',
+        data: file,
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        }
+    });
    
 }

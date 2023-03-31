@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 
-import { ChangeThumbnail } from '../../util/APIUtils';
+import { changeThumbnail } from '../../util/APIUtils';
 import '../../css/myPage.css';
 import defaultimg  from '../../img/default-profile-img.png';
 
@@ -11,6 +11,31 @@ class Mypage extends Component {
         super(props);
         console.log(props);
     }
+
+    onUploadImageButtonClick(data) {
+
+        const formData = new FormData();
+        formData.append("file", data.file);
+        formData.append("key",
+        new Blob([JSON.stringify(data.info)], { type: "application/json" })
+        );
+
+        return formData;
+    }
+
+    onUploadImage(event) {
+        event.preventDefault();
+
+        changeThumbnail(formData)
+            .then(response => {
+                alert("프로필 사진이 변경되었습니다");
+                window.location.href = "/mypage";
+            }).catch(error => {
+                alert((error && error.message) || '프로필 사진변경에 실패하였습니다. 관리자에게 문의하세요.');
+                window.location.href = "/mypage";           
+            })
+    }
+
 
     render() {
         return (
@@ -30,6 +55,7 @@ class Mypage extends Component {
                                 )
                             }
                         </div>
+                        
                         <div>
                             <form>
                                 <input type="file" accept="image/*"

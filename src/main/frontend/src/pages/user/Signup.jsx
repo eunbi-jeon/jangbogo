@@ -3,6 +3,8 @@ import "../../css/signup.css"
 import "../../css/root.css"
 import axios from "axios";
 
+import { signup } from '../../util/APIUtils';
+
 
 const regions = [
     { id: 'seoul', value: '서울' },
@@ -131,7 +133,7 @@ const SignUpForm = () => {
             return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
         }   //여기서 걸리면 아래로 못감
 
-        axios.post("http://localhost:8080/auth/signup", data)
+        signup(data)
             .then(response => {
                 alert("회원가입에 성공하셨습니다.");
                 window.location.href = "/login";

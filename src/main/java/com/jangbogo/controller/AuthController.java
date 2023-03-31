@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -145,7 +146,6 @@ public class AuthController {
         return authService.signout(tokenRefreshRequest);
     }
 
-
     @Operation(summary = "유저 정보 갱신", description = "현제 접속된 유저의 정보를 수정 합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "유저 정보 갱신 성공",
@@ -161,6 +161,22 @@ public class AuthController {
         return authService.modifyMember(userPrincipal, updateRequest);
     }
 
+
+    /* 프로필 이미지 변경 */
+    @Operation(summary = "유저 프로필 이미지 변경", description = "현제 접속된 유저의 프로필 사진을 수정 합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "유저 정보 갱신 성공",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class) ) } ),
+            @ApiResponse(responseCode = "400", description = "유저 정보 갱신 실패", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponse.class) ) } ),
+    })
+    @PatchMapping("/thumbnail/update")
+    public ResponseEntity<?> thumbnailUpdate(
+            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal,
+            @RequestPart(value="file", required=true) MultipartFile multipartFile
+    ) {
+        return authService.thumbnailModify(userPrincipal, multipartFile);
+    }
 
     /* 이메일 중복확인 */
     @GetMapping("/emailCheck")

@@ -23,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -87,6 +88,16 @@ public class AuthService {
 
 
         passwordEncoder.encode(passwordChangeRequest.getNewPassword());
+
+        return ResponseEntity.ok(true);
+    }
+
+    /* 프로필 사진 변경 */
+    public ResponseEntity<?> thumbnailModify(UserPrincipal userPrincipal, MultipartFile multipartFile){
+        Member member = memberRepository.findById(userPrincipal.getId())
+                .orElseThrow(()-> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id="+userPrincipal.getId()));
+
+
 
         return ResponseEntity.ok(true);
     }
