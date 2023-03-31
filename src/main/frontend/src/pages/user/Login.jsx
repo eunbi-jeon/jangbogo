@@ -9,20 +9,7 @@ import naverLogo from '../../img/Naver-Login.png';
 
 class Login extends Component {
 
-    componentDidMount() {
-        if(this.props.location.state && this.props.location.state.error) {
-            setTimeout(() => {
-                alert(this.props.location.state.error, {
-                    timeout: 5000
-                });
-                this.props.history.replace({
-                    pathname: this.props.location.pathname,
-                    state: {}
-                });
-            }, 100);
-        }
-    }
-    
+   
     render() {
         if(this.props.authenticated) {
             return <Redirect
