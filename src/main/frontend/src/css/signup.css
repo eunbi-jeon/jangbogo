@@ -1,0 +1,106 @@
+.loginContainer {
+  width: 100vw;
+}
+
+.loginwrap {
+  padding-top: 30px;
+  width: 480px;
+  margin: auto;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.loginline {
+  width: 480px;
+  border: solid 5px  rgb(234, 234, 234);
+  margin-bottom: 50px;
+}
+
+.form-input {
+  width: 458px;
+  padding: 20px 14px;
+  font-size: 14px;
+  border: solid 1px rgb(234, 234, 234);
+  margin: 5px 0px;
+}
+
+.submit-btn {
+  padding: 20px;
+  width: 488px;
+  background-color: rgb(200, 205, 207);
+  font-size: 18px;
+  color: white;
+  border-radius: 0px;
+  margin: 30px 0px 0px 0px;
+  height: 60px;
+}
+
+.signUpbox {
+  margin-bottom: 60px;
+}
+
+.form-item {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 30px 0;
+}
+
+label {
+  width: 100%;
+  font-size: 16px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.radio-btn {
+  margin-right: 30px;
+  margin-bottom: 10px;
+}
+
+.form-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+[type="radio"] {
+  vertical-align: middle;
+  appearance: none;
+  border: max(2px, 0.1em) solid gray;
+  border-radius: 50%;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+[type="radio"]:checked {
+  border: 0.4em solid tomato;
+}
+
+.check-btn {
+  width: 60px;
+  font-size: 12px;
+  border-radius: 0;
+  color: white;
+  background-color: rgb(200, 205, 207);
+  margin-left: 0;
+}
+
+.err-msg {
+  margin-left: 10px;
+  font-size: 12px;
+  color: tomato;
+  text-align: left;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.err-box {
+  margin-top: 3px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
