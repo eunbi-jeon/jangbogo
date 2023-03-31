@@ -1,115 +1,131 @@
 package com.jangbogo.service;
 
-import java.util.ArrayList;
+
 import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.jangbogo.domain.Member;
-import com.jangbogo.domain.Message;
-import com.jangbogo.dto.MessageDTO;
-import com.jangbogo.repository.MemberMSRepository;
+import com.jangbogo.domain.DirectMessage;
+import com.jangbogo.domain.member.entity.Member;
+import com.jangbogo.exeption.MemberNotEqualsException;
+import com.jangbogo.exeption.MemberNotFoundException;
+import com.jangbogo.exeption.MessageNotFoundException;
+import com.jangbogo.payload.request.message.MessageCreateRequest;
+import com.jangbogo.payload.request.message.MessageDto;
+import com.jangbogo.repository.MemberRepository;
 import com.jangbogo.repository.MessageRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+
+
 @RequiredArgsConstructor
+@Service
 public class MessageService {
+    private final MessageRepository messageRepository;
+    private final MemberRepository memberRepository;
 
-	private final MessageRepository messageRepository;
-	private final MemberMSRepository memberRepository;
+    @Transactional
+    public MessageDto createMessage(Member sender, MessageCreateRequest req) {
+        Member receiver = getReceiver(req);
+        DirectMessage message = getMessage(sender, req, receiver);
+        return MessageDto.toDto(messageRepository.save(message));
+    }
 
-	/* 쪽지쓰기 -> 저장 */
-	@Transactional
-	public MessageDTO write(MessageDTO messageDTO) {
+    private Member getReceiver(MessageCreateRequest req) {
+        return memberRepository.findByName(req.getReceiverNickname())
+                .orElseThrow(MemberNotFoundException::new);
+    }
 
-		Member receiver = memberRepository.findByNickName(messageDTO.getReceiverName());
-		Member sender = memberRepository.findByNickName(messageDTO.getSenderName());
+    private DirectMessage getMessage(Member sender, MessageCreateRequest req, Member receiver) {
+        return new DirectMessage(req.getTitle(), req.getContent(), sender, receiver);
+    }
 
-		Message message = new Message();
-		message.setReceiver(receiver);
-		message.setSender(sender);
+    @Transactional(readOnly = true)
+    public List<MessageDto> receiveMessages(Member member) {
+        List<DirectMessage> messageList = messageRepository.findAllByReceiverAndDeletedByReceiverFalseOrderByIdDesc(member);
+        return messageList.stream()
+                .map(message -> MessageDto.toDto(message))
+                .collect(Collectors.toList());
+    }
 
-		message.setTitle(messageDTO.getTitle());
-		message.setContent(messageDTO.getContent());
-		message.setDeletedByReceiver(false);
-		message.setDeletedBySender(false);
-		messageRepository.save(message);
 
-		return MessageDTO.toDto(message);
-	}
+    @Transactional(readOnly = true)
+    public MessageDto receiveMessage(Long id, Member member) throws MemberNotEqualsException {
+        DirectMessage message = messageRepository.findById(id).orElseThrow(MessageNotFoundException::new);
+        validateReceiveMessage(member, message);
+        return MessageDto.toDto(message);
+    }
 
-	/* 받은 쪽지함 로딩*/
-	@Transactional(readOnly = true)
-	public List<MessageDTO> receivedMessage(Member member) {
-		List<Message> messages = messageRepository.findAllByReceiver(member);
-		List<MessageDTO> messageDTOs = new ArrayList<>();
-		
-		for (Message message : messages) {
-			/*받은 쪽지함에서 쪽지를 삭제하지 않았다면 추가하여 로딩*/
-			if (!message.isDeletedByReceiver()) {
-				messageDTOs.add(MessageDTO.toDto(message));
-			}
-		}
-		return messageDTOs;
-	}
+    private void validateReceiveMessage(Member member, DirectMessage message) throws MemberNotEqualsException {
+        if (message.getReceiver() != member) {
+            throw new MemberNotEqualsException();
+        }
+        if (message.isDeletedByReceiver()) {
+            throw new MessageNotFoundException();
+        }
+    }
 
-	/* 받은 쪽지 삭제 
-	 *  orElseThrow(() : 값이 있으면 반환, 없으면 메소드로 부정한 인수를 넘겨받았다는 예외발생*/
-	@Transactional
-	public Object deleteMessageByReceiver(Long id, Member member) {
-		Message message = messageRepository.findById(id).orElseThrow(() -> {
-			return new IllegalArgumentException("쪽지를 찾을 수 없습니다.");
-		});
-			/*보낸 사람 = 찾는 사람*/
-		if (member == message.getSender()) {
-			message.deleteByReceiver(); // 받은쪽지함에서 쪽지 삭제
-			
-			/* 받은 사람 , 보낸 사람 모두 쪽지를 삭제 했으면 DB에서 삭제 */
-			if (message.isDeleted()) {
-				messageRepository.delete(message);
-				return "양쪽 모두 쪽지 삭제";
-			}
-			return " 받은 쪽지 삭제";
-		} else {
-			return new IllegalArgumentException("유저 정보가 일치하지 않습니다.");
-		}
-	}
+    @Transactional(readOnly = true)
+    public List<MessageDto> sendMessages(Member member) {
+        List<DirectMessage> messageList = messageRepository.findAllBySenderAndDeletedBySenderFalseOrderByIdDesc(member);
+        return messageList.stream()
+                .map(message -> MessageDto.toDto(message))
+                .collect(Collectors.toList());
+    }
 
-	/* 보낸 쪽지함 로딩*/
-	@Transactional(readOnly = true)
-	public List<MessageDTO> sentMessage(Member member){
-		List<Message> messages = messageRepository.findAllBySender(member);
-		List<MessageDTO> messageDTOs = new ArrayList<>();
-		
-		for(Message message : messages) {
-			if(!message.isDeletedBySender()) {
-				messageDTOs.add(MessageDTO.toDto(message));
-			}
-		}
-		return messageDTOs;
-	}
-	
-	/*보낸 쪽지 삭제*/
-	@Transactional	//message id
-	public Object deleteMessageBySender(Long id,Member member) {
-		Message message = messageRepository.findById(id).orElseThrow(() ->{
-			return new IllegalArgumentException("쪽지를 찾을 수 없습니다.");
-		});
-			/*받는 사람 == 찾는 사람*/
-		if(member == message.getReceiver()) {
-			message.deleteBySender(); /*보낸 쪽지함에서 쪽지 삭제*/
-			
-			if(message.isDeleted()) {
-			/*받은 사람, 보낸 사람 모두 쪽지를 삭제했으면 DB에서 삭제 */
-				messageRepository.delete(message);
-				return "양쪽 모두 쪽지 삭제";
-			}
-			return "보낸 쪽지 삭제";
-		}else {
-			return new IllegalArgumentException("유저 정보가 일치하지 않습니다.");
-		}
-	}
+    @Transactional(readOnly = true)
+    public MessageDto sendMessage(Long id, Member member) throws MemberNotEqualsException {
+        DirectMessage message = messageRepository.findById(id).orElseThrow(MessageNotFoundException::new);
+        validateSendMessage(member, message);
+        return MessageDto.toDto(message);
+    }
+
+    private void validateSendMessage(Member member, DirectMessage message) throws MemberNotEqualsException {
+        if (message.getSender() != member) {
+            throw new MemberNotEqualsException();
+        }
+        if (message.isDeletedByReceiver()) {
+            throw new MessageNotFoundException();
+        }
+    }
+
+    @Transactional
+    public void deleteMessageByReceiver(Long id, Member member) throws MemberNotEqualsException {
+        DirectMessage message = messageRepository.findById(id).orElseThrow(MessageNotFoundException::new);
+        processDeleteReceiverMessage(member, message);
+        checkIsMessageDeletedBySenderAndReceiver(message);
+    }
+
+    private void processDeleteReceiverMessage(Member member, DirectMessage message) throws MemberNotEqualsException {
+        if (message.getReceiver().equals(member)) {
+            message.deleteByReceiver();
+            return;
+        }
+        throw new MemberNotEqualsException();
+    }
+
+    private void checkIsMessageDeletedBySenderAndReceiver(DirectMessage message) {
+        if (message.isDeletedMessage()) {
+        	
+            messageRepository.delete(message);
+        }
+    }
+
+    @Transactional
+    public void deleteMessageBySender(Long id, Member member) throws MemberNotEqualsException {
+        DirectMessage message = messageRepository.findById(id).orElseThrow(MessageNotFoundException::new);
+        processDeleteSenderMessage(member, message);
+        checkIsMessageDeletedBySenderAndReceiver(message);
+    }
+
+    private void processDeleteSenderMessage(Member member, DirectMessage message) throws MemberNotEqualsException {
+        if (message.getSender().equals(member)) {
+            message.deleteBySender();
+            return;
+        }
+        throw new MemberNotEqualsException();
+    }
 }

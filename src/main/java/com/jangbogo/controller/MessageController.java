@@ -1,97 +1,103 @@
 package com.jangbogo.controller;
 
+
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jangbogo.domain.Member;
-import com.jangbogo.dto.MessageDTO;
-import com.jangbogo.message.response.Response;
-import com.jangbogo.repository.MemberMSRepository;
+import com.jangbogo.domain.member.entity.Member;
+import com.jangbogo.exeption.MemberNotEqualsException;
+import com.jangbogo.exeption.MemberNotFoundException;
+import com.jangbogo.payload.request.message.MessageCreateRequest;
+import com.jangbogo.payload.response.DM.Response;
+import com.jangbogo.repository.MemberRepository;
 import com.jangbogo.service.MessageService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 
+@Api(value = "Messages Controller", tags = "Messages")
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class MessageController {
-
     private final MessageService messageService;
-    private final MemberMSRepository msmberMSRepository;
+    private final MemberRepository memberRepository;
 
-    @ApiOperation(value = "쪽지 보내기", notes = "쪽지 보내기")
+    @ApiOperation(value = "편지 작성", notes = "편지 보내기")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/messages")
-    public Response sendMessage(@RequestBody MessageDTO messageDTO) {
-        // 임의로 유저 정보를 넣었지만, JWT 도입하고 현재 로그인 된 유저의 정보를 넘겨줘야함
-        Member Member = MemberMSRepository.findById(1).orElseThrow(() -> {
-            return new IllegalArgumentException("유저를 찾을 수 없습니다.");
-        });
-        MessageDTO.setSenderName(Member.getNickName();
-
-        return new Response("성공", "쪽지를 보냈습니다.", messageService.write(MessageDTO));
+    public Response createMessage(@Valid @RequestBody MessageCreateRequest req) {
+        Member sender = getPrincipal();
+        return Response.success(messageService.createMessage(sender, req));
     }
 
-
-    @ApiOperation(value = "받은 편지함 읽기", notes = "받은 편지함 확인")
+    @ApiOperation(value = "받은 쪽지 전부 확인", notes = "받은 쪽지함 확인")
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/messages/received")
-    public Response getReceivedMessage() {
-        // 임의로 유저 정보를 넣었지만, JWT 도입하고 현재 로그인 된 유저의 정보를 넘겨줘야함
-        Member Member = MemberMSRepository.findById(14).orElseThrow(() -> {
-            return new IllegalArgumentException("유저를 찾을 수 없습니다.");
-        });
-
-        return new Response("성공", "받은 쪽지를 불러왔습니다.", messageService.receivedMessage(Member));
+    @GetMapping("/messages/receiver")
+    public Response receiveMessages() {
+        Member member = getPrincipal();
+        return Response.success(messageService.receiveMessages(member));
     }
 
-    @ApiOperation(value = "받은 쪽지 삭제하기", notes = "받은 쪽지를 삭제합니다.")
+    @ApiOperation(value = "받은 쪽지 중 한 개 확인", notes = "받은 편지 중 하나를 확인")
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/messages/received/{id}")
-    public Response deleteReceivedMessage(@PathVariable("id") Integer id) {
-        // 임의로 유저 정보를 넣었지만, JWT 도입하고 현재 로그인 된 유저의 정보를 넘겨줘야함
-        Member Member = MemberMSRepository.findById(1).orElseThrow(() -> {
-            return new IllegalArgumentException("유저를 찾을 수 없습니다.");
-        });
-
-        return new Response("삭제 성공", "받은 쪽지인, " + id + "번 쪽지를 삭제했습니다.", messageService.deleteMessageByReceiver(id, Member));
+    @GetMapping("/messages/receiver/{id}")
+    public Response receiveMessage(@ApiParam(value = "쪽지 id", required = true) @PathVariable Long id) throws MemberNotEqualsException {
+        Member member = getPrincipal();
+        return Response.success(messageService.receiveMessage(id, member));
     }
 
-
-
-
-
-    @ApiOperation(value = "보낸 편지함 읽기", notes = "보낸 편지함 확인")
+    @ApiOperation(value = "보낸 쪽지 전부 확인", notes = "보낸 쪽지함 확인")
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/messages/sent")
-    public Response getSentMessage() {
-        // 임의로 유저 정보를 넣었지만, JWT 도입하고 현재 로그인 된 유저의 정보를 넘겨줘야함
-        Member member = MemberMSRepository.findById(1).orElseThrow(() -> {
-            return new IllegalArgumentException("유저를 찾을 수 없습니다.");
-        });
-
-        return new Response("성공", "보낸 쪽지를 불러왔습니다.", messageService.sentMessage(member));
+    @GetMapping("/messages/sender")
+    public Response sendMessages() {
+        Member member = getPrincipal();
+        return Response.success(messageService.sendMessages(member));
     }
 
-
-
-    @ApiOperation(value = "보낸 쪽지 삭제하기", notes = "보낸 쪽지를 삭제합니다.")
+    @ApiOperation(value = "보낸 쪽지 중 한 개 확인", notes = "보낸 쪽지 중 하나를 확인")
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/messages/sent/{id}")
-    public Response deleteSentMessage(@PathVariable("id") Integer id) {
-        // 임의로 유저 정보를 넣었지만, JWT 도입하고 현재 로그인 된 유저의 정보를 넘겨줘야함
-        Member member = MemberMSRepository.findById(1L).orElseThrow(() -> {
-            return new IllegalArgumentException("유저를 찾을 수 없습니다.");
-        });
-
-        return new Response("삭제 성공", "보낸 쪽지인, " + id + "번 쪽지를 삭제했습니다.", messageService.deleteMessageBySender(id, Member));
+    @GetMapping("/messages/sender/{id}")
+    public Response sendMessage(@ApiParam(value = "쪽지 id", required = true) @PathVariable Long id) throws MemberNotEqualsException {
+        Member member = getPrincipal();
+        return Response.success(messageService.sendMessage(id, member));
     }
 
+    @ApiOperation(value = "받은 쪽지 삭제", notes = "받은 쪽지 삭제하기")
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/messages/receiver/{id}")
+    public Response deleteReceiveMessage(@ApiParam(value = "쪽지 id", required = true) @PathVariable Long id) throws MemberNotEqualsException {
+        Member member = getPrincipal();
+        messageService.deleteMessageByReceiver(id, member);
+        return Response.success();
+    }
 
+    @ApiOperation(value = "보낸 쪽지 삭제", notes = "보낸 쪽지 삭제하기")
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/messages/sender/{id}")
+    public Response deleteSendMessage(@ApiParam(value = "쪽지 id", required = true) @PathVariable Long id) throws MemberNotEqualsException {
+        Member member = getPrincipal();
+        messageService.deleteMessageBySender(id, member);
+        return Response.success();
+    }
+
+    private Member getPrincipal() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member member = memberRepository.findByName(authentication.getName())
+                .orElseThrow(MemberNotFoundException::new);
+        return member;
+    }
 }

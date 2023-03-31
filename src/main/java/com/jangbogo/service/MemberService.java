@@ -1,36 +1,33 @@
 package com.jangbogo.service;
 
-import com.jangbogo.domain.Member;
-import com.jangbogo.dto.MemberDto;
-import com.jangbogo.repository.MemberMSRepository;
+import com.jangbogo.advice.assertThat.DefaultAssert;
+import com.jangbogo.config.security.token.UserPrincipal;
+import com.jangbogo.domain.member.entity.Member;
+import com.jangbogo.payload.request.auth.SignUpRequest;
+import com.jangbogo.payload.response.ApiResponse;
 import com.jangbogo.repository.MemberRepository;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
+import java.util.Optional;
+
 @Slf4j
+@RequiredArgsConstructor
+@Service
 public class MemberService {
 
-	private final MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
-	public Member saveMember(MemberDto memberDto) {
-		Member member = new Member(memberDto.getEmail(), memberDto.getNickName(), memberDto.getPass(),
-				memberDto.getLoc());
-		return memberRepository.save(member);
-	}
 
-	/* 회원가입 중복 체크 */
+    public ResponseEntity<?> readByUser(UserPrincipal userPrincipal){
+        Optional<Member> user = memberRepository.findById(userPrincipal.getId());
+        DefaultAssert.isOptionalPresent(user);
+        ApiResponse apiResponse = ApiResponse.builder().check(true).information(user.get()).build();
+        return ResponseEntity.ok(apiResponse);
+    }
 
-	public boolean checkemail(String email) {
-		log.info("memberService : 이메일 중복확인 체크 시작");
-		return memberRepository.existsByEmail(email);
-	}
-
-	public boolean checkNickname(String nickname) {
-		log.info("memberService : 닉네임 중복확인 체크 시작");
-		return memberRepository.existsByNickName(nickname);
-	}
 }
