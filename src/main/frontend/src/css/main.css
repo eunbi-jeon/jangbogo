@@ -1,0 +1,12 @@
+
+.PriceInfoContainer{
+    margin: 5% 10% 5% 10%;
+    background-color: rgb(255, 235, 199);
+    display: flex;
+    
+}
+
+.itemName {
+    font-size: 15pt;
+    font-weight: bold;
+}
