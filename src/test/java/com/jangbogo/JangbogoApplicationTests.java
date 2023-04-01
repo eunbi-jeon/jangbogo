@@ -1,54 +1,44 @@
 package com.jangbogo;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
-import com.jangbogo.domain.Answer;
-import com.jangbogo.domain.Board;
-import com.jangbogo.domain.Member;
-import com.jangbogo.domain.Reply;
-import com.jangbogo.repository.AnswerRepository;
+import com.jangbogo.domain.Board.Board;
+import com.jangbogo.domain.Board.Question;
+import com.jangbogo.domain.member.entity.Member;
 import com.jangbogo.repository.BoardRepository;
-import com.jangbogo.repository.ReplyRepository;
-import com.jangbogo.service.AnswerServiceImpl;
-import com.jangbogo.service.ReplyServiceImpl;
+import com.jangbogo.repository.MemberRepository;
+import com.jangbogo.service.QuestionService;
+
+import lombok.RequiredArgsConstructor;
 
 @SpringBootTest
 class JangbogoApplicationTests {
+	
+	@Autowired
+	private QuestionService questionService;
+	@Autowired
+	private BoardRepository boardRepository;
+	@Autowired
+	private MemberRepository memberReposotory;
+	
+    @Test
+    public void createQuestionTest() {
 
-	@Autowired
-	AnswerServiceImpl answerServiceImpl;
-	
-	@Autowired
-	AnswerRepository answerRepository;
-	
-	@Autowired
-	ReplyServiceImpl replyServiceImpl;
-	
-	@Autowired
-	ReplyRepository replyRepository;
-	
-	@Autowired
-	BoardRepository boardRepository;
-	
-	
-	
-	
+        Board board = boardRepository.findById(1L).orElse(null);
+        Member member = memberReposotory.findById(1L).orElse(null);
+
+        Question question = new Question();
+        question.setBoard(board);
+        question.setSubject("Test Subject");
+        question.setContent("Test Content");
+        question.setName(member);
+
+        questionService.create(question.getBoard(), question.getSubject(), question.getContent(), question.getName());
+
+        // TODO: add assertion statements to verify the result of the create method
+    }
 
 //	@Test
 //	void testCreateReply() {
@@ -164,21 +154,21 @@ class JangbogoApplicationTests {
 //	    replyRepository.save(childReply);
 //	}
 	
-    @Test
-    public void testFindAllByOrderByParentIdDescDepthAscCreatedAtDesc() {
-        // Given
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("createAt").descending());
-        
-        // When
-        Page<Reply> replyPage = replyRepository.findAllByOrderByParentIdDescDepthAscCreateAtDesc(pageable);
-        
-        // Then
-        Assertions.assertNotNull(replyPage);
-        Assertions.assertEquals(10, replyPage.getSize());
-        Assertions.assertEquals(0, replyPage.getNumber());
-        Assertions.assertTrue(replyPage.isFirst());
-        Assertions.assertFalse(replyPage.isLast());
-        // TODO: Add more assertions to check the content of the page
-    }
+//    @Test
+//    public void testFindAllByOrderByParentIdDescDepthAscCreatedAtDesc() {
+//        // Given
+//        Pageable pageable = PageRequest.of(0, 10, Sort.by("createAt").descending());
+//        
+//        // When
+//        Page<Reply> replyPage = replyRepository.findAllByOrderByParentIdDescDepthAscCreateAtDesc(pageable);
+//        
+//        // Then
+//        Assertions.assertNotNull(replyPage);
+//        Assertions.assertEquals(10, replyPage.getSize());
+//        Assertions.assertEquals(0, replyPage.getNumber());
+//        Assertions.assertTrue(replyPage.isFirst());
+//        Assertions.assertFalse(replyPage.isLast());
+//        // TODO: Add more assertions to check the content of the page
+//    }
     	
 }

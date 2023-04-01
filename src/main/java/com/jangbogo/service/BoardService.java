@@ -1,8 +1,15 @@
 package com.jangbogo.service;
 
-import com.jangbogo.domain.Board;
-import com.jangbogo.service.generic.GenericBoardService;
+import org.springframework.stereotype.Service;
 
-public interface BoardService extends GenericBoardService<Board> {
+import com.jangbogo.domain.Board.Board;
+import com.jangbogo.repository.BoardRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@Service
+public class BoardService {
+	
 	
 }

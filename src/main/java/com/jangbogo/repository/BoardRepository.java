@@ -1,10 +1,9 @@
 package com.jangbogo.repository;
 
-import com.jangbogo.domain.Board;
-import com.jangbogo.repository.generic.GenericBoardRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface BoardRepository extends GenericBoardRepository<Board> {
-	
+import com.jangbogo.domain.Board.Board;
+
+public interface BoardRepository extends JpaRepository<Board, Long> {
+
 }
