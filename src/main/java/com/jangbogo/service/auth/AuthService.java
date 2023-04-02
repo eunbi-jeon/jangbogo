@@ -103,16 +103,17 @@ public class AuthService {
         Member member = memberRepository.findById(userPrincipal.getId())
                 .orElseThrow(()-> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id="+userPrincipal.getId()));
 
-        try {
+        log.info("프로필 사진 변경 서비스 시작");
 
-            if(!(member.getImageUrl().isEmpty())){
+        try {
+            if(member.getImageUrl() != null && !member.getImageUrl().isEmpty()){
                 fileService.deleteFile(member.getImageUrl());
             }
 
             String oriImgName = multipartFile.getOriginalFilename();
 
             String imgName = fileService.uploadFile(oriImgName, multipartFile.getBytes());
-            String uploadDir = "/img/profile/" + imgName;
+            String uploadDir = "/profile/" + imgName;
 
             member.updateImageUrl(uploadDir);
             memberRepository.save(member);
@@ -120,6 +121,7 @@ public class AuthService {
             return ResponseEntity.ok(true);
 
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }

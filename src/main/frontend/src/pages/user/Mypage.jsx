@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
 import axios from 'axios';
 
 import '../../css/myPage.css';
 import defaultimg  from '../../img/default-profile-img.png';
+
+const path = './img'
+
 
 class Mypage extends Component {
     constructor(props) {
@@ -15,14 +19,26 @@ class Mypage extends Component {
         const file = event.target.files[0];
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("accessToken", localStorage.getItem("accessToken"));
-    
-        axios
-          .post("http://localhost:8000//thumbnail/update", formData)
-          .then((response) => console.log(response.data))
-          .catch((error) => console.error(error));
-      };
 
+        const accessToken = localStorage.getItem("accessToken");
+        const config = {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        };
+
+        console.log("데이터 전송");
+    
+
+        axios
+        .post("http://localhost:8080/auth/thumbnail/update", formData, config)
+        .then((response) => {
+            alert("프로필 사진이 변경되었습니다.");
+            window.location.href = "/mypage";
+        }).catch((error) => {
+            alert((error && error.message) || '프로필 사진 변경에 실패하였습니다. 관리자에게 문의하세요');
+            window.location.href = "/mypage"; 
+        })
+
+      };
 
     render() {
         return (
@@ -33,7 +49,7 @@ class Mypage extends Component {
                             { 
                                 this.props.currentUser.information.imageUrl ? (
                                     <img className='profile-img' 
-                                    src={this.props.currentUser.information.imageUrl} 
+                                    src={path+this.props.currentUser.information.imageUrl}
                                     alt={this.props.currentUser.information.name}/>
                                 ) : (
                                     <img className='profile-img' 
@@ -44,7 +60,6 @@ class Mypage extends Component {
                         </div>
 
                         <div className='img-form-box'>
-                            <form onSubmit={this.handleSubmit}>
                                 <input
                                     type="file"
                                     name="file"
@@ -57,7 +72,6 @@ class Mypage extends Component {
                                 프로필 사진 변경
                                 </button>
                                 <button label="이미지 제거" className='img-form-btn'>프로필 사진 제거</button>
-                            </form>
                         </div>
                         <div className="profile-name">
                            <h2>{this.props.currentUser.information.name}</h2>

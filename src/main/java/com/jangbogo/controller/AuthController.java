@@ -170,11 +170,13 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "유저 정보 갱신 실패", content = { @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ErrorResponse.class) ) } ),
     })
-    @PatchMapping("/thumbnail/update")
+    @PostMapping("/thumbnail/update")
     public ResponseEntity<?> thumbnailUpdate(
             @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal,
             @RequestPart(value="file", required=true) MultipartFile multipartFile
     ) {
+        log.info("프로필 사진 변경 컨트롤러 진입");
+        log.info("유저 정보 {}",userPrincipal.getEmail());
         return authService.thumbnailModify(userPrincipal, multipartFile);
     }
 
