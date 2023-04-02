@@ -103,8 +103,6 @@ public class AuthService {
         Member member = memberRepository.findById(userPrincipal.getId())
                 .orElseThrow(()-> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id="+userPrincipal.getId()));
 
-        log.info("프로필 사진 변경 서비스 시작");
-
         try {
             if(member.getImageUrl() != null && !member.getImageUrl().isEmpty()){
                 fileService.deleteFile(member.getImageUrl());
@@ -116,6 +114,27 @@ public class AuthService {
             String uploadDir = "/profile/" + imgName;
 
             member.updateImageUrl(uploadDir);
+            memberRepository.save(member);
+
+            return ResponseEntity.ok(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    /* 프로필 사진 삭제 */
+    public ResponseEntity<?> thumbnailDelete(UserPrincipal userPrincipal) {
+        Member member = memberRepository.findById(userPrincipal.getId())
+                .orElseThrow(()-> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id="+userPrincipal.getId()));
+
+        try {
+            if(member.getImageUrl() != null && !member.getImageUrl().isEmpty()){
+                fileService.deleteFile(member.getImageUrl());
+            }
+
+            member.deleteImageUrl();
             memberRepository.save(member);
 
             return ResponseEntity.ok(true);

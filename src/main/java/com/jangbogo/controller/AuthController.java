@@ -32,7 +32,6 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
-    private final MemberService memberService;
 
     @Operation(summary = "유저 정보 확인", description = "현제 접속된 유저정보를 확인합니다.")
     @ApiResponses(value = {
@@ -175,9 +174,23 @@ public class AuthController {
             @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal,
             @RequestPart(value="file", required=true) MultipartFile multipartFile
     ) {
-        log.info("프로필 사진 변경 컨트롤러 진입");
-        log.info("유저 정보 {}",userPrincipal.getEmail());
+
         return authService.thumbnailModify(userPrincipal, multipartFile);
+    }
+
+    /* 프로필 이미지 삭제 */
+    @Operation(summary = "유저 프로필 이미지 삭제", description = "현제 접속된 유저의 프로필 사진을 삭제 합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "유저 정보 갱신 성공",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class) ) } ),
+            @ApiResponse(responseCode = "400", description = "유저 정보 갱신 실패", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponse.class) ) } ),
+    })
+    @PostMapping("/thumbnail/delete")
+    public ResponseEntity<?> thumbnailDelete(
+            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
+    ) {
+        return authService.thumbnailDelete(userPrincipal);
     }
 
     /* 이메일 중복확인 */
@@ -190,7 +203,7 @@ public class AuthController {
 
     /* 닉네임 중복확인 */
     @GetMapping("/nameCheck")
-    public int nickNameCheck(@RequestParam("name") String name) throws Exception {
+    public int nameCheck(@RequestParam("name") String name) throws Exception {
         int result = authService.nameCheck(name);
 
         return result;
