@@ -260,11 +260,11 @@ public class AuthService {
     }
 
     /* 임시비밀번호 설정 */
-    public ResponseEntity<?> updatePassword(String email){
-        
-
-        return ResponseEntity.ok(true);
-    }
+//    public ResponseEntity<?> updatePassword(){
+//
+//
+//        return ResponseEntity.ok(true);
+//    }
 
 
 }

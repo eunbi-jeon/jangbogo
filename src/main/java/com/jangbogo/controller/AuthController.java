@@ -194,9 +194,9 @@ public class AuthController {
     }
 
     /* 비밀번호 재설정 */
-    @PostMapping("/sendEmail")
-    public String sendEmail(@RequestParam("email") String email){
-        return authService.updatePassword()
-
-    }
+//    @PostMapping("/sendEmail")
+//    public String sendEmail(@RequestParam("email") String email){
+//        return authService.updatePassword();
+//
+//    }
 }

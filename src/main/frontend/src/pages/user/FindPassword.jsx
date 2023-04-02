@@ -90,7 +90,10 @@ class LoginForm extends Component {
           })
           .then((req) => {
             console.log("데이터 전송 성공");
-            if (req.data === 1) alert('중복된 이메일입니다.');
+            if (req.data === 1) {
+                alert(`${email}로 임시 비밀번호를 전송하였습니다.\n임시 비밀번호로 로그인 후 회원정보 수정을 해주세요.`);
+                window.location.href = "/login";
+            }
             else if (req.data === 0) {
               alert('가입된 정보가 없습니다.</br>회원가입페이지로 이동합니다.');
               window.location.href = "/signup";
