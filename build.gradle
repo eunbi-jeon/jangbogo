@@ -54,6 +54,9 @@ dependencies {
 	//stmt 이메일 전송 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+	//타임리프 - 메일 템플릿 사용
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
 }
 
 tasks.named('test') {

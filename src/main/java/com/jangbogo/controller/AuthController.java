@@ -8,7 +8,7 @@ import com.jangbogo.payload.request.auth.*;
 import com.jangbogo.payload.response.AuthResponse;
 import com.jangbogo.payload.response.MailResponse;
 import com.jangbogo.payload.response.Message;
-import com.jangbogo.service.MemberService;
+import com.jangbogo.service.MailService;
 import com.jangbogo.service.auth.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,6 +33,7 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
+    private final MailService mailService;
 
     @Operation(summary = "유저 정보 확인", description = "현제 접속된 유저정보를 확인합니다.")
     @ApiResponses(value = {
@@ -202,7 +203,7 @@ public class AuthController {
         log.info("결과값 = {}", result);
         if (result == 1) {
             MailResponse mail = authService.createMailAndChangePassword(email);
-            authService.mailSend(mail);
+            mailService.sendMail(mail, "updatePass");
         }
         return result;
     }

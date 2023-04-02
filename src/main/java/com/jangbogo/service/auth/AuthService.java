@@ -295,24 +295,23 @@ public class AuthService {
         MailResponse mail = new MailResponse();
         mail.setAddress(email);
         mail.setTitle("[카트왕 장보고] 회원님의 임시 비밀번호 안내 이메일입니다.");
-        mail.setMessage("안녕하세요. [카트왕 장보고] 임시비밀번호 안내 관련 이메일 입니다." + " 회원님의 임시 비밀번호는 "
-                + newPass + " 입니다." + "로그인 후에 비밀번호를 변경을 해주세요");
+        mail.setMessage(newPass);
 
         updatePassword(email, newPass);
 
         return mail;
     }
 
-    /* 메일 전송 */
-    public void mailSend(MailResponse mail) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(mail.getAddress());
-        message.setSubject(mail.getTitle());
-        message.setText(mail.getMessage());
-        message.setFrom("cart.jangbogo@gmail.com");
-        message.setReplyTo("cart.jangbogo@gmail.com");
-        mailSender.send(message);
-        log.info("메일 전송완료");
-    }
+//    /* 메일 전송 */
+//    public void mailSend(MailResponse mail) {
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setTo(mail.getAddress());
+//        message.setSubject(mail.getTitle());
+//        message.setText(mail.getMessage());
+//        message.setFrom("cart.jangbogo@gmail.com");
+//        message.setReplyTo("cart.jangbogo@gmail.com");
+//        mailSender.send(message);
+//        log.info("메일 전송완료");
+//    }
 
 }
