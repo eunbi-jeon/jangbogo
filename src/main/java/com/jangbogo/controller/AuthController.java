@@ -63,22 +63,6 @@ public class AuthController {
         return authService.delete(userPrincipal);
     }
 
-    @Operation(summary = "유저 정보 갱신", description = "현제 접속된 유저의 비밀번호를 새로 지정합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "유저 정보 갱신 성공",
-                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class) ) } ),
-            @ApiResponse(responseCode = "400", description = "유저 정보 갱신 실패", content = { @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ErrorResponse.class) ) } ),
-    })
-    @PutMapping(value = "/")
-    public ResponseEntity<?> modify(
-            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal,
-            @Parameter(description = "Schemas의 ChangePasswordRequest를 참고해주세요.", required = true) @Valid @RequestBody ChangePasswordRequest passwordChangeRequest
-    ){
-        return authService.modify(userPrincipal, passwordChangeRequest);
-    }
-
-
     /* 로그인 */
     @Operation(summary = "유저 로그인", description = "유저 로그인을 수행합니다.")
     @ApiResponses(value = {
@@ -195,7 +179,7 @@ public class AuthController {
 
     /* 이메일 중복확인 */
     @GetMapping("/emailCheck")
-    public int emailCheck(@RequestParam("email") String email) throws Exception {
+    public int emailCheck(@RequestParam("email") String email) {
         int result = authService.emailCheck(email);
 
         return result;
@@ -203,9 +187,16 @@ public class AuthController {
 
     /* 닉네임 중복확인 */
     @GetMapping("/nameCheck")
-    public int nameCheck(@RequestParam("name") String name) throws Exception {
+    public int nameCheck(@RequestParam("name") String name) {
         int result = authService.nameCheck(name);
 
         return result;
+    }
+
+    /* 비밀번호 재설정 */
+    @PostMapping("/sendEmail")
+    public String sendEmail(@RequestParam("email") String email){
+        return authService.updatePassword()
+
     }
 }

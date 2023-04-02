@@ -83,21 +83,6 @@ public class AuthService {
         return ResponseEntity.ok(true);
     }
 
-    /* 패스워드 수정 */
-    public ResponseEntity<?> modify(UserPrincipal userPrincipal, ChangePasswordRequest passwordChangeRequest){
-        Optional<Member> user = memberRepository.findById(userPrincipal.getId());
-        boolean passwordCheck = passwordEncoder.matches(passwordChangeRequest.getOldPassword(),user.get().getPassword());
-        DefaultAssert.isTrue(passwordCheck, "잘못된 비밀번호 입니다.");
-
-        boolean newPasswordCheck = passwordChangeRequest.getNewPassword().equals(passwordChangeRequest.getReNewPassword());
-        DefaultAssert.isTrue(newPasswordCheck, "신규 등록 비밀번호 값이 일치하지 않습니다.");
-
-
-        passwordEncoder.encode(passwordChangeRequest.getNewPassword());
-
-        return ResponseEntity.ok(true);
-    }
-
     /* 프로필 사진 변경 */
     public ResponseEntity<?> thumbnailModify(UserPrincipal userPrincipal, MultipartFile multipartFile) {
         Member member = memberRepository.findById(userPrincipal.getId())
@@ -272,6 +257,13 @@ public class AuthService {
             return result = 1;
         }
         return result;
+    }
+
+    /* 임시비밀번호 설정 */
+    public ResponseEntity<?> updatePassword(String email){
+        
+
+        return ResponseEntity.ok(true);
     }
 
 
