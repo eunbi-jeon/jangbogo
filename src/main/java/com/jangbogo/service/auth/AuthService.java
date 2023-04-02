@@ -129,11 +129,15 @@ public class AuthService {
         Member member = memberRepository.findById(userPrincipal.getId())
                 .orElseThrow(()-> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id="+userPrincipal.getId()));
 
+        log.info("프로필 사진 삭제 서비스 처리 시작");
+
         try {
+            log.info("프로필 사진 삭제 if문 진입");
             if(member.getImageUrl() != null && !member.getImageUrl().isEmpty()){
                 fileService.deleteFile(member.getImageUrl());
             }
 
+            log.info("프로필 사진 삭제 if문 탈출");
             member.deleteImageUrl();
             memberRepository.save(member);
 

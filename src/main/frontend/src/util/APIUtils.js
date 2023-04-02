@@ -73,3 +73,15 @@ export function deleteUser() {
         method: 'DELETE'
     });
 }
+
+export function deleteThumb() {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/auth/thumbnail/delete",
+        method: 'POST'
+    });
+}
+
