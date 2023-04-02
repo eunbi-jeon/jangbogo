@@ -6,6 +6,7 @@ import com.jangbogo.config.security.token.UserPrincipal;
 import com.jangbogo.domain.member.entity.Member;
 import com.jangbogo.payload.request.auth.*;
 import com.jangbogo.payload.response.AuthResponse;
+import com.jangbogo.payload.response.MailResponse;
 import com.jangbogo.payload.response.Message;
 import com.jangbogo.service.MemberService;
 import com.jangbogo.service.auth.AuthService;
@@ -194,9 +195,15 @@ public class AuthController {
     }
 
     /* 비밀번호 재설정 */
-//    @PostMapping("/sendEmail")
-//    public String sendEmail(@RequestParam("email") String email){
-//        return authService.updatePassword();
-//
-//    }
+    @GetMapping("/find/password")
+    public int updatePassword(@RequestParam("email") String email) {
+        log.info("컨트롤러 진입");
+        int result = authService.emailCheck(email);
+        log.info("결과값 = {}", result);
+        if (result == 1) {
+            MailResponse mail = authService.createMailAndChangePassword(email);
+            authService.mailSend(mail);
+        }
+        return result;
+    }
 }

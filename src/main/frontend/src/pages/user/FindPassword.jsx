@@ -85,7 +85,7 @@ class LoginForm extends Component {
           alert("이메일을 입력해주세요.");
           return;
         }
-        axios.get("http://localhost:8080/auth/emailCheck", {
+        axios.get("http://localhost:8080/auth/find/password", {
             params: { email }
           })
           .then((req) => {

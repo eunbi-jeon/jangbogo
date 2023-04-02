@@ -10,16 +10,17 @@ import com.jangbogo.domain.member.mapping.TokenMapping;
 import com.jangbogo.payload.request.auth.*;
 import com.jangbogo.payload.response.ApiResponse;
 import com.jangbogo.payload.response.AuthResponse;
+import com.jangbogo.payload.response.MailResponse;
 import com.jangbogo.payload.response.Message;
 import com.jangbogo.repository.auth.TokenRepository;
 import com.jangbogo.repository.MemberRepository;
 
 import com.jangbogo.service.FileService;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,7 +30,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 
@@ -46,6 +46,7 @@ public class AuthService {
     private final TokenRepository tokenRepository;
 
     private final FileService fileService;
+    private final MailSender mailSender;
 
     /* 회원 정보 조회 */
     public ResponseEntity<?> whoAmI(UserPrincipal userPrincipal){
@@ -259,12 +260,59 @@ public class AuthService {
         return result;
     }
 
-    /* 임시비밀번호 설정 */
-//    public ResponseEntity<?> updatePassword(){
-//
-//
-//        return ResponseEntity.ok(true);
-//    }
+    /* 임시비밀번호로 회원정보 업데이트 */
+    public Member updatePassword(String email, String password){
 
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(()-> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id="+email));
+
+        String newPass = getNewPassword();
+
+        member.updatePassWord(passwordEncoder.encode(password));
+        memberRepository.save(member);
+
+        return member;
+    }
+
+    /* 임시 비밀번호 생성 */
+    public String getNewPassword(){
+        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+        String str = "";
+
+        int idx = 0;
+        for (int i = 0; i < 10; i++) {
+            idx = (int) (charSet.length * Math.random());
+            str += charSet[idx];
+        }
+        return str;
+    }
+
+    /* 메일 내용 생성 */
+    public MailResponse createMailAndChangePassword(String email) {
+        String newPass = getNewPassword();
+        MailResponse mail = new MailResponse();
+        mail.setAddress(email);
+        mail.setTitle("[카트왕 장보고] 회원님의 임시 비밀번호 안내 이메일입니다.");
+        mail.setMessage("안녕하세요. [카트왕 장보고] 임시비밀번호 안내 관련 이메일 입니다." + " 회원님의 임시 비밀번호는 "
+                + newPass + " 입니다." + "로그인 후에 비밀번호를 변경을 해주세요");
+
+        updatePassword(email, newPass);
+
+        return mail;
+    }
+
+    /* 메일 전송 */
+    public void mailSend(MailResponse mail) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(mail.getAddress());
+        message.setSubject(mail.getTitle());
+        message.setText(mail.getMessage());
+        message.setFrom("cart.jangbogo@gmail.com");
+        message.setReplyTo("cart.jangbogo@gmail.com");
+        mailSender.send(message);
+        log.info("메일 전송완료");
+    }
 
 }
