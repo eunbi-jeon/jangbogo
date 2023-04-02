@@ -190,8 +190,6 @@ public class AuthController {
     public ResponseEntity<?> thumbnailDelete(
             @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
     ) {
-        log.info("프로필 사진 삭제 컨트롤러 진입");
-        log.info(userPrincipal.getEmail());
         return authService.thumbnailDelete(userPrincipal);
     }
 

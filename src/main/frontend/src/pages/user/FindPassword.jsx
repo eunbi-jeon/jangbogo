@@ -100,22 +100,21 @@ class LoginForm extends Component {
         return (
         <div className='loginContainer'>
             <div className='loginwrap'>
-                <h1>로그인</h1>
+                <h1>비밀번호 재설정</h1>
                 <div className="loginline"></div>
+                <div className='pass-des' style={{marginBottom:35}}>
+                    <div>가입시 작성한 이메일을 입력해주세요.</div>
+                    <div style={{marginTop:8}}>해당 이메일로 임시 패스워드를 전송합니다.</div>
+                </div>
                 <div className="loginbox">
                     <form onSubmit={this.handleSubmit}>
                     <input type="text" name='email' placeholder='이메일을 입력해주세요' className="loginid"
                             value={this.state.email} onChange={this.handleInputChange} required />
-                    <input type="password" name='password' placeholder='비밀번호 입력해주세요' 
-                            className="loginid" 
-                            value={this.state.password} 
-                            onChange={this.handleInputChange} required />
-                    <button type="submit">로그인</button>
+                    <button type="submit">전송</button>
                     </form>
                 </div>
                 <div style={{fontSize:14}}>아직 회원이 아니신가요?</div>
                 <button className='signup-btn'><Link to='/signup'>간편 회원가입하기</Link></button>
-                <span style={{fontSize:14, marginLeft:10}}><Link to='/password/find'>비밀번호 재설정</Link></span>
             </div>
         </div>
     )

@@ -8,6 +8,7 @@ import Login from '../pages/user/Login';
 import Signup from '../pages/user/Signup';
 import Mypage from '../pages/user/Mypage';
 import ProfileModify from '../pages/user/ProfileModify'
+import FindPassword from '../pages/user/FindPassword'
 
 
 import OAuth2RedirectHandler from '../pages/user/OAuth2RedirectHandler';
@@ -82,6 +83,7 @@ class App extends Component {
               render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
             <Route path="/signup"
               render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
+            <Route path="/password/find" component={FindPassword} ></Route>
             <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
             <Route component={NotFound}></Route>
           </Switch>

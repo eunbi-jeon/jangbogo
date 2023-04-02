@@ -172,7 +172,7 @@ const SignUpForm = () => {
     }
 
     //이메일 중복체크
-        const handleEmailCheck = (e) => {
+    const handleEmailCheck = (e) => {
             e.preventDefault();
             console.log(email);
             if (!email) {
