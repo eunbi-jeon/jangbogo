@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import '../../css/login.css';
-import { NAVER_AUTH_URL ,KAKAO_AUTH_URL, ACCESS_TOKEN, REFRESH_TOKEN } from '../../constants';
-import { login } from '../../util/APIUtils';
+import { NAVER_AUTH_URL ,KAKAO_AUTH_URL } from '../../constants';
 import { Link, Redirect } from 'react-router-dom'
 
 import kakaoLogo from '../../img/Kakao-Login.png';
 import naverLogo from '../../img/Naver-Login.png';
+
+import axios from 'axios';
 
 class Login extends Component {
 
@@ -63,38 +64,43 @@ class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: ''
+          email: "",
         };
+        this.handleEmailCheck = this.handleEmailCheck.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+      }
 
-    handleInputChange(event) {
-        const target = event.target;
-        const inputName = target.name;        
-        const inputValue = target.value;
-
+      handleInputChange(event) {
+        const { name, value } = event.target;
         this.setState({
-            [inputName] : inputValue
-        });        
+          [name]: value
+        })
     }
+    
 
-    handleSubmit(event) {
-        event.preventDefault();   
+    handleEmailCheck(event) {
+        event.preventDefault(); // 기본 동작 방지
+        const { email } = this.state;
+        if (!email) {
+          alert("이메일을 입력해주세요.");
+          return;
+        }
+        axios.get("http://localhost:8080/auth/emailCheck", {
+            params: { email }
+          })
+          .then((req) => {
+            console.log("데이터 전송 성공");
+            if (req.data === 1) alert('중복된 이메일입니다.');
+            else if (req.data === 0) {
+              alert('가입된 정보가 없습니다.</br>회원가입페이지로 이동합니다.');
+              window.location.href = "/signup";
+            }
+          })
+          .catch(err => {
+            console.log(`데이터 전송 실패 ${err}`);
+          });
+      }
 
-        const loginRequest = Object.assign({}, this.state);
-
-        login(loginRequest)
-        .then(response => {
-            localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-            localStorage.setItem(REFRESH_TOKEN, response.refreshToken);
-            alert("로그인에 성공하였습니다.");
-            window.location.href = "/";
-        }).catch(error => {
-            alert((error && error.message) || '로그인에 실패하였습니다.');
-        });
-    }
     
     render() {
         return (
@@ -107,7 +113,7 @@ class LoginForm extends Component {
                     <div style={{marginTop:8}}>해당 이메일로 임시 패스워드를 전송합니다.</div>
                 </div>
                 <div className="loginbox">
-                    <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.handleEmailCheck}>
                     <input type="text" name='email' placeholder='이메일을 입력해주세요' className="loginid"
                             value={this.state.email} onChange={this.handleInputChange} required />
                     <button type="submit">전송</button>

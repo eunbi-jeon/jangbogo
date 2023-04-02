@@ -51,6 +51,9 @@ dependencies {
 	//h2 DB
 	runtimeOnly 'com.h2database:h2'
 
+	//stmt 이메일 전송 의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 }
 
 tasks.named('test') {
