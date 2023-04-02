@@ -46,7 +46,6 @@ public class AuthService {
     private final TokenRepository tokenRepository;
 
     private final FileService fileService;
-    private final MailSender mailSender;
 
     /* 회원 정보 조회 */
     public ResponseEntity<?> whoAmI(UserPrincipal userPrincipal){
@@ -262,7 +261,6 @@ public class AuthService {
 
     /* 임시비밀번호로 회원정보 업데이트 */
     public Member updatePassword(String email, String password){
-
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(()-> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id="+email));
 
@@ -302,16 +300,13 @@ public class AuthService {
         return mail;
     }
 
-//    /* 메일 전송 */
-//    public void mailSend(MailResponse mail) {
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(mail.getAddress());
-//        message.setSubject(mail.getTitle());
-//        message.setText(mail.getMessage());
-//        message.setFrom("cart.jangbogo@gmail.com");
-//        message.setReplyTo("cart.jangbogo@gmail.com");
-//        mailSender.send(message);
-//        log.info("메일 전송완료");
-//    }
+    /* 회원가입 인증코드 작성 */
+    public MailResponse sendCode(String email, String code) {
+        MailResponse mail = new MailResponse();
+        mail.setAddress(email);
+        mail.setTitle("[카트왕 장보고] 이메일 인증 코드입니다.");
+        mail.setMessage(code);
 
+        return mail;
+    }
 }

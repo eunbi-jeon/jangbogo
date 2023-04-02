@@ -179,14 +179,6 @@ public class AuthController {
         return authService.thumbnailDelete(userPrincipal);
     }
 
-    /* 이메일 중복확인 */
-    @GetMapping("/emailCheck")
-    public int emailCheck(@RequestParam("email") String email) {
-        int result = authService.emailCheck(email);
-
-        return result;
-    }
-
     /* 닉네임 중복확인 */
     @GetMapping("/nameCheck")
     public int nameCheck(@RequestParam("name") String name) {
@@ -198,13 +190,36 @@ public class AuthController {
     /* 비밀번호 재설정 */
     @GetMapping("/find/password")
     public int updatePassword(@RequestParam("email") String email) {
-        log.info("컨트롤러 진입");
-        int result = authService.emailCheck(email);
-        log.info("결과값 = {}", result);
+        int result = emailCheck(email);
         if (result == 1) {
             MailResponse mail = authService.createMailAndChangePassword(email);
             mailService.sendMail(mail, "updatePass");
         }
+        return result;
+    }
+
+    /* 이메일 인증 */
+    @GetMapping("/emailCheck")
+    public String mailConfirm(@RequestParam("email") String email) {
+
+        int result = emailCheck(email);
+        String code = authService.getNewPassword();
+
+        log.info("결과값 = {}", result);
+        if (result == 0) {
+            MailResponse mail = authService.sendCode(email, code);
+            mailService.sendMail(mail, "signUpCode");
+        }else {
+            return Integer.toString(result);
+        }
+
+        return code;
+    }
+
+    /* 이메일 중복확인 */
+    public int emailCheck(@RequestParam("email") String email) {
+        int result = authService.emailCheck(email);
+
         return result;
     }
 }
