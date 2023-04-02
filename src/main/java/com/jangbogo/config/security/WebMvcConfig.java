@@ -22,13 +22,9 @@ public class WebMvcConfig implements WebMvcConfigurer{
                 .maxAge(MAX_AGE_SECS);
     }
 
-
-    //파일 업로드 설정
-    @Value("${uploadPath}") //application.properties 파일의 변수를 로딩
-    String uploadPath;
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/img/**") //서버에서 처리되는 경로
-                .addResourceLocations(uploadPath); //실제 이미지가 저장되는 물리적경로
+        registry.addResourceHandler("/img/**")
+                .addResourceLocations("file:/Users/jeon-eunbi/Desktop/profile");
     }
 }

@@ -14,8 +14,11 @@ import com.jangbogo.payload.response.Message;
 import com.jangbogo.repository.auth.TokenRepository;
 import com.jangbogo.repository.MemberRepository;
 
+import com.jangbogo.service.FileService;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 
@@ -40,6 +44,8 @@ public class AuthService {
 
     private final MemberRepository memberRepository;
     private final TokenRepository tokenRepository;
+
+    private final FileService fileService;
 
     /* 회원 정보 조회 */
     public ResponseEntity<?> whoAmI(UserPrincipal userPrincipal){
@@ -93,14 +99,31 @@ public class AuthService {
     }
 
     /* 프로필 사진 변경 */
-    public ResponseEntity<?> thumbnailModify(UserPrincipal userPrincipal, MultipartFile multipartFile){
+    public ResponseEntity<?> thumbnailModify(UserPrincipal userPrincipal, MultipartFile multipartFile) {
         Member member = memberRepository.findById(userPrincipal.getId())
                 .orElseThrow(()-> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id="+userPrincipal.getId()));
 
+        try {
 
+            if(!(member.getImageUrl().isEmpty())){
+                fileService.deleteFile(member.getImageUrl());
+            }
 
-        return ResponseEntity.ok(true);
+            String oriImgName = multipartFile.getOriginalFilename();
+
+            String imgName = fileService.uploadFile(oriImgName, multipartFile.getBytes());
+            String uploadDir = "/img/profile/" + imgName;
+
+            member.updateImageUrl(uploadDir);
+            memberRepository.save(member);
+
+            return ResponseEntity.ok(true);
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
+
 
     /** 로그인 **/
     public ResponseEntity<?> signin(SignInRequest signInRequest){

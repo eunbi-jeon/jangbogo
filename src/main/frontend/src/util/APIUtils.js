@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { API_BASE_URL, ACCESS_TOKEN } from '../constants';
 
 const request = (options) => {
@@ -73,20 +72,4 @@ export function deleteUser() {
         url: API_BASE_URL + "/auth/delete",
         method: 'DELETE'
     });
-}
-
-export function changeThumbnail(file) {
-  if(!localStorage.getItem(ACCESS_TOKEN)) {
-        return Promise.reject("No access token set.");
-    }
-
-    return request({
-        url: API_BASE_URL + "/auth/thumbnail/update",
-        method: 'POST',
-        data: file,
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        }
-    });
-   
 }

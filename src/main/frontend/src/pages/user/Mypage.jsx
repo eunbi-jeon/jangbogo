@@ -1,40 +1,27 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-
-import { changeThumbnail } from '../../util/APIUtils';
 import '../../css/myPage.css';
 import defaultimg  from '../../img/default-profile-img.png';
 
 class Mypage extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
-    }
+        this.fileInputRef = React.createRef();
+      }
 
-    onUploadImageButtonClick(data) {
-
+      handleFileInputChange = (event) => {
+        const file = event.target.files[0];
         const formData = new FormData();
-        formData.append("file", data.file);
-        formData.append("key",
-        new Blob([JSON.stringify(data.info)], { type: "application/json" })
-        );
-
-        return formData;
-    }
-
-    onUploadImage(event) {
-        event.preventDefault();
-
-        changeThumbnail(formData)
-            .then(response => {
-                alert("프로필 사진이 변경되었습니다");
-                window.location.href = "/mypage";
-            }).catch(error => {
-                alert((error && error.message) || '프로필 사진변경에 실패하였습니다. 관리자에게 문의하세요.');
-                window.location.href = "/mypage";           
-            })
-    }
+        formData.append("file", file);
+        formData.append("accessToken", localStorage.getItem("accessToken"));
+    
+        axios
+          .post("http://localhost:8000//thumbnail/update", formData)
+          .then((response) => console.log(response.data))
+          .catch((error) => console.error(error));
+      };
 
 
     render() {
@@ -55,15 +42,21 @@ class Mypage extends Component {
                                 )
                             }
                         </div>
-                        
-                        <div>
-                            <form>
-                                <input type="file" accept="image/*"
-                                        name="thumbnail" ref={inputRef}
-                                        onChange={onUploadImage}
+
+                        <div className='img-form-box'>
+                            <form onSubmit={this.handleSubmit}>
+                                <input
+                                    type="file"
+                                    name="file"
+                                    accept="image/*"
+                                    ref={this.fileInputRef}
+                                    onChange={this.handleFileInputChange}
+                                    style={{ display: "none" }}
                                     />
-                                <Button label="이미지 업로드" onClick={onUploadImageButtonClick} />
-                                <Button label="이미지 제거" onClick={onDeleteImage} />
+                                <button className='img-form-btn' onClick={() => this.fileInputRef.current.click()}>
+                                프로필 사진 변경
+                                </button>
+                                <button label="이미지 제거" className='img-form-btn'>프로필 사진 제거</button>
                             </form>
                         </div>
                         <div className="profile-name">

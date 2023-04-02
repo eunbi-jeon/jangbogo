@@ -106,8 +106,10 @@ class LoginForm extends Component {
                     <form onSubmit={this.handleSubmit}>
                     <input type="text" name='email' placeholder='이메일을 입력해주세요' className="loginid"
                             value={this.state.email} onChange={this.handleInputChange} required />
-                    <input type="password" name='password' placeholder='비밀번호 입력해주세요' className="loginid" 
-                                value={this.state.password} onChange={this.handleInputChange} required />
+                    <input type="password" name='password' placeholder='비밀번호 입력해주세요' 
+                            className="loginid" 
+                            value={this.state.password} 
+                            onChange={this.handleInputChange} required />
                     <button type="submit">로그인</button>
                     </form>
                 </div>
