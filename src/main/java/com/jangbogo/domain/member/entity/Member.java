@@ -32,12 +32,7 @@ public class Member extends BaseTimeEntity {
     private String age;
     private String region; //지역정보
 
-    private Integer report; //신고 받은 횟수
-
     private String imageUrl;
-
-    @Column(nullable = false)
-    private Boolean emailVerified = false;
 
     @NotNull
     @Enumerated(EnumType.STRING)

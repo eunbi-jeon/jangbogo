@@ -8,7 +8,7 @@ import Login from '../pages/user/Login';
 import Signup from '../pages/user/Signup';
 import Mypage from '../pages/user/Mypage';
 import ProfileModify from '../pages/user/ProfileModify'
-import FindPassword from '../pages/user/FindPassword'
+import FindPassword from '../pages/user/FindPassword'
 
 
 import OAuth2RedirectHandler from '../pages/user/OAuth2RedirectHandler';

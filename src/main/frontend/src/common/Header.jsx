@@ -5,6 +5,7 @@ import "../css/root.css"
 import logoImg from "../img/logo.png"
 
 class Header extends Component {
+
     render() {
         return (
         <div>
