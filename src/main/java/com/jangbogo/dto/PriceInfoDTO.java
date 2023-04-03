@@ -69,6 +69,8 @@ public class PriceInfoDTO {
 	    this.regDay = startDate; 
 		
 	}
+	
+	public PriceInfoDTO() {}
 
 
 
