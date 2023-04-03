@@ -39,6 +39,7 @@ dependencies {
 	// Jackson 라이브러리 추가
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
 
+	implementation 'com.google.code.gson:gson:2.8.7' 
 	
 	
 }

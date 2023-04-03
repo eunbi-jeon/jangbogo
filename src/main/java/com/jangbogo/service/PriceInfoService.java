@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jangbogo.dto.PriceInfoDTO;
+import com.jangbogo.domain.PriceInfo;
 import com.jangbogo.repository.PriceInfoRepository;
 import com.jangbogo.util.PriceInfoJsonParser;
 
@@ -21,7 +21,7 @@ public class PriceInfoService {
 	private PriceInfoJsonParser priceInfoJsonParser;
     
   
-    public List<PriceInfoDTO> getPriceInfoList() {
+    public List<PriceInfo> getPriceInfoList() {
     	String date = priceInfoJsonParser.getStartDate();
         return priceInfoRepository.findByRegDay(date);
     }

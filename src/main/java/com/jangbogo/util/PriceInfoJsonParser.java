@@ -17,7 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jangbogo.dto.PriceInfoDTO;
+import com.jangbogo.domain.PriceInfo;
 
 @Component 
 public class PriceInfoJsonParser {
@@ -37,7 +37,7 @@ public class PriceInfoJsonParser {
         return date.toString();
     } 
     
-    public List<PriceInfoDTO> parsePriceInfo() throws JsonMappingException, JsonProcessingException {             
+    public List<PriceInfo> parsePriceInfo() throws JsonMappingException, JsonProcessingException {             
         String startDate = getStartDate();                
         String url = "http://www.kamis.or.kr/service/price/xml.do";
         String action = "dailyPriceByCategoryList";
@@ -56,7 +56,7 @@ public class PriceInfoJsonParser {
 
         ObjectMapper objectMapper = new ObjectMapper();
         
-        List<PriceInfoDTO> priceList = new ArrayList<>();
+        List<PriceInfo> priceList = new ArrayList<>();
         
         String[] itemCategoryCodes = {"100", "200", "300", "400", "500", "600"}; 
         
@@ -83,8 +83,8 @@ public class PriceInfoJsonParser {
 
             for (JsonNode item : itemNode) {
                 JSONObject itemJson = new JSONObject(item.toString());
-                PriceInfoDTO priceInfoDTO = new PriceInfoDTO(itemJson, startDate);             
-                priceList.add(priceInfoDTO);
+                PriceInfo priceInfo = new PriceInfo(itemJson, startDate);             
+                priceList.add(priceInfo);
             }
         }
         

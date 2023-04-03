@@ -1,12 +1,57 @@
-
-.PriceInfoContainer{
+.Container {
+    width: 80%;
+    height: 350px;
     margin: 5% 10% 5% 10%;
     background-color: rgb(249, 248, 243);
     display: flex;
-    
+ 
 }
-
+.PriceInfoBox {
+    width: 100%;
+    display: flex;
+}
 .itemName {
     font-size: 15pt;
     font-weight: bold;
+}
+
+.icon_box {
+    width: 300px;
+    height: 400px;
+    text-align: center;
+    margin: 20% 30% 0 40%;
+}
+
+
+
+.circle {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: white;
+    margin: 5% 10% 10% 25%;
+
+}
+
+.icon_img {
+    width: 50%;
+}
+
+.itemCode{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.info_box {
+    width: 700px;
+    height: 100%;
+    margin: 2% 0 0 10%;
+}
+
+.infoDate{
+    font-size: 15px;
+    float: right;
 }

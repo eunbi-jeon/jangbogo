@@ -5,12 +5,13 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.jangbogo.dto.PriceInfoDTO;
+import com.jangbogo.domain.PriceInfo;
+
 
 @Repository
-public interface PriceInfoRepository extends JpaRepository<PriceInfoDTO, Long> { 
-	List<PriceInfoDTO> findAll();
-    List<PriceInfoDTO> findByRegDay(String date);  
+public interface PriceInfoRepository extends JpaRepository<PriceInfo, Long> { 
+	List<PriceInfo> findAll();
+    List<PriceInfo> findByRegDay(String date);  
     
 }
 
