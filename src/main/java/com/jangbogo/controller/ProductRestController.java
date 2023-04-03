@@ -2,8 +2,14 @@ package com.jangbogo.controller;
 
 import java.util.List;
 
+
+import javax.validation.Valid;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-//import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,55 +18,63 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jangbogo.domain.SCMember;
+
 import com.jangbogo.domain.member.entity.Member;
+import com.jangbogo.advice.MemberNotFoundException;
 import com.jangbogo.domain.Product;
-import com.jangbogo.domain.Product_demo;
+
 import com.jangbogo.dto.ProductRequestDto;
-import com.jangbogo.repository.ProductRepository;
-import com.jangbogo.repository.Product_demoRepository;
+import com.jangbogo.repository.MemberRepository;
+
 import com.jangbogo.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 
 @RequiredArgsConstructor
 @RestController
 public class ProductRestController {
 	private final ProductService productService;
-	private final Product_demoRepository productdemoRepository;
-	
-	  @GetMapping("/api/show")
-	    public List<Product_demo> getProductss() {
-	        return productdemoRepository.findAll();
-	    }
-	  
-    @PostMapping("/api/save")
-    public Product_demo createProduct(@RequestBody ProductRequestDto requestDto) {
-        Product_demo productd = new Product_demo(requestDto);
-        productdemoRepository.save(productd);
-        return productd;
-    }
-	
+	private final MemberRepository memberRepository;
+
 	//관심상품 전체 조회
 	@GetMapping("/api/products")
-	public List<ProductRequestDto> getMyItem(Member member){
-		String email = member.getEmail();
-		return productService.getProductList(member, email);
+		public List<Product> getProductList(@AuthenticationPrincipal Member user){
+		Member siteUser = memberRepository.findByName(user.getName())
+                .orElseThrow(MemberNotFoundException::new);
+	    return productService.getFavList(user);
 	}
 	
 	//관심상품 등록
+
+
 	@PostMapping("/api/products")
-	public Product saveMyItem(@AuthenticationPrincipal Member member, @RequestBody ProductRequestDto requestDto) {
-		productService.saveProduct(member, requestDto);
-		return productService.findByMemberId(member.getId());
+	public ResponseEntity<?> saveFavList(@Valid @RequestBody ProductRequestDto requestDto) {
+		System.out.println("====================================="+requestDto);	
+		Member user = getPrincipal();
+		System.out.println("====================================="+user);
+	    ProductRequestDto products = productService.saveProduct(user, requestDto);
+
+	    if(products ==null)
+	    	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	    return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 	
 	//관심상품 삭제
 	@DeleteMapping("/api/products/{productId}")
-	public void deleteMyItem(@AuthenticationPrincipal Member member, @PathVariable Integer productId) {
-		productService.deleteProduct(member, productId);
+	public void deleteFavList(@AuthenticationPrincipal Member member, @PathVariable String productId) {
+        Member user = memberRepository.findByName(member.getName())
+                .orElseThrow(MemberNotFoundException::new);
+		productService.deleteProduct(user, productId);
 	}
 	
-
+    private Member getPrincipal() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member user = memberRepository.findByName(authentication.getName())
+                .orElseThrow(MemberNotFoundException::new);
+      
+        return user;
+    }
 
 }

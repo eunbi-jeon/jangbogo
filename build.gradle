@@ -16,6 +16,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	testImplementation 'org.springframework.security:spring-security-test'
 	//lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -28,8 +30,8 @@ dependencies {
 	
 	//h2 DB
 	runtimeOnly 'com.h2database:h2'
-	
-	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+	implementation 'org.json:json:20200518'
 	//jwt
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'

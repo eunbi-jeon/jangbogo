@@ -21,7 +21,7 @@ function SaveList({link, id, productId, title, image, lprice, mallName, onRemove
     try {
       await axios.delete(`/api/products/${id}`);
       onRemoveFavorite(id);
-      console.log(typeof onRemoveFavorite);
+    
     } catch (error) {
       console.error(error);
       setErrorMessage('상품 삭제 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');

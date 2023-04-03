@@ -27,28 +27,14 @@ import javax.validation.Valid;
 @Tag(name = "Authorization", description = "Authorization API")
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/auth")
+@CrossOrigin("http://localhost:3000")
 public class AuthController {
 
     private final AuthService authService;
     private final MemberService memberService;
 
-    @Operation(summary = "유저 정보 확인", description = "현제 접속된 유저정보를 확인합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "유저 확인 성공",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Member.class) ) } ),
-            @ApiResponse(responseCode = "400", description = "유저 확인 실패",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class) ) } ),
-    })
-    @GetMapping(value = "/")
-    public ResponseEntity<?> whoAmI(
-            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
-    ) {
-        return authService.whoAmI(userPrincipal);
-    }
+
 
     @Operation(summary = "유저 정보 삭제", description = "현제 접속된 유저정보를 삭제합니다.")
     @ApiResponses(value = {
@@ -146,7 +132,22 @@ public class AuthController {
         return authService.signout(tokenRefreshRequest);
     }
 
-
+    @Operation(summary = "유저 정보 확인", description = "현제 접속된 유저정보를 확인합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "유저 확인 성공",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Member.class) ) } ),
+            @ApiResponse(responseCode = "400", description = "유저 확인 실패",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class) ) } ),
+    })
+    @GetMapping(value = "/")
+    public ResponseEntity<?> whoAmI(
+            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
+    ) {
+        return authService.whoAmI(userPrincipal);
+    }
+    
     @Operation(summary = "유저 정보 갱신", description = "현제 접속된 유저의 정보를 수정 합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "유저 정보 갱신 성공",

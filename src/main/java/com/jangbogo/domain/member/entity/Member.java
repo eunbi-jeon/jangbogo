@@ -1,13 +1,11 @@
 package com.jangbogo.domain.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jangbogo.domain.Product;
+
 import com.jangbogo.domain.common.BaseTimeEntity;
 import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -15,9 +13,10 @@ import javax.validation.constraints.NotNull;
 
 @DynamicUpdate //실제 값이 변경된 컬럼으로만 update 쿼리 생성
 @Entity
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Member extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,10 +51,7 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
     
-    @OneToMany(mappedBy = "member")
-    private List<Product> products = new ArrayList<>();
-
-    @Builder
+   
     public Member(String email, String password, String name, Role role, Provider provider, String region, String age, String providerId, String imageUrl) {
         this.email = email;
         this.password = password;
@@ -84,9 +80,4 @@ public class Member extends BaseTimeEntity {
         this.age = age;
     }
 
-	public void addProduct(Product product) {
-		products.add(product);
-		product.setMember(this);
-		
-	}
 }

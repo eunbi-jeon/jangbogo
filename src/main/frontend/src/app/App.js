@@ -15,7 +15,6 @@ import Save from '../components/Save';
 import OAuth2RedirectHandler from '../pages/users/OAuth2RedirectHandler';
 import NotFound from '../common/NotFound';
 import LoadingIndicator from '../common/LoadingIndicator';
-
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants';
 import PrivateRoute from '../common/PrivateRouter';
@@ -90,9 +89,12 @@ class App extends Component {
               <Route path="/signup"
                 render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
-              <Route path="/search" render={() => <Search query={this.state.query} />} />
+              <Route path="/search" 
+              			render={() => <Search query={this.state.query} authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
+              <Route path="/save/:productId" 
+              			render={(props)=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
               <Route path="/aa" component={SaveList}></Route>
-              <Route path="/bb" render={() => <Save query={this.state.query} />}></Route>
+
               <Route component={NotFound}></Route>
             </Switch>
           </div>  

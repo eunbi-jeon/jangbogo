@@ -13,9 +13,10 @@ import com.jangbogo.dto.ProductRequestDto;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>{
 
-	Product findByMemberIdAndId(Long memberId, Integer productId);
-	List<ProductRequestDto> findByProductId(Integer productId);
-	Product findByMemberId(Long id);
+	Product findByUserAndProductId(Member user, String productId);
+	List<Product> findByProductId(String productId);
+	Product findByUser(Member user);
+	Product findByUser(String name);
 
 
 }

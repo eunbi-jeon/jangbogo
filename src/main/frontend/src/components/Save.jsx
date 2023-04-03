@@ -1,107 +1,59 @@
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
-import React, {useState, useEffect} from 'react';
-import { useLocation, } from 'react-router-dom';
-import '../css/search.css'
-import axios from 'axios';
+function Save(props) {
+  const history = useHistory();
+  const currentUser = props.currentUser.information;
+
+  const item = props.item
 
 
-function numberWithCommas(pNumber) {
-    return pNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-function Save() {
-  const [items, setItems] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [query, setQuery] = useState('');
-  const location = useLocation();
 
- useEffect(()=>{
-	  const query = new URLSearchParams(location.search).get("query");
-	  setQuery(query || '');
- 	}, [location.search]);
- 	
-
-  const searchItems = async (query) => {
+  const saveItem = async () => {
     try {
-      const encodedQuery = encodeURIComponent(query);
-      
-      let url = `/api/search?query=${encodedQuery}`;
-      
-      if (query) {
-        url += '&category1=식품'; // query 값이 있을 때만 category1 파라미터를 추가
-      }
-      
-      const response = await axios.get(url);
-      const data = await response.data;
-      const filteredData = data.filter(item => item.category1 === '식품');
-      
-      setItems(filteredData);
-      
-      if (filteredData.length === 0) {
-        setErrorMessage("검색 결과가 없습니다.");
-      } else {
-        setErrorMessage("");
-      }
+      const response = await axios.post(
+        "/api/products",
+        { productId:item.productId, 
+        title:item.title,
+        link:item.link,
+        image:item.image,
+        mallName:item.mallName,
+        lprice:item.lprice,
+        name:currentUser.name },
+        {
+          headers: {
+            "Content-Type": "application/json;charset=UTF-8",
+            'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+          },
+        }
+      );
+       return response.data.productId;
     } catch (error) {
-      console.error(error);
-      setItems([]);
-      setErrorMessage("검색 결과가 없습니다.");
+ 	console.error(error); // 오류 메시지 출력
+    	alert("상품이 저장되지 않았습니다. 잠시 후 다시 시도해주세요.");
+ 		 return false;
     }
   };
 
-  useEffect(() => {
-    if (query) {
-      searchItems(query);
+  const handleSaveButtonClick = async () => {
+    if (currentUser !=null) {
+     const savedItemId = await saveItem();
+    console.log(currentUser.name);
+    console.log(savedItemId);
+    } else {
+      const shouldLogin = window.confirm("로그인하시겠습니까?");
+      if (shouldLogin) {
+        history.push("/login");
+      }
     }
-  }, [query]);
+  };
 
 
-  const handleSave = async(item) => {
-	
-    try {
-      const response = await axios.post('/api/save', item, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-	   if (response.status === 200) {
-	      alert('저장되었습니다!');
-	      return response.data.id;
-	    } else {
-	      setErrorMessage('상품 저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-	    }
-    }catch(error){
-		console.error(error);
-		setErrorMessage('상품이 저장되지 않았습니다. 잠시 후 다시 시도해주세요.');
-	}
-};
-
-	
   return (
-    <div>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      <ul>
-        {items.map(item => (
-          <li key={item.link}>
-            <div className='search-itemDto'>
-              <div className='search-itemDto-left'>
-                <img src={item.image} alt={item.title} />
-              </div>
-              <div className='search-itemDto-center'>
-                <div>{item.title}</div>
-                <div className='price'>
-                  {numberWithCommas(item.lprice)}
-                  <span className='unit'>원</span>
-                </div>
-              </div>
-              <div className='search-itemDto-right'>
-                <button onClick={() => handleSave(item)}>저장 </button>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <button onClick={handleSaveButtonClick}>보관하기</button>
+    </>
   );
+}
 
-};
 export default Save;

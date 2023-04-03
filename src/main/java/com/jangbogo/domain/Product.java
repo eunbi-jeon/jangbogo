@@ -10,14 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.jangbogo.domain.common.BaseTimeEntity;
 import com.jangbogo.domain.member.entity.Member;
 import com.jangbogo.dto.ProductRequestDto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,14 +25,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Getter @Setter
-public class Product{
+public class Product extends BaseTimeEntity{
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column(name="prodId")
 	private Long id;
 	
-	@Column(nullable = false)
-	private Integer productId;
+	private String productId;
 	
 	@Column(nullable = false)
 	private String title;
@@ -51,37 +49,34 @@ public class Product{
 	private String mallName;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade =CascadeType.PERSIST)
-	@JoinColumn(name = "member_id")
-	private Member member;
+	@JoinColumn(name = "name")
+	private Member user;
 	
 	@Column(nullable = false)
 	private Integer count=0;
 	
-	
-	
-	//관심상품
-	public static Product createList(Member member) {
-		Product product = new Product();
-		member.addProduct(product);
-		product.setMember(member);
-		return product;
-	}
 
-	public Product(ProductRequestDto requestDto) {
-        this.title = requestDto.getTitle();
-        this.image = requestDto.getImage();
-        this.link = requestDto.getLink();
-        this.lprice = requestDto.getLprice();
-        this.mallName=requestDto.getMallName();
- 
+	@Builder
+	public Product (String productId, String title, String image, String link, Integer lprice, String mallName, Member user) {
+		this.productId = productId;
+		this.title = title;
+		this.image = image;
+		this.link = link;
+		this.lprice = lprice;
+		this.mallName = mallName;
+		this.user = user;
     }
 
 	public void addCount(Integer count) {
 		this.count +=count;
 	}
-	public void updateCount(Integer count) {
-		this.count = count;
-	}
+
+
+
+
+
+	
+
 	
 
 }

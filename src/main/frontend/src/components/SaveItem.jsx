@@ -9,10 +9,10 @@ function SaveItem() {
     async function fetchProducts() {
       const response = await axios.get('/api/products');
       setProducts(response.data);
+   
     }
     fetchProducts();
   }, []);
-  
   return (
     <>
       

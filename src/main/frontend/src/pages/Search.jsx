@@ -2,7 +2,7 @@
 import React, {useState, useEffect} from 'react';
 import '../css/search.css'
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import Save from '../components/Save';
 
 
 function numberWithCommas(pNumber) {
@@ -10,12 +10,10 @@ function numberWithCommas(pNumber) {
 }
 
 function Search(props) {
-  const history = useHistory();
-  const [items, setItems] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
   const query = props.query;
+  const [items, setItems] = useState([]);
   const [sortBy, setSortBy] = useState('관련도순');
-
+	
   const boldText = (text) => {
     return text.replaceAll(query, `<b>${query}</b>`);
   };
@@ -48,15 +46,13 @@ function Search(props) {
             console.log(sortedData);
             
             if (sortedData.length === 0) {
-              setErrorMessage("검색 결과가 없습니다.");
-            } else {
-              setErrorMessage("");
-            }
+             	alert("검색 결과가 없습니다.");
+         	}
   
           } catch (error) {
             console.error(error);
             setItems([]);
-            setErrorMessage("검색 결과가 없습니다.");
+            alert("검색 결과가 없습니다.");
           }
         } else {
           setItems([]);
@@ -67,17 +63,17 @@ function Search(props) {
   }, [query, sortBy]);
   
   
-  const onClickItem=(item)=>{
-    history.push(`/search?query=${query}/${item.productId}`, {state:item});
-    if (window.event && window.event.target.nodeName === "BUTTON") {
-      handleSave(item);
-      return ;
-    }
-    window.open(item.link, '_blank');
+  const onClickItem=(item, e)=>{
+    if (!e || !e.target || e.target.nodeName !== "BUTTON") {
+      window.open(item.link, "_blank");
+    }else{
+		e.preventDefault();
+	}
   } 
   
-  const handleSortByChange = (event) => {
-    const selectedValue = event.target.value;
+
+  const handleSortByChange = (e) => {
+    const selectedValue = e.target.value;
     switch (selectedValue) {
       case "관련도순":
         setSortBy("sim");
@@ -94,33 +90,12 @@ function Search(props) {
 };
   
 
-  const handleSave = async(item) => {
-    const memberId = props.memberId;	
-    try {
-      const response = await axios.post('/api/products', item, {
-        headers: {
-          'Content-Type': 'application/json',
-          'member_id': memberId,
-        },
-      });
-      if (response.status === 200) {
-        alert('저장되었습니다!');
-        return response.data.id;
-      } else {
-        setErrorMessage('상품 저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-      }
-    }catch(error){
-    console.error(error);
-    setErrorMessage('상품이 저장되지 않았습니다. 잠시 후 다시 시도해주세요.');
-  }
-  };
-
 
     return (
       <>
       <div className="search-container">
-        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         <div className='sort-box'>
+    
           <label htmlFor="sortOrder"></label>
           <select id="sortBy" name="sortBy" value={sortBy} onChange={handleSortByChange}>
             <option value="sim">관련도순</option>
@@ -131,7 +106,7 @@ function Search(props) {
         <ul>    
           {items.slice(0, 30).map(item => (
             <li key={item.link}>
-              <div className='search-item' onClick={()=>onClickItem(item)} >
+              <div className='search-item' onClick={(e)=>onClickItem(item, e)} >
                 <div className='search-item-left'>
                   <img src={item.image} alt={item.title} />
                 </div>
@@ -140,10 +115,12 @@ function Search(props) {
                   <div className='price'>
                     {numberWithCommas(item.lprice)}
                     <span className='unit'>원</span>
-                    <button onClick={() => handleSave(item)}> 보관하기 </button>
+                 
                 </div>
               </div>
               <div className='search-itemDto-right'>
+    <Save onClick={(e) => {e.stopPropagation(); props.handleSave(item)}} 
+						currentUser={props.currentUser} item={item}/>
               </div>
             </div>
           </li>
