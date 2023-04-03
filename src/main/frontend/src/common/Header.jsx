@@ -27,7 +27,7 @@ class Header extends Component {
                             </div>
                               ): (
                         <div className="button">
-                        <button id="sign-up"><Link to='/singup'>회원가입</Link></button>
+                        <button id="sign-up"><Link to='/signup'>회원가입</Link></button>
                         <button id="login"><Link to='/login'>로그인</Link></button>
                         </div>
                         )}
@@ -38,7 +38,7 @@ class Header extends Component {
                 <div className="menu-wrap">
                     <span className="category">전체 카테고리</span>
                     <div className="menu-right">
-                        <span>우리지역</span>
+                        <span><Link to='/board'>우리지역</Link></span>
                         <span>문의 게시판</span>
                     </div>
                 </div>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -31,33 +32,46 @@ public class QuestionController {
 	private final QuestionService questionService; 
 	private final MemberService memberService;		
 	
-	@GetMapping("/question/list")
-	public String list(Model model, @RequestParam (value="page", defaultValue="0") int page, 
+	@GetMapping("/board/list")
+	public Page<Question> questionList(@RequestParam (value="page", defaultValue="0") int page, 
 		@RequestParam(value = "kw", defaultValue = "") String kw) {
+		
+		System.out.println("Question 컨트롤러 잘 호출됨 ");
+		System.out.println("page ===> : " + page);
+		System.out.println("kw  ===> : " + kw);
+		System.out.println("==========================");
 	
-	Page<Question> paging = this.questionService.getList(page, kw); 
-	model.addAttribute("paging", paging); 
-	model.addAttribute("kw", kw);
+	//Page<Question> paging = this.questionService.getList(page, kw); 
+		Page<Question> paging = this.questionService.getList(page); 
+	System.out.println("서비스 잘 작동됨 : ");
+	
+	
+//	Page<Question> paging = this.questionService.getList(pageable, spec); 
+
+	return paging;
+//	model.addAttribute("paging", paging); 
+//	model.addAttribute("kw", kw);
 			
-	return "question_list"; 
+//	return "question_list"; 
 	}
 	
-	@GetMapping(value = "/question/detail/{id}")
-	public String detail (Model model , @PathVariable("id") Long id , AnswerDto answerDto) {
+	
+	@GetMapping(value = "/board/detail/{id}")
+	public String questionDetail (@PathVariable("id") Long id , AnswerDto answerDto) {
 	Question q = 
 			this.questionService.getQuestion(id); 
-	
-	model.addAttribute("question", q); 
+//	q.setReadCount(q.getReadCount() + 1);
+//	model.addAttribute("question", q); 
 	
 	return "question_detail"; 
 	}
 
-	@GetMapping("/question/create")
+	@GetMapping("/board/create")
 	public String questionCreate(QuestionDto questionDto) {
 	return "question_form"; 
 	}
 
-	@PostMapping("/question/create")
+	@PostMapping("/board/create")
 	public String questionCreate(			
 
 		@Valid QuestionDto questionDto, BindingResult bindingResult, Principal principal)
@@ -74,7 +88,7 @@ public class QuestionController {
 	return "redirect:/question/list";      
 	}
 
-	@GetMapping("/question/modify/{id}")
+	@GetMapping("/board/modify/{id}")
 	public String questionModify(QuestionDto questionDto, @PathVariable("id") Long id, Principal principal) {
 	
 	Question question = this.questionService.getQuestion(id);
@@ -92,7 +106,7 @@ public class QuestionController {
 	return "question_form";
 	}
 	
-	@PostMapping("/question/modify/{id}")
+	@PostMapping("/board/modify/{id}")
 	public String questionModify(@Valid QuestionDto questionDto, BindingResult bindingResult, 
 	    Principal principal, @PathVariable("id") Long id) {
 	
@@ -113,7 +127,7 @@ public class QuestionController {
 	return String.format("redirect:/question/detail/%s", id);
 	}
 	
-	@GetMapping("/question/delete/{id}")
+	@GetMapping("/board/delete/{id}")
 	public String questionDelete(Principal principal, @PathVariable("id") Long id) {
 	
 	Question question = this.questionService.getQuestion(id);
@@ -129,7 +143,7 @@ public class QuestionController {
 	return "redirect:/";
 	}
 
-	@GetMapping("question/vote/{id}")
+	@GetMapping("/board/vote/{id}")
 	public String questionVote(Principal principal, @PathVariable("id") Long id) {
 	Question question = this.questionService.getQuestion(id);
 	Member member = this.memberService.getMember(principal.getName());
@@ -137,7 +151,7 @@ public class QuestionController {
 	return String.format("redirect:/question/detail/%s", id);
 	}
 	
-	@GetMapping("question/report/{id}")
+	@GetMapping("/board/report/{id}")
 	public String questionReport(Principal principal, @PathVariable("id") Long id) {
 	Question question = this.questionService.getQuestion(id);
 	Member member = this.memberService.getMember(principal.getName());

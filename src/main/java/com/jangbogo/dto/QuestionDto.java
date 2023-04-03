@@ -21,5 +21,7 @@ public class QuestionDto {
 	private String content; 
 	
     private Board board; 
+    
+  //  private String region;
 
 }

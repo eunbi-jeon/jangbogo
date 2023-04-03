@@ -21,6 +21,7 @@ const request = (options) => {
             return json;
         })
     );
+    
 };
 
 export function getCurrentUser() {
@@ -36,7 +37,7 @@ export function getCurrentUser() {
 
 export function login(loginRequest) {
     return request({
-        url: API_BASE_URL + "/auth/login",
+        url: API_BASE_URL + "/auth/signin",
         method: 'POST',
         body: JSON.stringify(loginRequest)
     });
@@ -44,8 +45,43 @@ export function login(loginRequest) {
 
 export function signup(signupRequest) {
     return request({
-        url: API_BASE_URL + "/auth/create",
+        url: API_BASE_URL + "/auth/signup",
         method: 'POST',
         body: JSON.stringify(signupRequest)
     });
 }
+
+export function updateUser(updateRequest) {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    
+    return request({
+        url: API_BASE_URL + "/auth/update",
+        method: 'PATCH',
+        body: JSON.stringify(updateRequest)
+    });
+}
+
+export function deleteUser() {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/auth/delete",
+        method: 'DELETE'
+    });
+}
+
+export function deleteThumb() {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/auth/thumbnail/delete",
+        method: 'POST'
+    });
+}
+

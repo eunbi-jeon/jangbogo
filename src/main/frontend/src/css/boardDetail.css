@@ -1,0 +1,84 @@
+table .detailSubject{
+    width: 1200px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.boarDetailWrap{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.detailCreateAt{
+    font-size: 13px;
+    color: grey;
+}
+.detailNickName{
+    width: auto;
+}
+.wall{
+    margin-left: 10px;
+    margin-right: 10px;
+    color: grey;
+}
+.detailContent{
+    padding-top: 10px;
+}
+.hrLine{
+    height: 2px;
+    background-color: rgb(255, 235, 199);
+    border: 0px;
+}
+.hrLine2{
+    height: 1px;
+    background-color: rgb(221, 218, 218);
+    border: 0px;
+  }
+  .detailContent{
+    width: 1000px;
+  }
+  .replyContent{
+    width: 60%;
+    padding-left: 10px;
+  }
+  .replyNickName{
+    width: 20%;
+  }
+  .modifyBtn, .deleteBtn{
+    text-align: center;
+    width: 60px;
+    border: 1px solid rgb(255, 200, 150);
+    background-color: rgb(255, 235, 199);
+    border-radius: 10px;
+    font-size: 13px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .best{
+    text-align: center;
+    margin-top: 30px;
+  }
+  .bestBtn{
+    width: 40px;
+    cursor: pointer;
+  }
+  .goBackBtn{
+    text-align: center;
+    width: 80px;
+    background-color: rgb(255, 235, 199);
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: pointer;
+    border: 1px solid rgb(255, 200, 150);
+  }
+  .replyBox{
+    margin-top: 10px;
+  }
+  .replyCreateAt{
+    font-size: 12px;
+    padding-left: 5px;
+  }

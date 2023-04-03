@@ -37,7 +37,7 @@ public class AnswerService {
 		return answer; 
 	}
 	
-	// 자식댓글 생성
+	// 대댓글 생성
 	public Answer createChildReply(Question question, Long parentId, String content, Member name) {
 		
 		Answer parentReply = answerRepository.findById(parentId).orElseThrow(

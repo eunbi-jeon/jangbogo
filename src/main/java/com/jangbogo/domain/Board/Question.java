@@ -39,7 +39,9 @@ public class Question extends BaseTimeEntity{
     @Column(length = 4000)
     private String content;
     
-    private String region;
+ //   private String region;
+    
+//    private int readCount;
     
     @ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "board_id")
@@ -56,7 +58,7 @@ public class Question extends BaseTimeEntity{
 	
 	// 신고
 	@ManyToMany
-	Set<Member> report= new HashSet<>();
+	Set<Member> report;
     
     
 }

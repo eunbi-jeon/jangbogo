@@ -26,7 +26,6 @@ import com.jangbogo.service.QuestionService;
 
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/answer")
 @RequiredArgsConstructor
 @RestController
 public class AnswerController {
@@ -34,8 +33,8 @@ public class AnswerController {
 	private final AnswerService answerService; 
 	private final MemberService memberService;
 
-	@PostMapping("/create/{id}")
-	public String createAnswer(Model model, @PathVariable("id") Long id, @Valid
+	@PostMapping("/answer/create/{id}")
+	public String answerCreate(Model model, @PathVariable("id") Long id, @Valid
  			AnswerDto answerDto, BindingResult bindingResult, Principal principal,
  			@RequestParam(value = "parentId") Long parentId){
  		
@@ -53,7 +52,7 @@ public class AnswerController {
 	    }
 		
 	//답변수정 
-    @GetMapping("/modify/{id}")
+    @GetMapping("/answer/modify/{id}")
     public String answerModify(AnswerDto answerDto, @PathVariable("id") Long id, Principal principal) {
         
     	Answer answer = this.answerService.getAnswer(id);
@@ -67,7 +66,7 @@ public class AnswerController {
     
     
     //답변 수정
-    @PostMapping("/modify/{id}")
+    @PostMapping("/answer/modify/{id}")
     public String answerModify(@Valid AnswerDto answerDto, BindingResult bindingResult,
             @PathVariable("id") Long id, Principal principal) {
         if (bindingResult.hasErrors()) {
@@ -84,7 +83,7 @@ public class AnswerController {
     }
     
     //답변 삭제 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/answer/delete/{id}")
     public String answerDelete(Principal principal, @PathVariable("id") Long id) {
     	
         Answer answer = this.answerService.getAnswer(id);
@@ -98,7 +97,7 @@ public class AnswerController {
         return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
     }
     
-    @GetMapping("/vote/{id}")
+    @GetMapping("/answer/vote/{id}")
     public String answerVote(Principal principal, @PathVariable("id") Long id) {
         Answer answer = this.answerService.getAnswer(id);
         Member member = this.memberService.getMember(principal.getName());
@@ -108,7 +107,7 @@ public class AnswerController {
                 answer.getQuestion().getId(), answer.getId());
     }
     
-    @GetMapping("/report/{id}")
+    @GetMapping("/answer/report/{id}")
     public String answerReport(Principal principal, @PathVariable("id") Long id) {
         Answer answer = this.answerService.getAnswer(id);
         Member member = this.memberService.getMember(principal.getName());

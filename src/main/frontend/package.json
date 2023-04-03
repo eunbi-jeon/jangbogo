@@ -16,12 +16,12 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.8",
     "react-redux": "^8.0.5",
-    "react-router-dom": "^6.9.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
     "redux-action": "^1.2.2",
     "web-vitals": "^2.1.4",
-    "proxy": "http://localhost:8080"
+    "proxy" : "http://localhost:8080"
   },
   "scripts": {
     "start": "react-scripts start",

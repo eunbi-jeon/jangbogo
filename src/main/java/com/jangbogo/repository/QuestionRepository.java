@@ -31,6 +31,12 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 	List <Question> findAllByOrderByCreateAtAsc(); 
 	List <Question> findAllByOrderByCreateAtDesc();
 	
+//    List<Question> findBySubjectLikeOrderByReadCountDesc(String subject);
+//
+//    Page<Question> findAllByOrderByReadCountDesc(Pageable pageable);
+//
+//    Page<Question> findAllByKeywordOrderByReadCountDesc(@Param("kw") String kw, Pageable pageable);
+	
 	Page<Question> findAll(Pageable pageable); 
 	
     Page<Question> findAll(Specification<Question> spec, Pageable pageable);

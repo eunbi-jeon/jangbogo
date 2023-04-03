@@ -1,8 +1,11 @@
 import React, { useState, useCallback } from 'react';
-import "../css/signup.css"
-import "../css/root.css"
+import "../../css/signup.css"
+import "../../css/profilemodify.css"
+import "../../css/root.css"
 import axios from "axios";
 
+import { updateUser, deleteUser } from '../../util/APIUtils';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../constants';
 
 const regions = [
     { id: 'seoul', value: '서울' },
@@ -32,31 +35,29 @@ const regions = [
   ];
 
 
-const SignUpForm = () => {
+const SignUpForm = (props) => {
 
-    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [checkpw, setConfirmPassword] = useState("");
     const [nickname, setNickName] = useState("");
     const [selectedRegion, setSelectedRegion] = useState('');
     const [selectedAge, setSelectedAge] = useState('');
 
+
     // 오류 메세지
-    const [emailMes, setEmailMes] = useState("")
     const [nameMes, setNameMes] = useState("")
     const [pwMes, setPwMes] = useState("")
     const [confirmPasswordMes, setConfirmPasswordMes] = useState("")
 
     //유효성 검사
     const [isName, setIsName] = useState(false)
-    const [isEmail, setIsEmail] = useState(false)
     const [isPassword, setIsPassword] = useState(false)
     const [isConfirmPassword, setIsConfirmPassword] = useState(false)
 
     const data = {
-        email: email,
+        email: props.currentUser.information.email,
         password: password,
-        nickname: nickname,
+        name: nickname,
         region: selectedRegion,
         age: selectedAge
     };
@@ -105,39 +106,24 @@ const SignUpForm = () => {
         [password]
     )
 
-
-    const onChangeEmail = (e) => {
-        const currentEmail = e.target.value;
-        setEmail(currentEmail);
-        const emailRegExp =
-            /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
-
-        if (!emailRegExp.test(currentEmail)) {
-            setEmailMes("이메일 형식으로 작성해주세요.");
-            setIsEmail(false);
-        } else {
-            setEmailMes("");
-            setIsEmail(true);
-        }
-    };
-
+    //회원 정보 수정
     const onSubmitHandler = (event) => {
         event.preventDefault(); //리프레시 방지-> 방지해야 이 아래 라인의 코드들 실행 가능
 
-        // 비밀번호와 비밀번호 확인 같을때 회원가입 되게 함
+        console.log(data);
+        // 비밀번호와 비밀번호 확인 같을때 수정되도록 함
         if (password !== checkpw) {
             return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
-        }   //여기서 걸리면 아래로 못감
+        } 
 
-        axios.post("http://localhost:8080/auth/create", data)
-            .then((req) => {
-                alert('회원가입이 완료되었습니다.');
-                window.location.href = "/login";
-            }).catch(err => {
-                alert('회원가입에 실패하였습니다. 관리자에게 문의해주세요.');
-                window.location.href = "/";
-        })
-
+        updateUser(data)
+            .then(response => {
+                alert("회원정보 수정에 성공하였습니다.");
+                window.location.href = "/mypage";
+            }).catch(error => {
+                alert((error && error.message) || '정보수정에 실패하였습니다. 관리자에게 문의하세요.');
+                window.location.href = "/setting/profile";           
+            })
     }
 
     // 닉네임 중복체크
@@ -149,7 +135,7 @@ const SignUpForm = () => {
         }else {
             axios.get("http://localhost:8080/auth/nameCheck",
                 {
-                    params: {nickname: nickname}
+                    params: {name: nickname}
                 })
                 .then((req) => {
                     console.log("데이터 전송 성공")
@@ -165,49 +151,36 @@ const SignUpForm = () => {
             })
 
         }
-
-
     }
 
-    //이메일 중복체크
-        const handleEmailCheck = (e) => {
-            e.preventDefault();
-            console.log(email);
-            if (!email) {
-                setEmailMes("이메일은 필수입력 항목입니다.");
-            }else {
-                axios.get("http://localhost:8080/auth/emailCheck",
-                    {
-                        params: {email: email}
-                    })
-                    .then((req) => {
-                        console.log("데이터 전송 성공")
-                        if (req.data === 1) alert('중복된 이메일입니다.');
-                        else if (req.data === 0){
-                            alert('사용가능한 이메일입니다.');
-                            setEmailMes("")
-                        }
-                    }).catch(err => {
-                    console.log(`데이터 전송 실패 ${err}`)
+    //회원 탈퇴 처리
+    const onRemove = () => {
+        if (window.confirm("회원 탈퇴 처리를 진행하시겠습니까?")) {
+            deleteUser()
+                .then(response => {
+                    alert("회원탈퇴에 성공하였습니다.");
+                    localStorage.removeItem(ACCESS_TOKEN);
+                    localStorage.removeItem(REFRESH_TOKEN);
+                    window.location.href = "/";
+                }).catch(error => {
+                    alert((error && error.message) || '회원 탈퇴에 실패하였습니다. 관리자에게 문의하세요.');
+                    window.location.href = "/mypage";           
                 })
-            }
+        } else {
+        alert("취소합니다.");
         }
-
+    };
 
     return (
         <div>
         <div className='loginContainer'>
             <div className='loginwrap'>
-                <h1>회원가입</h1>
+                <h1>회원정보 수정</h1>
                 <div className="loginline"></div>
                 <div className="signUpbox">
                     <form onSubmit={onSubmitHandler}>
                         <input type="text" name='email' placeholder='이메일을 입력해주세요' className="form-input" 
-                                value={email}  onChange={onChangeEmail} required/>
-                        <div className='err-box'>
-                        <button onClick={handleEmailCheck} className='check-btn'>중복확인</button>
-                        <span className="err-msg" style={{marginBottom:0, marginLeft:10}}>{emailMes}</span>
-                        </div>
+                                defaultValue={props.currentUser.information.email} readOnly/>
                         <input type="password" name='password' placeholder='비밀번호를 입력해주세요.' className="form-input" 
                                 value={password}  onChange={onPasswordHandler} required/>
                         <span className="err-msg">{pwMes}</span>
@@ -215,7 +188,7 @@ const SignUpForm = () => {
                                 value={checkpw}  onChange={onConfirmPasswordHandler} required/>
                         <span className="err-msg">{confirmPasswordMes}</span>
                         <input type="text" name='nickname' placeholder='닉네임을 입력해주세요' className="form-input" 
-                                value={nickname} onChange={onNameHandler} required/>
+                                defaultValue={props.currentUser.information.name} onChange={onNameHandler} required/>
                         <div className='err-box'>
                         <button onClick={handleNameCheck} className='check-btn'>중복확인</button>
                         <span className="err-msg" style={{marginBottom:0, marginLeft:10}}>{nameMes}</span>
@@ -252,9 +225,10 @@ const SignUpForm = () => {
                             </div>
                         ))}
                         </div>
-                    <button type="submit" className='submit-btn' disabled={!(isEmail && isName && isPassword && isConfirmPassword)}>회원가입 하기</button>
+                    <button type="submit" className='submit-btn' disabled={!(isName && isPassword && isConfirmPassword)}>회원정보 수정</button>
                     </form>
                 </div>
+                <button onClick={onRemove} className='member-delete-btn'>회원탈퇴</button>
             </div>
         </div>
         </div>
