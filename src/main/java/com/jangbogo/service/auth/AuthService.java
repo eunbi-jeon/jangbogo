@@ -19,6 +19,10 @@ import com.jangbogo.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -80,7 +84,7 @@ public class AuthService {
         memberRepository.save(member);
         return ResponseEntity.ok(true);
     }
-    
+
     /* 프로필 사진 변경 */
     public ResponseEntity<?> thumbnailModify(UserPrincipal userPrincipal, MultipartFile multipartFile) {
         Member member = memberRepository.findById(userPrincipal.getId())

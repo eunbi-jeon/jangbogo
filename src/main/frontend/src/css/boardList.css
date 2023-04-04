@@ -1,0 +1,57 @@
+.boardWrap{
+
+  }
+  .boardWrap .boardList td{
+    font-size: 16px;
+  }
+  .boardWrap .replyCount{
+    font-size: 14px;
+    color: rgb(225, 59, 59);
+  }
+  .bestCount,.readCount, .listCount, .listSubject{
+    text-align: center;
+  }
+  .bestCount2,.readCount2, .listCount2, .listSubject2{
+    text-align: center;
+    padding-bottom: 10px;
+  }
+  .listCount2{
+    text-align: center;
+    width: 100px;
+  }
+  .listSubject2{
+    width: 800px;
+    text-align: center;
+  }
+  .bestCount2, .readCount2{
+    width: 100px;
+    text-align: center;
+  }
+  .boardCreate{
+    text-align: center;
+    width: 60px;
+    background-color: rgb(255, 235, 199);
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: pointer;
+    border: 1px solid rgb(255, 200, 150);
+    
+  }
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  .hrLine1 hr{
+    height: 2px;
+    background-color: rgb(255, 235, 199);
+    border: 0px;
+    margin-top: -10px;
+  }
+  .hrLine3 hr{
+    height: 2px;
+    background-color: rgb(250, 247, 247);
+    border: 0px;
+  }

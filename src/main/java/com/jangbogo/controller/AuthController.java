@@ -8,6 +8,9 @@ import com.jangbogo.payload.request.auth.*;
 import com.jangbogo.payload.response.AuthResponse;
 import com.jangbogo.payload.response.MailResponse;
 import com.jangbogo.payload.response.Message;
+
+import com.jangbogo.service.MailService;
+
 import com.jangbogo.service.auth.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -64,6 +66,7 @@ public class AuthController {
     ){
         return authService.delete(userPrincipal);
     }
+
     /* 로그인 */
     @Operation(summary = "유저 로그인", description = "유저 로그인을 수행합니다.")
     @ApiResponses(value = {

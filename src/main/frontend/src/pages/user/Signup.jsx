@@ -41,6 +41,8 @@ const SignUpForm = () => {
     const [nickname, setNickName] = useState("");
     const [selectedRegion, setSelectedRegion] = useState('');
     const [selectedAge, setSelectedAge] = useState('');
+    const [code, setcode] = useState('');
+    const [checkCode, setcheckCode] = useState('');
 
     // 오류 메세지
     const [emailMes, setEmailMes] = useState("")
