@@ -3,6 +3,8 @@ import "../../css/signup.css"
 import "../../css/root.css"
 import axios from "axios";
 
+import { signup } from '../../util/APIUtils';
+
 
 const regions = [
     { id: 'seoul', value: '서울' },
@@ -40,18 +42,25 @@ const SignUpForm = () => {
     const [nickname, setNickName] = useState("");
     const [selectedRegion, setSelectedRegion] = useState('');
     const [selectedAge, setSelectedAge] = useState('');
+    const [code, setcode] = useState('');
+    const [checkCode, setcheckCode] = useState('');
+
 
     // 오류 메세지
     const [emailMes, setEmailMes] = useState("")
     const [nameMes, setNameMes] = useState("")
     const [pwMes, setPwMes] = useState("")
     const [confirmPasswordMes, setConfirmPasswordMes] = useState("")
+    const [codeMes, setCodeMes] = useState("")
+
 
     //유효성 검사
     const [isName, setIsName] = useState(false)
     const [isEmail, setIsEmail] = useState(false)
     const [isPassword, setIsPassword] = useState(false)
     const [isConfirmPassword, setIsConfirmPassword] = useState(false)
+    const [isConfirmCode, setIsConfirmCode] = useState(false)
+
 
     const data = {
         email: email,
@@ -113,7 +122,6 @@ const SignUpForm = () => {
             /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
 
         if (!emailRegExp.test(currentEmail)) {
-
             setEmailMes("이메일 형식으로 작성해주세요.");
             setIsEmail(false);
         } else {
@@ -122,16 +130,28 @@ const SignUpForm = () => {
         }
     };
 
+    const onChangeCode = (e) => {
+        const checkCode = e.target.value;
+        setcheckCode(checkCode);
+
+        if (checkCode===code) {
+            setCodeMes("");
+            setIsConfirmCode(true);
+        } else {
+            setCodeMes("인증코드가 일치하지 않습니다. 다시 확인해주세요.");
+            setIsConfirmCode(false);
+        }
+    };
+
     const onSubmitHandler = (event) => {
         event.preventDefault(); //리프레시 방지-> 방지해야 이 아래 라인의 코드들 실행 가능
-
 
         // 비밀번호와 비밀번호 확인 같을때 회원가입 되게 함
         if (password !== checkpw) {
             return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
         }   //여기서 걸리면 아래로 못감
 
-        axios.post("http://localhost:8080/auth/signup", data)
+        signup(data)
             .then(response => {
                 alert("회원가입에 성공하셨습니다.");
                 window.location.href = "/login";
@@ -170,8 +190,8 @@ const SignUpForm = () => {
 
     }
 
-    //이메일 중복체크
-        const handleEmailCheck = (e) => {
+    //이메일 중복 및 인증
+    const handleEmailCheck = (e) => {
             e.preventDefault();
             console.log(email);
             if (!email) {
@@ -184,9 +204,9 @@ const SignUpForm = () => {
                     .then((req) => {
                         console.log("데이터 전송 성공")
                         if (req.data === 1) alert('중복된 이메일입니다.');
-                        else if (req.data === 0){
-                            alert('사용가능한 이메일입니다.');
-                            setEmailMes("")
+                        else {
+                            alert(`${email}로 인증번호가 전송되었습니다.\n인증번호를 확인 후 회원가입을 진행해주세요.`);
+                            setcode(req.data)
                         }
                     }).catch(err => {
                     console.log(`데이터 전송 실패 ${err}`)
@@ -204,10 +224,15 @@ const SignUpForm = () => {
                 <div className="signUpbox">
                     <form onSubmit={onSubmitHandler}>
                         <input type="text" name='email' placeholder='이메일을 입력해주세요' className="form-input" 
-                                value={email}  onChange={onChangeEmail} required/>
+                                value={email}  onChange={onChangeEmail} style={{width:340, marginRight:18}} required/>
+                        <button onClick={handleEmailCheck} className='check-btn'>인증번호</button>
                         <div className='err-box'>
-                        <button onClick={handleEmailCheck} className='check-btn'>중복확인</button>
                         <span className="err-msg" style={{marginBottom:0, marginLeft:10}}>{emailMes}</span>
+                        </div>
+                        <input type="text" name='checkCode' placeholder='인증번호를 입력해주세요' className="form-input" 
+                               value={checkCode} onChange={onChangeCode} required/>
+                        <div className='err-box'>
+                        <span className="err-msg" style={{marginBottom:0, marginLeft:10}}>{codeMes}</span>
                         </div>
                         <input type="password" name='password' placeholder='비밀번호를 입력해주세요.' className="form-input" 
                                 value={password}  onChange={onPasswordHandler} required/>
@@ -216,9 +241,9 @@ const SignUpForm = () => {
                                 value={checkpw}  onChange={onConfirmPasswordHandler} required/>
                         <span className="err-msg">{confirmPasswordMes}</span>
                         <input type="text" name='nickname' placeholder='닉네임을 입력해주세요' className="form-input" 
-                                value={nickname} onChange={onNameHandler} required/>
-                        <div className='err-box'>
+                                value={nickname} onChange={onNameHandler} style={{width:340, marginRight:18}} required/>
                         <button onClick={handleNameCheck} className='check-btn'>중복확인</button>
+                        <div className='err-box'>
                         <span className="err-msg" style={{marginBottom:0, marginLeft:10}}>{nameMes}</span>
                         </div>
                         <div className="form-item">
@@ -253,7 +278,7 @@ const SignUpForm = () => {
                             </div>
                         ))}
                         </div>
-                    <button type="submit" className='submit-btn' disabled={!(isEmail && isName && isPassword && isConfirmPassword)}>회원가입 하기</button>
+                    <button type="submit" className='submit-btn' disabled={!(isEmail && isName && isPassword && isConfirmPassword && isConfirmCode)}>회원가입 하기</button>
                     </form>
                 </div>
             </div>

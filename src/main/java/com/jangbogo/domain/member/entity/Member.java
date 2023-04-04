@@ -70,11 +70,22 @@ public class Member extends BaseTimeEntity {
         this.imageUrl = imageUrl;
     }
 
+    //프로필 이미지 삭제
+    public void deleteImageUrl(){
+        this.imageUrl = null;
+    }
+
+    //회원정보 수정
     public void updateMember(String name, String password, String region, String age) {
         this.name = name;
         this.password = password;
         this.region = region;
         this.age = age;
+    }
+
+    //임시 비밀번호 발급
+    public void updatePassWord(String password) {
+        this.password = password;
     }
 
 }

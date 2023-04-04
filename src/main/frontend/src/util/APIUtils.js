@@ -45,7 +45,7 @@ export function login(loginRequest) {
 
 export function signup(signupRequest) {
     return request({
-        url: API_BASE_URL + "/auth/create",
+        url: API_BASE_URL + "/auth/signup",
         method: 'POST',
         body: JSON.stringify(signupRequest)
     });
@@ -73,3 +73,15 @@ export function deleteUser() {
         method: 'DELETE'
     });
 }
+
+export function deleteThumb() {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/auth/thumbnail/delete",
+        method: 'POST'
+    });
+}
+

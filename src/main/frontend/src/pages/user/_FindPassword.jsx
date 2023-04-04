@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import '../../css/login.css';
-import { NAVER_AUTH_URL ,KAKAO_AUTH_URL, ACCESS_TOKEN, REFRESH_TOKEN } from '../../constants';
-import { login } from '../../util/APIUtils';
+import { NAVER_AUTH_URL ,KAKAO_AUTH_URL } from '../../constants';
 import { Link, Redirect } from 'react-router-dom'
 
 import kakaoLogo from '../../img/Kakao-Login.png';
 import naverLogo from '../../img/Naver-Login.png';
+
+import axios from 'axios';
 
 class Login extends Component {
 
@@ -63,59 +64,66 @@ class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: ''
+          email: "",
         };
+        this.handleEmailCheck = this.handleEmailCheck.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+      }
 
-    handleInputChange(event) {
-        const target = event.target;
-        const inputName = target.name;        
-        const inputValue = target.value;
-
+      handleInputChange(event) {
+        const { name, value } = event.target;
         this.setState({
-            [inputName] : inputValue
-        });        
+          [name]: value
+        })
     }
+    
 
-    handleSubmit(event) {
-        event.preventDefault();   
+    handleEmailCheck(event) {
+        event.preventDefault(); // 기본 동작 방지
+        const { email } = this.state;
+        if (!email) {
+          alert("이메일을 입력해주세요.");
+          return;
+        }
+        axios.get("http://localhost:8080/auth/find/password", {
+            params: { email }
+          })
+          .then((req) => {
+            console.log("데이터 전송 성공");
+            if (req.data === 1) {
+                alert(`${email}로 임시 비밀번호를 전송하였습니다.\n임시 비밀번호로 로그인 후 회원정보 수정을 해주세요.`);
+                window.location.href = "/login";
+            }
+            else if (req.data === 0) {
+              alert('가입된 정보가 없습니다.</br>회원가입페이지로 이동합니다.');
+              window.location.href = "/signup";
+            }
+          })
+          .catch(err => {
+            console.log(`데이터 전송 실패 ${err}`);
+          });
+      }
 
-        const loginRequest = Object.assign({}, this.state);
-
-        login(loginRequest)
-        .then(response => {
-            localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-            localStorage.setItem(REFRESH_TOKEN, response.refreshToken);
-            alert("로그인에 성공하였습니다.");
-            window.location.href = "/";
-        }).catch(error => {
-            alert((error && error.message) || '로그인에 실패하였습니다.');
-        });
-    }
     
     render() {
         return (
         <div className='loginContainer'>
             <div className='loginwrap'>
-                <h1>로그인</h1>
+                <h1>비밀번호 재설정</h1>
                 <div className="loginline"></div>
+                <div className='pass-des' style={{marginBottom:35}}>
+                    <div>가입시 작성한 이메일을 입력해주세요.</div>
+                    <div style={{marginTop:8}}>해당 이메일로 임시 패스워드를 전송합니다.</div>
+                </div>
                 <div className="loginbox">
-                    <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.handleEmailCheck}>
                     <input type="text" name='email' placeholder='이메일을 입력해주세요' className="loginid"
                             value={this.state.email} onChange={this.handleInputChange} required />
-                    <input type="password" name='password' placeholder='비밀번호 입력해주세요' 
-                            className="loginid" 
-                            value={this.state.password} 
-                            onChange={this.handleInputChange} required />
-                    <button type="submit">로그인</button>
+                    <button type="submit">전송</button>
                     </form>
                 </div>
                 <div style={{fontSize:14}}>아직 회원이 아니신가요?</div>
                 <button className='signup-btn'><Link to='/signup'>간편 회원가입하기</Link></button>
-                <span style={{fontSize:14, marginLeft:10}}><Link to='/password/find'>비밀번호 재설정</Link></span>
             </div>
         </div>
     )

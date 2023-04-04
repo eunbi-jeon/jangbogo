@@ -83,3 +83,15 @@ li {
     margin: 5px;
     color: gray;
 }
+
+.img-form-btn {
+    width: 100px;
+    margin: 10px;
+    background-color: tomato;
+    color: white;
+}
+
+.img-form-box {
+    text-align: center;
+    margin-top: 10px;
+}

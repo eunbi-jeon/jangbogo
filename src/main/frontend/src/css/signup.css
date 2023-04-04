@@ -25,6 +25,7 @@ h1 {
     font-size: 14px;
     border: solid 1px rgb(234, 234, 234);
     margin: 5px 0px;
+    display: inline-block;
 }
 
 .submit-btn {
@@ -40,6 +41,10 @@ h1 {
 
 .signUpbox {
     margin-bottom: 60px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .form-item {
@@ -82,11 +87,13 @@ label {
 
 .check-btn {
     width: 60px;
-    font-size: 12px;
+    font-size: 14px;
     border-radius: 0;
     color: white;
     background-color: rgb(200, 205, 207);
     margin-left: 0;
+    height: 59px;
+    width: 100px;
 }
 
 .err-msg {

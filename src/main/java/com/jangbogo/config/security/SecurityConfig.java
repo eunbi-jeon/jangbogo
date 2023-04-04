@@ -1,10 +1,15 @@
 package com.jangbogo.config.security;
 
-import java.util.Arrays;
-
+import com.jangbogo.config.handler.CustomSimpleUrlAuthenticationFailureHandler;
+import com.jangbogo.config.handler.CustomSimpleUrlAuthenticationSuccessHandler;
+import com.jangbogo.config.security.token.CustomAuthenticationEntryPoint;
+import com.jangbogo.config.security.token.CustomOncePerRequestFilter;
+import com.jangbogo.repository.auth.CustomAuthorizationRequestRepository;
+import com.jangbogo.service.auth.CustomDefaultOAuth2UserService;
+import com.jangbogo.service.auth.CustomUserDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,19 +21,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import com.jangbogo.config.handler.CustomSimpleUrlAuthenticationFailureHandler;
-import com.jangbogo.config.handler.CustomSimpleUrlAuthenticationSuccessHandler;
-import com.jangbogo.config.security.token.CustomAuthenticationEntryPoint;
-import com.jangbogo.config.security.token.CustomOncePerRequestFilter;
-import com.jangbogo.repository.auth.CustomAuthorizationRequestRepository;
-import com.jangbogo.service.auth.CustomDefaultOAuth2UserService;
-import com.jangbogo.service.auth.CustomUserDetailsService;
-
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Configuration
@@ -89,17 +81,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/h2-console/**", "/", "/error","/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js")
                 .permitAll()
-                .antMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/**")
+                .antMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**")
                 .permitAll()
-                .antMatchers("/login/**","/auth/**", "/oauth2/**", "/api/messages")
+                .antMatchers("/login/**","/auth/**", "/oauth2/**")
                 .permitAll()
-                .antMatchers(HttpMethod.POST, "/api/messages").authenticated()
-                .antMatchers(HttpMethod.GET, "/api/messages/sender").access("hasRole('MEMBER') or hasRole('ADMIN')")
-                .antMatchers(HttpMethod.GET, "/api/messages/sender/{id}").access("hasRole('MEMBER') or hasRole('ADMIN')")
-                .antMatchers(HttpMethod.GET, "/api/messages/receiver").access("hasRole('MEMBER') or hasRole('ADMIN')")
-                .antMatchers(HttpMethod.GET, "/api/messages/receiver/{id}").access("hasRole('MEMBER') or hasRole('ADMIN')")
-                .antMatchers(HttpMethod.DELETE, "/api/messages/sender/{id}").access("hasRole('MEMBER') or hasRole('ADMIN')")
-                .antMatchers(HttpMethod.DELETE, "/api/messages/receiver/{id}").access("hasRole('MEMBER') or hasRole('ADMIN')")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -121,6 +106,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(customOncePerRequestFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-    
-    
 }

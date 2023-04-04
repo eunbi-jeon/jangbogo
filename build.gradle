@@ -37,7 +37,7 @@ dependencies {
 	
 	implementation 'org.json:json:20200518'
 	
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+
 	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.6.3'
 	
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
@@ -64,6 +64,12 @@ dependencies {
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.4'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-security', version: '1.6.4'
 	testImplementation group: 'org.springdoc', name: 'springdoc-openapi-webmvc-core', version: '1.6.4'
+
+	//stmt 이메일 전송 의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	//타임리프 - 메일 템플릿 사용
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 tasks.named('test') {

@@ -36,7 +36,7 @@ public class MessageController {
     private final MessageService messageService;
     private final MemberRepository memberRepository;
 
-    @ApiOperation(value = "편지 작성", notes = "편지 보내기")
+    @ApiOperation(value = "쪽지 작성", notes = "쪽지 보내기")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/messages")
     public Response createMessage(@Valid @RequestBody MessageCreateRequest req) {
@@ -52,7 +52,7 @@ public class MessageController {
         return Response.success(messageService.receiveMessages(member));
     }
 
-    @ApiOperation(value = "받은 쪽지 중 한 개 확인", notes = "받은 편지 중 하나를 확인")
+    @ApiOperation(value = "받은 쪽지 중 한 개 확인", notes = "받은 쪽지 중 하나를 확인")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/messages/receiver/{id}")
     public Response receiveMessage(@ApiParam(value = "쪽지 id", required = true) @PathVariable Long id) throws MemberNotEqualsException {
