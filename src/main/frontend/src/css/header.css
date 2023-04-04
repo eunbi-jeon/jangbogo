@@ -23,7 +23,11 @@
     align-items: center;
 }
 
+<<<<<<< HEAD
 #logo-img > img {
+=======
+.logo-img  {
+>>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
     width: 100px;
 }
 
@@ -44,7 +48,11 @@
 }
 
 button {
+<<<<<<< HEAD
     width: 80px;
+=======
+    width: 85px;
+>>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
     height: 40px;
     font-size: 14px;
     margin-left: 10px;

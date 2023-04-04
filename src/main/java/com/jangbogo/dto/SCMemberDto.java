@@ -18,6 +18,10 @@ public class SCMemberDto {
     @Column(nullable = false)
     private String pass;
 
+<<<<<<< HEAD
     private String loc; //지역정보
+=======
+
+>>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
 
 }

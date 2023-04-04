@@ -75,6 +75,7 @@ function addHTML(itemDto) {
      * image, title, lprice, addProduct 활용하기
      * 참고) onclick='addProduct(${JSON.stringify(itemDto)})'
      */
+<<<<<<< HEAD
     return `<div class="search-itemDto">
                 <div class="search-itemDto-left">
                     <img src="${itemDto.image}" alt="">
@@ -91,6 +92,8 @@ function addHTML(itemDto) {
                 </div>
             </div>`
 }
+=======
+>>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
 
 function addProduct(itemDto) {
     /*
@@ -111,6 +114,26 @@ function addProduct(itemDto) {
             targetId = response.id;
         }
     })
+<<<<<<< HEAD
+=======
+    return `<div class="search-itemDto">
+                <div class="search-itemDto-left">
+                    <img src="${itemDto.image}" alt="">
+                </div>
+                <div class="search-itemDto-center">
+                    <div>${itemDto.title}</div>
+                    <div class="price">
+                        ${numberWithCommas(itemDto.lprice)}
+                        <span class="unit">원</span>
+                    </div>
+                </div>
+                <div class="search-itemDto-right">
+                    <img src="images/icon-save.png" alt="" onclick='addProduct(${JSON.stringify(itemDto)})'>
+                </div>
+            </div>`
+}
+
+>>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
 }
 
 function showProduct() {

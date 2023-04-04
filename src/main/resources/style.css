@@ -264,7 +264,11 @@ button {
     color: white;
     border-radius: 2.6px;
     background-color: #ff8787;
+<<<<<<< HEAD
     width: 42px;
+=======
+    width: 102px;
+>>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
 }
 
 .none {
