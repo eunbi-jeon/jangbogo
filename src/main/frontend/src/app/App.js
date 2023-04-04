@@ -4,16 +4,16 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import Main from '../pages/Main';
-import Signup from '../pages/users/Signup';
-import Login from '../pages/users/Login';
-import Mypage from '../pages/users/Mypage';
-import ProfileModify from '../pages/users/ProfileModify';
+import Signup from '../pages/user/Signup';
+import Login from '../pages/user/Login';
+import Mypage from '../pages/user/Mypage';
+import ProfileModify from '../pages/user/ProfileModify';
 
 import Search from '../pages/Search';
 import SaveList from '../components/List';
 import Save from '../components/Save';
 
-import OAuth2RedirectHandler from '../pages/users/OAuth2RedirectHandler';
+import OAuth2RedirectHandler from '../pages/user/OAuth2RedirectHandler';
 
 import NotFound from '../common/NotFound';
 import LoadingIndicator from '../common/LoadingIndicator';

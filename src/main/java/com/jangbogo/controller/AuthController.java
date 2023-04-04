@@ -4,6 +4,7 @@ import com.jangbogo.advice.payload.ErrorResponse;
 import com.jangbogo.config.security.token.CurrentUser;
 import com.jangbogo.config.security.token.UserPrincipal;
 import com.jangbogo.domain.member.entity.Member;
+import com.jangbogo.exeption.MemberNotFoundException;
 import com.jangbogo.payload.request.auth.*;
 import com.jangbogo.payload.response.AuthResponse;
 import com.jangbogo.payload.response.MailResponse;
@@ -22,6 +23,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,7 +54,12 @@ public class AuthController {
     public ResponseEntity<?> whoAmI(
             @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
     ) {
-        return authService.whoAmI(userPrincipal);
+            System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+            log.info("매개 유저정보 {}", userPrincipal.getName());
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            Member member = memberRepository.findByName(authentication.getName())
+//                    .orElseThrow(MemberNotFoundException::new);
+            return authService.whoAmI(userPrincipal);
     }
 
     @Operation(summary = "유저 정보 삭제", description = "현제 접속된 유저정보를 삭제합니다.")
@@ -65,6 +73,7 @@ public class AuthController {
     public ResponseEntity<?> delete(
             @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
     ){
+        log.info("유저 정보 = {}", userPrincipal.getEmail());
         return authService.delete(userPrincipal);
     }
 
@@ -73,10 +82,10 @@ public class AuthController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "유저 로그인 성공",
                     content = { @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = AuthResponse.class) ) } ),
+                            schema = @Schema(implementation = AuthResponse.class) ) } ),
             @ApiResponse(responseCode = "400", description = "유저 로그인 실패",
                     content = { @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ErrorResponse.class) ) } ),
+                            schema = @Schema(implementation = ErrorResponse.class) ) } ),
     })
     @PostMapping(value = "/signin")
     public ResponseEntity<?> signin(

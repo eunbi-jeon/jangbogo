@@ -2,8 +2,6 @@ package com.jangbogo.controller;
 
 import java.util.List;
 
-
-
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -15,16 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 
 import com.jangbogo.domain.member.entity.Member;
-import com.jangbogo.advice.MemberNotFoundException;
 import com.jangbogo.domain.Product;
-
 import com.jangbogo.dto.ProductRequestDto;
 import com.jangbogo.repository.MemberRepository;
-
 import com.jangbogo.service.ProductService;
+import com.jangbogo.exeption.MemberNotFoundException;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 
 
