@@ -118,8 +118,7 @@ class LoginForm extends Component {
                 <span style={{fontSize:14, marginLeft:10}}><Link to='/password/find'><b>비밀번호 재설정</b></Link></span>
             </div>
         </div>
-    )
-    }
+    )}
 }
 
 export default Login;

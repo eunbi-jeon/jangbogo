@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
 import axios from 'axios';
 
 import { deleteThumb } from '../../util/APIUtils'
@@ -66,7 +65,6 @@ class Mypage extends Component {
                                 )
                             }
                         </div>
-
                         <div className='img-form-box'>
                                 <input
                                     type="file"
