@@ -10,10 +10,12 @@ import com.jangbogo.domain.member.mapping.TokenMapping;
 import com.jangbogo.payload.request.auth.*;
 import com.jangbogo.payload.response.ApiResponse;
 import com.jangbogo.payload.response.AuthResponse;
+import com.jangbogo.payload.response.MailResponse;
 import com.jangbogo.payload.response.Message;
 import com.jangbogo.repository.auth.TokenRepository;
 import com.jangbogo.repository.MemberRepository;
 
+import com.jangbogo.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -39,6 +42,8 @@ public class AuthService {
 
     private final MemberRepository memberRepository;
     private final TokenRepository tokenRepository;
+
+    private final FileService fileService;
 
     /* 회원 정보 조회 */
     public ResponseEntity<?> whoAmI(UserPrincipal userPrincipal){
@@ -75,21 +80,58 @@ public class AuthService {
         memberRepository.save(member);
         return ResponseEntity.ok(true);
     }
+    
+    /* 프로필 사진 변경 */
+    public ResponseEntity<?> thumbnailModify(UserPrincipal userPrincipal, MultipartFile multipartFile) {
+        Member member = memberRepository.findById(userPrincipal.getId())
+                .orElseThrow(()-> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id="+userPrincipal.getId()));
 
-    /* 패스워드 수정 */
-    public ResponseEntity<?> modify(UserPrincipal userPrincipal, ChangePasswordRequest passwordChangeRequest){
-        Optional<Member> user = memberRepository.findById(userPrincipal.getId());
-        boolean passwordCheck = passwordEncoder.matches(passwordChangeRequest.getOldPassword(),user.get().getPassword());
-        DefaultAssert.isTrue(passwordCheck, "잘못된 비밀번호 입니다.");
+        try {
+            if(member.getImageUrl() != null && !member.getImageUrl().isEmpty()){
+                fileService.deleteFile(member.getImageUrl());
+            }
 
-        boolean newPasswordCheck = passwordChangeRequest.getNewPassword().equals(passwordChangeRequest.getReNewPassword());
-        DefaultAssert.isTrue(newPasswordCheck, "신규 등록 비밀번호 값이 일치하지 않습니다.");
+            String oriImgName = multipartFile.getOriginalFilename();
 
+            String imgName = fileService.uploadFile(oriImgName, multipartFile.getBytes());
+            String uploadDir = "/profile/" + imgName;
 
-        passwordEncoder.encode(passwordChangeRequest.getNewPassword());
+            member.updateImageUrl(uploadDir);
+            memberRepository.save(member);
 
-        return ResponseEntity.ok(true);
+            return ResponseEntity.ok(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
+
+    /* 프로필 사진 삭제 */
+    public ResponseEntity<?> thumbnailDelete(UserPrincipal userPrincipal) {
+        Member member = memberRepository.findById(userPrincipal.getId())
+                .orElseThrow(()-> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id="+userPrincipal.getId()));
+
+        log.info("프로필 사진 삭제 서비스 처리 시작");
+
+        try {
+            log.info("프로필 사진 삭제 if문 진입");
+            if(member.getImageUrl() != null && !member.getImageUrl().isEmpty()){
+                fileService.deleteFile(member.getImageUrl());
+            }
+
+            log.info("프로필 사진 삭제 if문 탈출");
+            member.deleteImageUrl();
+            memberRepository.save(member);
+
+            return ResponseEntity.ok(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
 
     /** 로그인 **/
     public ResponseEntity<?> signin(SignInRequest signInRequest){
@@ -215,5 +257,54 @@ public class AuthService {
         return result;
     }
 
+    /* 임시비밀번호로 회원정보 업데이트 */
+    public Member updatePassword(String email, String password){
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(()-> new IllegalArgumentException("해당 유저가 존재하지 않습니다. id="+email));
 
+        String newPass = getNewPassword();
+
+        member.updatePassWord(passwordEncoder.encode(password));
+        memberRepository.save(member);
+
+        return member;
+    }
+
+    /* 임시 비밀번호 생성 */
+    public String getNewPassword(){
+        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+        String str = "";
+
+        int idx = 0;
+        for (int i = 0; i < 10; i++) {
+            idx = (int) (charSet.length * Math.random());
+            str += charSet[idx];
+        }
+        return str;
+    }
+
+    /* 메일 내용 생성 */
+    public MailResponse createMailAndChangePassword(String email) {
+        String newPass = getNewPassword();
+        MailResponse mail = new MailResponse();
+        mail.setAddress(email);
+        mail.setTitle("[카트왕 장보고] 회원님의 임시 비밀번호 안내 이메일입니다.");
+        mail.setMessage(newPass);
+
+        updatePassword(email, newPass);
+
+        return mail;
+    }
+
+    /* 회원가입 인증코드 작성 */
+    public MailResponse sendCode(String email, String code) {
+        MailResponse mail = new MailResponse();
+        mail.setAddress(email);
+        mail.setTitle("[카트왕 장보고] 이메일 인증 코드입니다.");
+        mail.setMessage(code);
+
+        return mail;
+    }
 }

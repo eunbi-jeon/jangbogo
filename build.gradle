@@ -15,10 +15,8 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-
-	testImplementation 'org.springframework.security:spring-security-test'
+  
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
 	//lombok
 	compileOnly 'org.projectlombok:lombok'
@@ -26,26 +24,39 @@ dependencies {
 	
 	//JPA 라이브러리
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	//스프링 시큐리티
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	//jwt
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+
+	//json-simple
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+	//oauth2 - 소셜로그인 인증
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	//Swagger
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.4'
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-security', version: '1.6.4'
+	testImplementation group: 'org.springdoc', name: 'springdoc-openapi-webmvc-core', version: '1.6.4'
 	
 	//validation javax : spring boot 2.3 이상에서 사용 설정
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.4'
 	
 	//h2 DB
+	runtimeOnly 'com.h2database:h2'
 
+	//stmt 이메일 전송 의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
-	implementation 'org.json:json:20200518'
-	//jwt
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
-	
-	//oauth2 - 소셜로그인 인증
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	
-	//Swagger
-	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.4'
-	implementation group: 'org.springdoc', name: 'springdoc-openapi-security', version: '1.6.4'
-	testImplementation group: 'org.springdoc', name: 'springdoc-openapi-webmvc-core', version: '1.6.4'
+	//타임리프 - 메일 템플릿 사용
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
 }
 

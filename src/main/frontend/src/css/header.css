@@ -7,6 +7,10 @@
     justify-content: center;
 }
 
+a{
+    text-decoration: none;
+}
+
 .header-wrap {
     width: 1160px;
     margin: auto;
@@ -23,10 +27,9 @@
     align-items: center;
 }
 
-
-.logo-img  {
-
-    width: 100px;
+.logo-img {
+    width: 110px;
+    margin-right: 10px;
 }
 
 .search-form {
@@ -46,9 +49,7 @@
 }
 
 button {
-
     width: 85px;
-
     height: 40px;
     font-size: 14px;
     margin-left: 10px;

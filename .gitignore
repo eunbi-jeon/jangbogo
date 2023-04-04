@@ -1,4 +1,7 @@
 application.properties
+application-oauth.properties
+application-swagger.properties
+
 
 HELP.md
 .gradle

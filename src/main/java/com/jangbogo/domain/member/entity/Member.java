@@ -1,7 +1,6 @@
 package com.jangbogo.domain.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import com.jangbogo.domain.common.BaseTimeEntity;
 import lombok.*;
 
@@ -13,10 +12,9 @@ import javax.validation.constraints.NotNull;
 
 @DynamicUpdate //실제 값이 변경된 컬럼으로만 update 쿼리 생성
 @Entity
-@Getter @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Member extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,13 +33,8 @@ public class Member extends BaseTimeEntity {
     private String age;
     private String region; //지역정보
 
-    private Integer report; //신고 받은 횟수
-
     private String imageUrl;
-
-    @Column(nullable = false)
-    private Boolean emailVerified = false;
-
+    
     @NotNull
     @Enumerated(EnumType.STRING)
     private Provider provider;
@@ -50,8 +43,8 @@ public class Member extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-    
-   
+
+    @Builder
     public Member(String email, String password, String name, Role role, Provider provider, String region, String age, String providerId, String imageUrl) {
         this.email = email;
         this.password = password;
@@ -73,11 +66,22 @@ public class Member extends BaseTimeEntity {
         this.imageUrl = imageUrl;
     }
 
+    //프로필 이미지 삭제
+    public void deleteImageUrl(){
+        this.imageUrl = null;
+    }
+
+    //회원정보 수정
     public void updateMember(String name, String password, String region, String age) {
         this.name = name;
         this.password = password;
         this.region = region;
         this.age = age;
+    }
+
+    //임시 비밀번호 발급
+    public void updatePassWord(String password) {
+        this.password = password;
     }
 
 }

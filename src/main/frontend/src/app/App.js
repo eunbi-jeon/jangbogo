@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
@@ -15,6 +16,7 @@ import Save from '../components/Save';
 import OAuth2RedirectHandler from '../pages/users/OAuth2RedirectHandler';
 import NotFound from '../common/NotFound';
 import LoadingIndicator from '../common/LoadingIndicator';
+
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants';
 import PrivateRoute from '../common/PrivateRouter';

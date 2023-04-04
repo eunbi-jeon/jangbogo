@@ -6,8 +6,8 @@ import com.jangbogo.config.security.token.UserPrincipal;
 import com.jangbogo.domain.member.entity.Member;
 import com.jangbogo.payload.request.auth.*;
 import com.jangbogo.payload.response.AuthResponse;
+import com.jangbogo.payload.response.MailResponse;
 import com.jangbogo.payload.response.Message;
-import com.jangbogo.service.MemberService;
 import com.jangbogo.service.auth.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.Valid;
 
 @Slf4j
@@ -28,13 +30,26 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin("http://localhost:3000")
 public class AuthController {
 
     private final AuthService authService;
-    private final MemberService memberService;
+    private final MailService mailService;
 
-
+    @Operation(summary = "유저 정보 확인", description = "현제 접속된 유저정보를 확인합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "유저 확인 성공",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Member.class) ) } ),
+            @ApiResponse(responseCode = "400", description = "유저 확인 실패",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class) ) } ),
+    })
+    @GetMapping(value = "/")
+    public ResponseEntity<?> whoAmI(
+            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
+    ) {
+        return authService.whoAmI(userPrincipal);
+    }
 
     @Operation(summary = "유저 정보 삭제", description = "현제 접속된 유저정보를 삭제합니다.")
     @ApiResponses(value = {
@@ -49,23 +64,6 @@ public class AuthController {
     ){
         return authService.delete(userPrincipal);
     }
-
-    @Operation(summary = "유저 정보 갱신", description = "현제 접속된 유저의 비밀번호를 새로 지정합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "유저 정보 갱신 성공",
-                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class) ) } ),
-            @ApiResponse(responseCode = "400", description = "유저 정보 갱신 실패", content = { @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ErrorResponse.class) ) } ),
-    })
-    @PutMapping(value = "/")
-    public ResponseEntity<?> modify(
-            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal,
-            @Parameter(description = "Schemas의 ChangePasswordRequest를 참고해주세요.", required = true) @Valid @RequestBody ChangePasswordRequest passwordChangeRequest
-    ){
-        return authService.modify(userPrincipal, passwordChangeRequest);
-    }
-
-
     /* 로그인 */
     @Operation(summary = "유저 로그인", description = "유저 로그인을 수행합니다.")
     @ApiResponses(value = {
@@ -132,22 +130,6 @@ public class AuthController {
         return authService.signout(tokenRefreshRequest);
     }
 
-    @Operation(summary = "유저 정보 확인", description = "현제 접속된 유저정보를 확인합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "유저 확인 성공",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Member.class) ) } ),
-            @ApiResponse(responseCode = "400", description = "유저 확인 실패",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class) ) } ),
-    })
-    @GetMapping(value = "/")
-    public ResponseEntity<?> whoAmI(
-            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
-    ) {
-        return authService.whoAmI(userPrincipal);
-    }
-    
     @Operation(summary = "유저 정보 갱신", description = "현제 접속된 유저의 정보를 수정 합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "유저 정보 갱신 성공",
@@ -164,18 +146,78 @@ public class AuthController {
     }
 
 
-    /* 이메일 중복확인 */
-    @GetMapping("/emailCheck")
-    public int emailCheck(@RequestParam("email") String email) throws Exception {
-        int result = authService.emailCheck(email);
+    /* 프로필 이미지 변경 */
+    @Operation(summary = "유저 프로필 이미지 변경", description = "현제 접속된 유저의 프로필 사진을 수정 합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "유저 정보 갱신 성공",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class) ) } ),
+            @ApiResponse(responseCode = "400", description = "유저 정보 갱신 실패", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponse.class) ) } ),
+    })
+    @PostMapping("/thumbnail/update")
+    public ResponseEntity<?> thumbnailUpdate(
+            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal,
+            @RequestPart(value="file", required=true) MultipartFile multipartFile
+    ) {
 
-        return result;
+        return authService.thumbnailModify(userPrincipal, multipartFile);
+    }
+
+    /* 프로필 이미지 삭제 */
+    @Operation(summary = "유저 프로필 이미지 삭제", description = "현제 접속된 유저의 프로필 사진을 삭제 합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "유저 정보 갱신 성공",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class) ) } ),
+            @ApiResponse(responseCode = "400", description = "유저 정보 갱신 실패", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponse.class) ) } ),
+    })
+    @PostMapping("/thumbnail/delete")
+    public ResponseEntity<?> thumbnailDelete(
+            @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
+    ) {
+        return authService.thumbnailDelete(userPrincipal);
     }
 
     /* 닉네임 중복확인 */
     @GetMapping("/nameCheck")
-    public int nickNameCheck(@RequestParam("name") String name) throws Exception {
+    public int nameCheck(@RequestParam("name") String name) {
         int result = authService.nameCheck(name);
+
+        return result;
+    }
+
+    /* 비밀번호 재설정 */
+    @GetMapping("/find/password")
+    public int updatePassword(@RequestParam("email") String email) {
+        int result = emailCheck(email);
+        if (result == 1) {
+            MailResponse mail = authService.createMailAndChangePassword(email);
+            mailService.sendMail(mail, "updatePass");
+        }
+        return result;
+    }
+
+    /* 이메일 인증 */
+    @GetMapping("/emailCheck")
+    public String mailConfirm(@RequestParam("email") String email) {
+
+        int result = emailCheck(email);
+        String code = authService.getNewPassword();
+
+        log.info("결과값 = {}", result);
+        if (result == 0) {
+            MailResponse mail = authService.sendCode(email, code);
+            mailService.sendMail(mail, "signUpCode");
+        }else {
+            return Integer.toString(result);
+        }
+
+        return code;
+    }
+
+    /* 이메일 중복확인 */
+    public int emailCheck(@RequestParam("email") String email) {
+        int result = authService.emailCheck(email);
 
         return result;
     }
