@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
 import '../../css/myPage.css';
+import defaultimg  from '../../img/default-profile-img.png';
 
 class Mypage extends Component {
     constructor(props) {
@@ -17,13 +17,18 @@ class Mypage extends Component {
                         <div className="profile-avatar">
                             { 
                                 this.props.currentUser.information.imageUrl ? (
-                                    <img className='profile-img' src={this.props.currentUser.information.imageUrl} alt={this.props.currentUser.information.name}/>
+                                    <img className='profile-img' 
+                                    src={this.props.currentUser.information.imageUrl} 
+                                    alt={this.props.currentUser.information.name}/>
                                 ) : (
-                                    <div className="text-avatar">
-                                        <span>{this.props.currentUser.information.name && this.props.currentUser.information.name[0]}</span>
-                                    </div>
+                                    <img className='profile-img' 
+                                    src = {defaultimg}
+                                    alt={this.props.currentUser.information.name}/>
                                 )
                             }
+                        </div>
+                        <div>
+
                         </div>
                         <div className="profile-name">
                            <h2>{this.props.currentUser.information.name}</h2>
