@@ -1,12 +1,6 @@
 package com.jangbogo.dto;
 
-
-
 import org.json.JSONObject;
-
-import com.jangbogo.domain.member.entity.Member;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

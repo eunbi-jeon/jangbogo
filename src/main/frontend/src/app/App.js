@@ -9,7 +9,7 @@ import Login from '../pages/users/Login';
 import Mypage from '../pages/users/Mypage';
 import ProfileModify from '../pages/users/ProfileModify';
 
-import Search from '../pages/Search'
+import Search from '../pages/Search';
 import SaveList from '../components/List';
 import Save from '../components/Save';
 

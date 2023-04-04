@@ -17,6 +17,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import com.jangbogo.domain.member.entity.Member;
+
 @Entity
 @Getter
 @Setter

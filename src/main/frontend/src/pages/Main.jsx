@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../css/main.css';
+
 import icon100 from '../img/priceInfo_icon/100.png';
 import icon200 from '../img/priceInfo_icon/200.png';
 import icon300 from '../img/priceInfo_icon/300.png';

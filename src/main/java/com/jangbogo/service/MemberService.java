@@ -1,17 +1,12 @@
 package com.jangbogo.service;
 
-import com.jangbogo.advice.assertThat.DefaultAssert;
-import com.jangbogo.config.security.token.UserPrincipal;
-import com.jangbogo.domain.member.entity.Member;
-import com.jangbogo.payload.request.auth.SignUpRequest;
-import com.jangbogo.payload.response.ApiResponse;
 
+import com.jangbogo.domain.member.entity.Member;
+import com.jangbogo.exeption.DataNotFoundException;
 import com.jangbogo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -33,7 +28,7 @@ public class MemberService {
             return member.get();
             
         } else {
-            throw new DataNotFoundException("siteuser not found - 해당 사용자는 존재하지 안습니다. ");
+            throw new DataNotFoundException("siteuser not found - 해당 사용자는 존재하지 않습니다. ");
         }
     }
 }

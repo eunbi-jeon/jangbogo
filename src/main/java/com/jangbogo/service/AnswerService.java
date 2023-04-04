@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.jangbogo.DataNotFoundException;
+import com.jangbogo.exeption.DataNotFoundException;
 import com.jangbogo.domain.Board.Answer;
 import com.jangbogo.domain.Board.Question;
 import com.jangbogo.domain.member.entity.Member;

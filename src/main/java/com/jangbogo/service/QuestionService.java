@@ -20,7 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.jangbogo.DataNotFoundException;
+import com.jangbogo.exeption.DataNotFoundException;
 import com.jangbogo.domain.Board.Answer;
 import com.jangbogo.domain.Board.Board;
 import com.jangbogo.domain.Board.Question;

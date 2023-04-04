@@ -6,6 +6,8 @@ import Save from '../components/Save';
 
 
 function numberWithCommas(pNumber) {
+    console.log(pNumber);
+    console.log(pNumber.toString());
     return pNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
