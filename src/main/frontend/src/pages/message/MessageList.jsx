@@ -1,13 +1,13 @@
 import React, {useState } from 'react'
 import Modal from 'react-modal'
-import './messagelist.css'
+import '../../css/messageform.css'
 
 Modal.setAppElement('#root')
 
-function App(){
+function MessageList(){
   const [modalIsOpen,setModalIsOpen] = useState(false)
   return (
-    <div className='App'>
+    <div className='Messagelist'>
       <button onClick={() => setModalIsOpen(true)}>Open modal</button>
       <Modal isOpen={modalIsOpen} 
       shouldCloseOnOverlayClick={false} 
@@ -28,8 +28,8 @@ function App(){
     >     
           {/* 반복되는 쪽지 출력 */}
           <h2>받은 쪽지</h2>
-            <div className='message list'>
-            <p>쪽지 내용입니다아아아아아 길게 늘어지지이이이이</p>
+            <div className='message'>
+            <p></p>
             <p>쪽지 보낸 사람</p>
             <p>2023.04.04 02:54</p>
             </div>
@@ -41,4 +41,4 @@ function App(){
   )
 }
 
-export default App
+export default MessageList

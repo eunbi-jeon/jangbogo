@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import "../../css/Messageform";
+import "../../css/messageform.css";
 
 function MessageDetail() {
   const { id } = useParams();

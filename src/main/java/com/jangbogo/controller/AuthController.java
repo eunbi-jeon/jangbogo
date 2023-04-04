@@ -8,7 +8,9 @@ import com.jangbogo.payload.request.auth.*;
 import com.jangbogo.payload.response.AuthResponse;
 import com.jangbogo.payload.response.MailResponse;
 import com.jangbogo.payload.response.Message;
+
 import com.jangbogo.service.MailService;
+
 import com.jangbogo.service.auth.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,6 +32,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin("http://localhost:3000")
 public class AuthController {
 
     private final AuthService authService;

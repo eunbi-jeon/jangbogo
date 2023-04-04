@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import "../../css/Messageform";
+import "../../css/messageform.css";
 
 function MessageForm({ user }) {
   const [content, setContent] = useState('');

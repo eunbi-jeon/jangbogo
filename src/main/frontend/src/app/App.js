@@ -9,6 +9,9 @@ import Signup from '../pages/user/Signup';
 import Mypage from '../pages/user/Mypage';
 import ProfileModify from '../pages/user/ProfileModify'
 import FindPassword from '../pages/user/_FindPassword'
+import MessageList from '../pages/message/MessageList';
+import MessageDetail from '../pages/message/MessageDetail';
+import MessageForm from '../pages/message/MessageForm';
 
 
 import OAuth2RedirectHandler from '../pages/user/OAuth2RedirectHandler';
@@ -81,6 +84,12 @@ class App extends Component {
               component={ProfileModify}></PrivateRoute>
             <Route path="/login"
               render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
+            <PrivateRoute path="/messages" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+              component={MessageForm}></PrivateRoute>
+            <PrivateRoute path="/messages/postbox" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+              component={MessageList}></PrivateRoute>
+              <PrivateRoute path="/messages/postbox/{id}" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+              component={MessageDetail}></PrivateRoute>
             <Route path="/signup"
               render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
             <Route path="/password/find" component={FindPassword} ></Route>

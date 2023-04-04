@@ -40,7 +40,6 @@ dependencies {
 
 	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.6.3'
 	
-    implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     
 
