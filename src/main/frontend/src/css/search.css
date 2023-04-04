@@ -1,0 +1,100 @@
+
+.search-container{
+    margin:10px;
+}
+.sort-box{
+    display: flex; 
+    justify-content: right;
+    margin-right: 70px;
+}
+#sortBy{ 
+    width:100px;
+    height: 30px;
+    border-radius: 10px;
+    margin-top:10px;}
+    
+ul{
+    display: flex; 
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+}
+li{
+	list-style-type:none;
+    margin:20px;
+}
+
+.search-item{
+    width: 530px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-around;
+    padding:7px;
+    border-radius: 5px;
+    border: 0.5px solid gainsboro;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.search-item-left img {
+    width: 150px;
+    height: 150px;
+    margin:10px;
+    border-radius: 5px;
+}
+
+.search-item-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    
+}
+
+.search-item-info div {
+    width: 280px;
+    height: 23px;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.3;
+    letter-spacing: -0.9px;
+    text-align: left;
+    color: #343a40;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.search-item-info div.price {
+    height: 40px;
+    font-size: 20px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: -0.54px;
+    text-align: left;
+    color: #E8344E;
+}
+
+.search-item-info span.unit {
+    width: 17px;
+    height: 18px;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: -0.9px;
+    text-align: center;
+    color: #000000;
+}
+
+.search-item-info button{
+    margin-left: 50px ;
+    cursor: pointer;
+}
+

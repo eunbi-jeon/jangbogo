@@ -1,4 +1,5 @@
 package com.jangbogo.config.security.docs;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -21,7 +22,6 @@ import java.util.List;
 
 @Import(BeanValidatorPluginsConfiguration.class)
 @Configuration
-// http://localhost:8080/swagger-ui/index.html
 public class SwaggerConfig extends WebMvcConfigurationSupport{
 
     @Bean

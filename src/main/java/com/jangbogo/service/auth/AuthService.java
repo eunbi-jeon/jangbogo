@@ -80,7 +80,7 @@ public class AuthService {
         memberRepository.save(member);
         return ResponseEntity.ok(true);
     }
-
+    
     /* 프로필 사진 변경 */
     public ResponseEntity<?> thumbnailModify(UserPrincipal userPrincipal, MultipartFile multipartFile) {
         Member member = memberRepository.findById(userPrincipal.getId())
