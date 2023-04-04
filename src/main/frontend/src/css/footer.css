@@ -1,0 +1,31 @@
+.footer-container {
+    width: 100vw;
+    height: 200px;
+    background-color: rgb(236, 236, 236);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 120px;
+}
+
+.footer-box {
+    display: flex;
+    flex-direction: row;
+}
+
+.footer-img {
+    height: 60px;
+    margin-left: 30px;
+    margin-top: 5px;
+}
+
+.footer-des-box {
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+}
+
+.footer-des {
+    font-size: 14px;
+    line-height: 22px;
+}
