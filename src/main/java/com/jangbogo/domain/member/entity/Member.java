@@ -3,6 +3,7 @@ package com.jangbogo.domain.member.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jangbogo.domain.common.BaseTimeEntity;
 import lombok.*;
+
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -32,13 +33,8 @@ public class Member extends BaseTimeEntity {
     private String age;
     private String region; //지역정보
 
-    private Integer report; //신고 받은 횟수
-
     private String imageUrl;
-
-    @Column(nullable = false)
-    private Boolean emailVerified = false;
-
+    
     @NotNull
     @Enumerated(EnumType.STRING)
     private Provider provider;

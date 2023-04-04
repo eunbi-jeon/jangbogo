@@ -66,7 +66,6 @@ class Mypage extends Component {
                                 )
                             }
                         </div>
-
                         <div className='img-form-box'>
                                 <input
                                     type="file"
