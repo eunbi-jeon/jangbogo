@@ -22,8 +22,4 @@ public abstract class BaseTimeEntity {
 
     @LastModifiedBy
     private LocalDateTime modifiedAt;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf

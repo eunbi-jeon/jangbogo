@@ -1,15 +1,5 @@
 package com.jangbogo.repository;
 
-<<<<<<< HEAD
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.jangbogo.domain.Product;
-
-public interface ProductRepository extends JpaRepository<Product, Long>{
-	
-	
-=======
-
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,9 +14,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 
 	Product findByUserAndProductId(Member user, String productId);
 	List<Product> findByProductId(String productId);
-	Product findByUser(Member user);
-	Product findByUser(String name);
+
+	Product findByUser(Member member);
 
 
->>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
 }

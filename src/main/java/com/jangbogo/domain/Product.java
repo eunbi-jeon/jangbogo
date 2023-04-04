@@ -1,18 +1,6 @@
 package com.jangbogo.domain;
 
-<<<<<<< HEAD
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-import com.jangbogo.domain.common.BaseTimeEntity;
-import com.jangbogo.dto.ItemDto;
-import com.jangbogo.dto.ProductMypriceRequestDto;
-import com.jangbogo.dto.ProductRequestDto;
-
-=======
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,21 +17,11 @@ import com.jangbogo.dto.ProductRequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
->>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-<<<<<<< HEAD
-@Getter @Setter
-@NoArgsConstructor
-@Entity
-public class Product extends BaseTimeEntity{
-	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-=======
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -57,8 +35,7 @@ public class Product extends BaseTimeEntity{
 	private Long id;
 	
 	private String productId;
-	
->>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
+
 	@Column(nullable = false)
 	private String title;
 
@@ -70,31 +47,31 @@ public class Product extends BaseTimeEntity{
 	
 	@Column(nullable = false)
 	private Integer lprice;
-<<<<<<< HEAD
-
-	@Column(nullable = false)
-	private Integer myprice;
-	
-	//관심 상품
-	public Product(ProductRequestDto requestDto) {
-		this.title = requestDto.getTitle();
-		this.image = requestDto.getImage();
-		this.link = requestDto.getLink();
-		this.lprice = requestDto.getLprice();
-		this.myprice = 0 ;
-		
-	}
-	
-	//관심 가격 업데이트
-	public void update(ProductMypriceRequestDto requestDto) {
-		this.myprice = requestDto.getMyprice();
-	}
-	
-	//예약시간 가격 업데이트
-	public void updateByItemDto(ItemDto itemDto) {
-		this.lprice = itemDto.getLprice();
-	}
-=======
+//<<<<<<< HEAD
+//
+//	@Column(nullable = false)
+//	private Integer myprice;
+//	
+//	//관심 상품
+//	public Product(ProductRequestDto requestDto) {
+//		this.title = requestDto.getTitle();
+//		this.image = requestDto.getImage();
+//		this.link = requestDto.getLink();
+//		this.lprice = requestDto.getLprice();
+//		this.myprice = 0 ;
+//		
+//	}
+//	
+//	//관심 가격 업데이트
+//	public void update(ProductMypriceRequestDto requestDto) {
+//		this.myprice = requestDto.getMyprice();
+//	}
+//	
+//	//예약시간 가격 업데이트
+//	public void updateByItemDto(ItemDto itemDto) {
+//		this.lprice = itemDto.getLprice();
+//	}
+//=======
 	
 	private String mallName;
 	
@@ -129,5 +106,4 @@ public class Product extends BaseTimeEntity{
 
 	
 
->>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
 }

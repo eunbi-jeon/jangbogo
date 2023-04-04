@@ -15,13 +15,11 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-<<<<<<< HEAD
-	
-=======
+
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	testImplementation 'org.springframework.security:spring-security-test'
->>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
+
 	//lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -33,11 +31,7 @@ dependencies {
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.4'
 	
 	//h2 DB
-	runtimeOnly 'com.h2database:h2'
-<<<<<<< HEAD
-	
-	implementation 'org.json:json:20200518'
-=======
+
 
 	implementation 'org.json:json:20200518'
 	//jwt
@@ -52,7 +46,6 @@ dependencies {
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.4'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-security', version: '1.6.4'
 	testImplementation group: 'org.springdoc', name: 'springdoc-openapi-webmvc-core', version: '1.6.4'
->>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
 
 }
 

@@ -2,12 +2,7 @@ package com.jangbogo.controller;
 
 import java.util.List;
 
-<<<<<<< HEAD
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-=======
+
 
 import javax.validation.Valid;
 
@@ -20,20 +15,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
->>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 import org.springframework.web.bind.annotation.RestController;
 
-<<<<<<< HEAD
-import com.jangbogo.domain.Product;
-import com.jangbogo.dto.ProductMypriceRequestDto;
-import com.jangbogo.dto.ProductRequestDto;
-import com.jangbogo.repository.ProductRepository;
-import com.jangbogo.service.ProductService;
 
-import lombok.RequiredArgsConstructor;
-=======
 
 import com.jangbogo.domain.member.entity.Member;
 import com.jangbogo.advice.MemberNotFoundException;
@@ -47,36 +34,36 @@ import com.jangbogo.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
->>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
+
 
 @RequiredArgsConstructor
 @RestController
 public class ProductRestController {
 	private final ProductService productService;
-<<<<<<< HEAD
-	private final ProductRepository productRepository;
-	
-	//관심상품 전체 조회
-	@GetMapping("/api/products")
-	public List<Product> getProducts(){
-		return productRepository.findAll();
-	}
-	
-	//관심상품 등록
-	@PostMapping("/api/products")
-	public Product saveProduct(@RequestBody ProductRequestDto requestDto) {
-		Product product = new Product(requestDto);
-		productRepository.save(product);
-		return product;
-	}
-	
-	//관심가격 변경
-	@PutMapping("/api/products/{id}")
-	public Long updateProduct(@PathVariable Long id, @RequestBody ProductMypriceRequestDto requestDto) {
-		return productService.update(id, requestDto);
-	}
-	
-=======
+
+//	private final ProductRepository productRepository;
+//	
+//	//관심상품 전체 조회
+//	@GetMapping("/api/products")
+//	public List<Product> getProducts(){
+//		return productRepository.findAll();
+//	}
+//	
+//	//관심상품 등록
+//	@PostMapping("/api/products")
+//	public Product saveProduct(@RequestBody ProductRequestDto requestDto) {
+//		Product product = new Product(requestDto);
+//		productRepository.save(product);
+//		return product;
+//	}
+//	
+//	//관심가격 변경
+//	@PutMapping("/api/products/{id}")
+//	public Long updateProduct(@PathVariable Long id, @RequestBody ProductMypriceRequestDto requestDto) {
+//		return productService.update(id, requestDto);
+//	}
+//	
+
 	private final MemberRepository memberRepository;
 
 	//관심상품 전체 조회
@@ -117,6 +104,6 @@ public class ProductRestController {
       
         return user;
     }
->>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
+
 
 }

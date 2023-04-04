@@ -1,16 +1,6 @@
 package com.jangbogo.dto;
 
-<<<<<<< HEAD
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
-public class ProductRequestDto {
-		private String title;
-	    private String link;
-	    private String image;
-	    private Integer lprice;
-=======
 import com.jangbogo.domain.Product;
 
 
@@ -51,5 +41,5 @@ public class ProductRequestDto {
 		   
 	    	);
 	}
->>>>>>> ed6d9544c8bb75292349dd76fd507a0d1827cbaf
+
 }
