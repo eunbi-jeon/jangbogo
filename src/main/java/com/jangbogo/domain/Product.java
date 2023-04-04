@@ -24,7 +24,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Getter @Setter
+@Getter
 public class Product extends BaseTimeEntity{
 	
 	@Id
@@ -34,16 +34,13 @@ public class Product extends BaseTimeEntity{
 	
 	private String productId;
 	
-	@Column(nullable = false)
 	private String title;
 
-	@Column(nullable = false)
+
 	private String image;
-	
-	@Column(nullable = false)
+
 	private String link;
-	
-	@Column(nullable = false)
+
 	private Integer lprice;
 	
 	private String mallName;
@@ -52,7 +49,7 @@ public class Product extends BaseTimeEntity{
 	@JoinColumn(name = "name")
 	private Member user;
 	
-	@Column(nullable = false)
+
 	private Integer count=0;
 	
 
@@ -65,6 +62,8 @@ public class Product extends BaseTimeEntity{
 		this.lprice = lprice;
 		this.mallName = mallName;
 		this.user = user;
+        if(!user.getProductList().contains(this))
+            user.getProductList().add(this);
     }
 
 	public void addCount(Integer count) {

@@ -90,9 +90,9 @@ class App extends Component {
                 render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
               <Route path="/search" 
-              			render={() => <Search query={this.state.query} authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
-              <Route path="/save/:productId" 
-              			render={(props)=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
+              			render={(props) => <Search query={this.state.query} authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
+              <PrivateRoute path="/save" 
+              			render={(props)=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></PrivateRoute>
               <Route path="/aa" component={SaveList}></Route>
 
               <Route component={NotFound}></Route>

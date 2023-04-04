@@ -44,19 +44,23 @@ public class ProductService {
 	public ProductRequestDto saveProduct(Member user, ProductRequestDto req) {
 	  
 	    // Product 객체 생성
-	    Product product = new Product();
-	    product.setProductId(req.getProductId());
-	    product.setTitle(req.getTitle());
-	    product.setImage(req.getImage());
-	    product.setLink(req.getLink());
-	    product.setLprice(req.getLprice());
-	    product.setMallName(req.getMallName());
-	    product.setUser(user);
-	    // 생성일, 수정일 등 필드 값 설정
-	    LocalDateTime now = LocalDateTime.now();
-	    product.setCreateAt(now);
-	    System.out.println("저장된 값 나와랑 "+ product);
-	   return ProductRequestDto.toDto(productRepository.save(product));
+	    Product product = productRepository.save(buildProductreq(user, req));
+	    product.getProductId();
+	    return null;
+	}
+
+
+	private Product buildProductreq(Member user, ProductRequestDto req) {
+		
+		return Product.builder()
+				.productId(req.getProductId())
+				.title(req.getTitle())
+				.image(req.getImage())
+				.link(req.getLink())
+				.lprice(req.getLprice())
+				.mallName(req.getMallName())
+				.user(user).build()
+				;
 	}
 
 
