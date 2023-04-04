@@ -1,0 +1,66 @@
+
+.save-item{
+  margin:20px;
+  width: 600px;
+  display:flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content:flex-start;
+  padding-bottom: 10px;
+  border-bottom: 1px solid gainsboro;
+}
+.save-item-left{
+  padding-right:20px;
+}
+.save-item-left img{
+  width:70px;
+  height: 70px;
+  border-radius: 5px;
+}
+.save-item-center {
+  width:700px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  justify-content: space-around;
+  cursor: pointer;
+}
+
+.save-item-center div.price {
+  height: 30px;
+  font-size: 27px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: -0.54px;
+  text-align: left;
+  color: #E8344E;
+}
+
+.search-item-info span.unit {
+  width: 17px;
+  height: 18px;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: -0.9px;
+  text-align: center;
+  color: #000000;
+}
+
+.delete-img{
+  width: 30px;
+  height:30px;
+  cursor: pointer;
+}
+.save-item-right {
+  display: flex;
+  align-items: center;
+ 
+}

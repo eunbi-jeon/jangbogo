@@ -1,0 +1,34 @@
+.go-back-btn {
+    width: 200px;
+    height: 40px;
+    font-size: 16px;
+    border-radius: 20px;
+    background-color: tomato;
+    color: white;
+    margin-top: 30px;
+}
+
+.page-not-found {
+    height: 400px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.not-found-desc {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 96px;
+    font-weight: bold;
+    color: rgb(255, 219, 213);
+}
+
+.not-found-sub-desc {
+    margin-bottom: 4px;
+    font-size: 14px;
+}
