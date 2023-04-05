@@ -1,8 +1,14 @@
 package com.jangbogo.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.jangbogo.exeption.DataNotFoundException;
@@ -27,7 +33,6 @@ public class AnswerService {
 		answer.setQuestion(question);
 		answer.setContent(content);
 		answer.setCreateAt(LocalDateTime.now());
-		answer.setQuestion(question);
 		answer.setName(name);
 		answer.setDepth(0);
 		answer.setParent(null);
@@ -96,6 +101,15 @@ public class AnswerService {
     public void report(Answer answer, Member name) {
         answer.getReport().add(name);
         this.answerRepository.save(answer);
+    }
+    
+    public Page<Answer> getList(int page){
+    	List<Sort.Order> sorts = new ArrayList();
+    	sorts.add(Sort.Order.desc("createAt"));
+    	
+    	Pageable pageable =PageRequest.of(page, 10, Sort.by(sorts));
+    	
+    	return this.answerRepository.findAllByOrderByParentIdDescDepthAscCreateAtDesc(pageable);
     }
 
 }

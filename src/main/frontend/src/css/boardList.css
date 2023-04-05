@@ -1,5 +1,5 @@
-.boardWrap{
-
+  .boardList{
+    width: 100%;
   }
   .boardWrap .boardList td{
     font-size: 16px;
@@ -20,13 +20,17 @@
     width: 100px;
   }
   .listSubject2{
-    width: 800px;
-    text-align: center;
+    width: 1200px;
+    width: 70%;
   }
-  .bestCount2, .readCount2{
+  .bestCount2{
     width: 100px;
     text-align: center;
   }
+  .readCount2{
+    width: 100px;
+  }
+
   .boardCreate{
     text-align: center;
     width: 60px;
@@ -48,7 +52,7 @@
     height: 2px;
     background-color: rgb(255, 235, 199);
     border: 0px;
-    margin-top: -10px;
+    margin-top: -11px;
   }
   .hrLine3 hr{
     height: 2px;

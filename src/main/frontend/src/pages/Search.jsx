@@ -13,7 +13,6 @@ function Search(props) {
   const query = props.query;
   const [items, setItems] = useState([]);
   const [sortBy, setSortBy] = useState('관련도순');
-	
   const boldText = (text) => {
     return text.replaceAll(query, `<b>${query}</b>`);
   };
@@ -21,6 +20,7 @@ function Search(props) {
   useEffect(() => {
     async function fetchData(){
       if (query) {
+		 
           try {
             const encodedQuery = encodeURIComponent(query);
        
@@ -95,7 +95,7 @@ function Search(props) {
       <>
       <div className="search-container">
         <div className='sort-box'>
-    
+
           <label htmlFor="sortOrder"></label>
           <select id="sortBy" name="sortBy" value={sortBy} onChange={handleSortByChange}>
             <option value="sim">관련도순</option>
@@ -119,8 +119,8 @@ function Search(props) {
                 </div>
               </div>
               <div className='search-itemDto-right'>
-    <Save onClick={(e) => {e.stopPropagation(); props.handleSave(item)}} 
-						currentUser={props.currentUser} item={item}/>
+    <Save onClick={(e) => {e.stopPropagation(); props.handleSave(item)}}
+                    item={item} />
               </div>
             </div>
           </li>

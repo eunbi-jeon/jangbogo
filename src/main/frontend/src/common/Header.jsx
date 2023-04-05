@@ -121,12 +121,12 @@ class Header extends Component {
                   <div key={category.id} onClick={() => this.handleCategoryClick(category.value)}>{category.value}</div> ))}
             </div>
           </span>
-          <span style={{marginRight:30}}>커뮤니티</span>
-          <span>문의 게시판</span>
+          <span style={{marginRight:30}}><Link to='/board/list'>커뮤니티</Link></span>
           </div>
           { this.props.authenticated ? (
             <span>찜한 상품</span>
           ):(<div></div>)}
+          </div>
         </div>
       </div>
     </header>

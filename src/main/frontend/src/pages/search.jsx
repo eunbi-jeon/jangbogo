@@ -1,13 +1,11 @@
-
 import React, {useState, useEffect} from 'react';
 import '../css/search.css'
 import axios from 'axios';
 import Save from '../components/Save';
+import ZzimItem from '../components/ZzimItem';
 
 
 function numberWithCommas(pNumber) {
-    console.log(pNumber);
-    console.log(pNumber.toString());
     return pNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
@@ -15,7 +13,7 @@ function Search(props) {
   const query = props.query;
   const [items, setItems] = useState([]);
   const [sortBy, setSortBy] = useState('관련도순');
-	
+  const [authenticated, setAutenticated] = useState(false);
   const boldText = (text) => {
     return text.replaceAll(query, `<b>${query}</b>`);
   };
@@ -23,6 +21,7 @@ function Search(props) {
   useEffect(() => {
     async function fetchData(){
       if (query) {
+		 
           try {
             const encodedQuery = encodeURIComponent(query);
        
@@ -74,21 +73,39 @@ function Search(props) {
   } 
   
 
-  const handleSortByChange = (e) => {
-    const selectedValue = e.target.value;
-    switch (selectedValue) {
-      case "관련도순":
-        setSortBy("sim");
-        break;
-      case "최신순":
-        setSortBy("date");
-        break;
-      case "낮은가격순":
-        setSortBy("asc");
-        break;
-      default: break;
+	const handleSortByChange = (e) => {
+	  const selectedValue = e.target.value;
+	  
+	  if (selectedValue === "관련도순") {
+	    setSortBy("sim");
+	  
+	  } else if (selectedValue === "최신순") {
+	    setSortBy("date");
+	  
+	  } else if (selectedValue === "낮은가격순") {
+	    setSortBy("asc");
+	  
+	  }
+	
+    const onClickItem=(item, e)=>{
+      if (!e || !e.target || e.target.nodeName !== "BUTTON") {
+        window.open(item.link, "_blank");
+      }else{
+      e.preventDefault();
     }
-    setSortBy(selectedValue);
+    } 
+    
+    
+    const handleSave = (item) => {
+      if (authenticated) {
+        return <Save item={item} />;
+      } else {
+        const confirmed = window.confirm("로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?");
+        if (confirmed) {
+        props.history.push('/login');
+        }
+      }
+    };
 };
   
 
@@ -97,7 +114,7 @@ function Search(props) {
       <>
       <div className="search-container">
         <div className='sort-box'>
-    
+
           <label htmlFor="sortOrder"></label>
           <select id="sortBy" name="sortBy" value={sortBy} onChange={handleSortByChange}>
             <option value="sim">관련도순</option>
@@ -105,6 +122,7 @@ function Search(props) {
             <option value="date">최신순</option>
           </select>
         </div>
+        <ZzimItem/>
         <ul>    
           {items.slice(0, 30).map(item => (
             <li key={item.link}>
@@ -117,13 +135,11 @@ function Search(props) {
                   <div className='price'>
                     {numberWithCommas(item.lprice)}
                     <span className='unit'>원</span>
-                 
+                    <Save authenticated={authenticated} onClick={(e) => {e.stopPropagation(); handleSave(item)}} item={item} />
+                   
                 </div>
               </div>
-              <div className='search-itemDto-right'>
-    <Save onClick={(e) => {e.stopPropagation(); props.handleSave(item)}} 
-						currentUser={props.currentUser} item={item}/>
-              </div>
+
             </div>
           </li>
         ))}
