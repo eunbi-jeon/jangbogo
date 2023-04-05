@@ -5,6 +5,7 @@ import com.jangbogo.config.security.token.UserPrincipal;
 import com.jangbogo.domain.member.entity.Member;
 import com.jangbogo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -20,7 +22,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        log.info("유저 이메일 {}", email);
 
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() ->
@@ -32,10 +37,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Transactional
     public UserDetails loadUserById(Long id) {
-        Optional<Member> member = memberRepository.findById(id);
-        DefaultAssert.isOptionalPresent(member);
+        Member member = memberRepository.findById(id).orElseThrow(() ->
+                new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
+        );
 
-        return UserPrincipal.create(member.get());
+        return UserPrincipal.create(member);
     }
 
 }

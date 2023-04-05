@@ -5,6 +5,7 @@ import axios from "axios";
 
 import { signup } from '../../util/APIUtils';
 
+
 const regions = [
     { id: 'seoul', value: '서울' },
     { id: 'gyeonggi', value: '경기' },
@@ -44,6 +45,7 @@ const SignUpForm = () => {
     const [code, setcode] = useState('');
     const [checkCode, setcheckCode] = useState('');
 
+
     // 오류 메세지
     const [emailMes, setEmailMes] = useState("")
     const [nameMes, setNameMes] = useState("")
@@ -51,12 +53,14 @@ const SignUpForm = () => {
     const [confirmPasswordMes, setConfirmPasswordMes] = useState("")
     const [codeMes, setCodeMes] = useState("")
 
+
     //유효성 검사
     const [isName, setIsName] = useState(false)
     const [isEmail, setIsEmail] = useState(false)
     const [isPassword, setIsPassword] = useState(false)
     const [isConfirmPassword, setIsConfirmPassword] = useState(false)
     const [isConfirmCode, setIsConfirmCode] = useState(false)
+
 
     const data = {
         email: email,
@@ -141,10 +145,12 @@ const SignUpForm = () => {
 
     const onSubmitHandler = (event) => {
         event.preventDefault(); //리프레시 방지-> 방지해야 이 아래 라인의 코드들 실행 가능
+
         // 비밀번호와 비밀번호 확인 같을때 회원가입 되게 함
         if (password !== checkpw) {
             return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
         }   //여기서 걸리면 아래로 못감
+
         signup(data)
             .then(response => {
                 alert("회원가입에 성공하셨습니다.");
