@@ -1,25 +1,38 @@
 .Container {
+    width: 100vw;
+   display: flex;
+   flex-direction: column;
+   justify-content: center; 
+   align-items: center; 
+
+
+}
+.section1{
     width: 80%;
-    height: 350px;
+    height: 400px;
     margin: 5% 10% 5% 10%;
-    background-color: rgb(249, 248, 243);
+    background-color: rgba(252, 235, 184, 0.245);
+    
     display: flex;
- 
+    justify-content: center;
 }
 .PriceInfoBox {
     width: 100%;
     display: flex;
+    margin-bottom: 2%;
 }
 .itemName {
-    font-size: 15pt;
+    color: ForestGreen  ;
+    font-size: 19pt;
     font-weight: bold;
+    margin: 20% 10% 0 0 ;
 }
 
 .icon_box {
-    width: 300px;
+    width: 400px;
     height: 400px;
     text-align: center;
-    margin: 20% 30% 0 40%;
+    margin: 20% 0 0 35%;
 }
 
 
@@ -32,7 +45,7 @@
     align-items: center;
     border-radius: 50%;
     background-color: white;
-    margin: 5% 10% 10% 25%;
+    margin: 5% 10% 8% 25%;
 
 }
 
@@ -41,17 +54,100 @@
 }
 
 .itemCode{
-    font-size: 25px;
+    font-size: 20px;
     font-weight: bold;
+    margin: 0 10% 0 0;
 }
 
 .info_box {
-    width: 300px; 
+    width: 600px; 
     height: 100%;
-    margin: 2% 0 0 10%;
+    margin: 5% 0 0 10%;
+}
+
+
+
+.unit{
+    font-size: 13px;
+    text-align: right;
+    margin-right: 2%;
 }
 
 .infoDate{
+    text-align: right;
     font-size: 15px;
-    float: right;
+    margin: 0 0 50% 0;
 }
+
+.infoDate > p{
+    color: rgb(117, 117, 117);
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+
+.section2{
+    width: 100%;
+    margin: 3% 5% 3% 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.question{
+    width: 100%;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    
+}
+
+
+.priceInfoCategory{
+    display: flex;
+    justify-content: space-between;
+}
+
+.priceInfoCategory > ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+  
+  .priceInfoCategory > ul > li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 60px;
+    margin-bottom: 20px;
+
+  }
+  .priceInfoCategory li:last-child {
+    margin-right: 0;
+  }
+  
+  .iconIMG > img {
+    width: 80%;
+    padding: 10%;
+  }
+  
+  .iconIMG{
+    background-color: aliceblue;
+    border-radius: 5%;
+    width: 130px;
+    height: 130px;
+    display: flex;
+    justify-content: center;
+  }
+
+
+
+
+
+
+
+  
