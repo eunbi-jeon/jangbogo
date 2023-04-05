@@ -133,7 +133,6 @@ const SignUpForm = () => {
     const onChangeCode = (e) => {
         const checkCode = e.target.value;
         setcheckCode(checkCode);
-        console.log(code)
 
         if (checkCode===code) {
             setCodeMes("");
@@ -152,7 +151,6 @@ const SignUpForm = () => {
             return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
         }   //여기서 걸리면 아래로 못감
 
-        console.log(data);
         signup(data)
             .then(response => {
                 alert("회원가입에 성공하셨습니다.");

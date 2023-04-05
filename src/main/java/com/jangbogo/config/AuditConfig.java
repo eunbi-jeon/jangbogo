@@ -18,5 +18,4 @@ public class AuditConfig {
         localeResolver.setDefaultLocale(Locale.KOREA);
         return localeResolver;
     }
-
 }

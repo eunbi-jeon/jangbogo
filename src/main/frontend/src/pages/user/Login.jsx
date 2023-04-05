@@ -115,7 +115,7 @@ class LoginForm extends Component {
                 </div>
                 <div style={{fontSize:14}}>아직 회원이 아니신가요?</div>
                 <button className='signup-btn'><Link to='/signup'>간편 회원가입하기</Link></button>
-                <span style={{fontSize:14, marginLeft:10}}><Link to='/password/find'>비밀번호 재설정</Link></span>
+                <span style={{fontSize:14, marginLeft:10}}><Link to='/password/find'><b>비밀번호 재설정</b></Link></span>
             </div>
         </div>
     )
