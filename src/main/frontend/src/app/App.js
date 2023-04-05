@@ -8,6 +8,8 @@ import Signup from '../pages/user/Signup';
 import Login from '../pages/user/Login';
 import Mypage from '../pages/user/Mypage';
 import ProfileModify from '../pages/user/ProfileModify';
+import FindPassword from '../pages/user/FindPassword';
+
 
 import Search from '../pages/Search';
 import SaveList from '../components/List';
@@ -97,7 +99,7 @@ class App extends Component {
               <Route path="/save/:productId" 
               			render={(props)=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
               <Route path="/aa" component={SaveList}></Route>
-
+              <Route path="/password/find" component={FindPassword}></Route>
               <Route component={NotFound}></Route>
             </Switch>
           </div>  
