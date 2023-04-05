@@ -8,6 +8,7 @@ import Signup from '../pages/user/Signup';
 import Login from '../pages/user/Login';
 import Mypage from '../pages/user/Mypage';
 import ProfileModify from '../pages/user/ProfileModify';
+import FindPassword from '../pages/user/FindPassword';
 
 import Search from '../pages/Search';
 import ZzimItem from '../components/ZzimItem'
@@ -21,6 +22,8 @@ import LoadingIndicator from '../common/LoadingIndicator';
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants';
 import PrivateRoute from '../common/PrivateRouter';
+
+import '../css/root.css'
 
 
 class App extends Component {
@@ -98,8 +101,7 @@ class App extends Component {
               			render={(props)=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></PrivateRoute>
               <Route path="/aa" 
               			render={(props)=><ZzimItem authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
- 
-
+              <Route path="/password/find" component={FindPassword}></Route>
               <Route component={NotFound}></Route>
             </Switch>
           </div>  
