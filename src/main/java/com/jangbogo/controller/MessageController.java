@@ -47,6 +47,10 @@ public class MessageController {
         Member member = memberRepository.findById(userPrincipal.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
         );
+    	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getEmail());
+    	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getName());
+    	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getUsername());
+    	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getPassword());
         return Response.success(messageService.receiveMessages(member));
     }
 

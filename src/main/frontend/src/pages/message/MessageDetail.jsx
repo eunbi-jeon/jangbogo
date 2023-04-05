@@ -1,53 +1,56 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {useParams} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 class MessageDetail extends Component {
         constructor(props) {
             super(props);
 
             this.state = {
-              message : []
+              message : {}
             };
         }
 
-        MessageDetail() {
+        componentDidMount() {   //MessageList Link 컴포넌트 경로에서 ID값을 추출하기 위해
             const {id} = this.props.match.params;
             const accessToken = localStorage.getItem("accessToken");
 
             axios
-                .get(`/api/messages/receiver/{id}`, {
+                .get(`/api/messages/receiver/${id}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
                 })
                 .then(res => {
-                    this.setMessage({ message : [res.data.result.data]});
+                    this.setState({ message : res.data.result.data});
                     console.log(res.data.result.data);
                 })
                 .catch(err => {
                     console.log(err);
                 });
               }
-
-    // return (
-    //     <div>
-    //     {this.data.map((message) => (
-    //         <{message.id}
-        
-    //         <h2>{message.sender}</h2>
-    //         <p></p>
-    //         <div >
-    //             <strong>Content:</strong>
-    //             {message.content}<br/>
-    //             <strong>Sender:</strong>
-    //             {message.sender}<br/> {message.createBy}<br/>
-    //         </div>
-    //     ))
-    //     </div>
-    //     }
-    // );
-        
+              render() {
+                const { message } = this.state;
+                return (
+                  <div>
+                    {/* Object.keys(message).length가 0보다 큰 경우(즉, message 객체가 비어있지 않은 경우)에는 message 객체의 내용을 출력*/}
+                    {Object.keys(message).length > 0 ? (
+                      <div key={message.id}>
+                        <h4>{message.sender}</h4>
+                        <p></p>
+                        <div>
+                          <div> Content: {message.content}</div><br/>
+                          <div> Sender: {message.sender}</div><br/> 
+                          <div>{message.createBy}</div><br/>
+                        </div>
+                      </div>
+                    ) : (
+                        //  그렇지 않은 경우에는 "데이터를 불러오는 중입니다."라는 문구를 출력 
+                      <div>데이터를 불러오는 중입니다.</div>
+                    )}
+                  </div>
+                );
+              }
 }
 
-export default MessageDetail;
+export default withRouter(MessageDetail);

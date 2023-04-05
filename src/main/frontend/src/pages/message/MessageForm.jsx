@@ -30,8 +30,11 @@ function MessageForm() {
   };
 
   return (
+    
     <form onSubmit={handleSubmit}>
       <div>
+        <h1>쪽지보내기</h1>
+        <hr/>
         <label htmlFor="title">Title:</label>
         <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
       </div>

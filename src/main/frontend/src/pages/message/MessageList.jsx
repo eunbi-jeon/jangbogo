@@ -1,46 +1,59 @@
-//list
-import React, { useState, useEffect } from "react";
+import React, { Component } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
-function MessageList(props) {
-  const [messages, setMessages] = useState([]);
+class MessageList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      messages: []
+    };
+  }
+  componentDidMount() {
+    const accessToken = localStorage.getItem("accessToken");
 
-  const accessToken = localStorage.getItem("accessToken");
-  const config = {
-    headers: { Authorization: `Bearer ${accessToken}` }
-  };  
-
-  useEffect(() => {
-    // H2 database에서 쪽지 내용을 가져오는 API endpoint
     axios
-      .get("/api/messages/receiver", config)
+      .get("/api/messages/receiver", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
       .then((res) => {
-        // 가져온 쪽지 내용을 state에 저장
-        console.log(res.data.result.data);
-        setMessages(res.data.result.data);
-        console.log(messages);
+        console.log("콘솔 data 출력" + res.data);
+        this.setState({ messages: res.data.result.data });
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
-  
+  }
 
-  return (
-    <div>
-      <h1>쪽지 리스트</h1>
-      
-      <ul>
-        {messages.map((message) => (
-          <li key={message.id}>
-            <h2>{message.title}</h2>
-            <p>보낸 사람: {message.sender}</p>
-            <p>{message.content}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  handlePostClick = (id) => {
+    console.log("메세지 ID : ", id);
+  };
+
+  render() {
+    const { messages } = this.state;
+    return (
+      <div className="listWrap">
+        <h1>쪽지 리스트</h1>
+        <hr />
+        <ul>
+          {messages.map((message) => (
+            <li
+              style={{ border: "1px solid tomato", borderRadius: "5px" }}
+              key={message.id}
+            >
+              <Link to={`/messages/postbox/${message.id}`}>
+                <h2 className="listTitle">{message.title}</h2>
+                <h3 className="listSender">보낸 사람: {message.senderName}</h3>
+                <h5>{message.createat}</h5>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 }
 
 export default MessageList;
