@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.jangbogo.domain.common.BaseTimeEntity;
 import com.jangbogo.domain.member.entity.Member;
 
@@ -43,7 +45,7 @@ public class Question extends BaseTimeEntity{
     
 //    private int readCount;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "board_id")
     private Board board;
     
@@ -54,6 +56,7 @@ public class Question extends BaseTimeEntity{
     Set<Member> voter;
     
 	@OneToMany (mappedBy = "question", cascade = CascadeType.REMOVE)
+	@JsonIgnore
 	private List<Answer> answerList; 
 	
 	// 신고

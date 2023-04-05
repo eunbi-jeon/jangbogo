@@ -38,7 +38,7 @@ class Header extends Component {
                 <div className="menu-wrap">
                     <span className="category">전체 카테고리</span>
                     <div className="menu-right">
-                        <span><Link to='/board'>우리지역</Link></span>
+                        <span><Link to='/board/list'>우리지역</Link></span>
                         <span>문의 게시판</span>
                     </div>
                 </div>

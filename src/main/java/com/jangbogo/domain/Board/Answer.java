@@ -17,6 +17,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jangbogo.domain.common.BaseTimeEntity;
 import com.jangbogo.domain.member.entity.Member;
 

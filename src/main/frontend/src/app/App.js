@@ -10,6 +10,7 @@ import Mypage from '../pages/user/Mypage';
 import ProfileModify from '../pages/user/ProfileModify';
 import BoardList from '../pages/BoardList';
 import BoardDetail from '../pages/BoardDetail';
+import BoardCreate from '../pages/BoardCreate';
 
 
 import OAuth2RedirectHandler from '../pages/user/OAuth2RedirectHandler';
@@ -87,7 +88,9 @@ class App extends Component {
             <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
             <PrivateRoute path="/board/list" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
               component={BoardList}></PrivateRoute>
-            <PrivateRoute path="/board/detail{id}" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+            <PrivateRoute path="/board/create" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+              component={BoardCreate}></PrivateRoute>
+            <PrivateRoute path="/board/detail/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
               component={BoardDetail}></PrivateRoute>
             <Route component={NotFound}></Route>
           </Switch>

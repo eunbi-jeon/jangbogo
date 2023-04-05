@@ -32,7 +32,7 @@ public class AnswerController {
 	private final QuestionService questionService;
 	private final AnswerService answerService; 
 	private final MemberService memberService;
-
+    //답변생성
 	@PostMapping("/answer/create/{id}")
 	public String answerCreate(Model model, @PathVariable("id") Long id, @Valid
  			AnswerDto answerDto, BindingResult bindingResult, Principal principal,
