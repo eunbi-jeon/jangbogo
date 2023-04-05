@@ -107,21 +107,19 @@ class App extends Component {
               <PrivateRoute path="/board/detail/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
                 component={BoardDetail}></PrivateRoute>
               <Route component={NotFound}></Route>
-              <Route path="/search" 
-                      render={(props) => <Search query={this.state.query} authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
-                <PrivateRoute path="/save" 
-                      render={(props)=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></PrivateRoute>
-                <Route path="/aa" 
-                      render={(props)=><ZzimItem authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
-                <Route path="/password/find" component={FindPassword}></Route>
-                <Route component={NotFound}></Route>
-              </Switch>
+              <Route path="/search" render={() => <Search query={this.state.query} authenticated={this.state.authenticated} currentUser={this.state.currentUser} />} />
+              <PrivateRoute path="/save" 
+                      component={()=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></PrivateRoute>
+              <Route path="/myfav" 
+                      component={()=><ZzimItem authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
+              <Route path="/password/find" component={FindPassword}></Route>
+            </Switch>
           </div>
           <div className="app-bottom-box">
             <Footer />
-          </div>  
-        </div>
-               
+          </div>
+            </BrowserRouter>
+        </div>      
       );
     }
   }

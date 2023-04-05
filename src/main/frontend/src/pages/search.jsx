@@ -10,6 +10,9 @@ function numberWithCommas(pNumber) {
 }
 
 function Search(props) {
+
+  console.log(props.query);
+
   const query = props.query;
   const [items, setItems] = useState([]);
   const [sortBy, setSortBy] = useState('관련도순');
@@ -108,8 +111,6 @@ function Search(props) {
     };
 };
   
-
-
     return (
       <>
       <div className="search-container">
@@ -136,7 +137,6 @@ function Search(props) {
                     {numberWithCommas(item.lprice)}
                     <span className='unit'>원</span>
                     <Save authenticated={authenticated} onClick={(e) => {e.stopPropagation(); handleSave(item)}} item={item} />
-                   
                 </div>
               </div>
 

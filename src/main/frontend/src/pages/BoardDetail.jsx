@@ -40,6 +40,8 @@ class BoardDetail extends Component {
         // 답변 작성 후, 답변 목록을 다시 불러오는 코드를 추가하세요.
         // this.loadAnswers();
         this.setState({ answerContent: "" }); // 답변 작성란 초기화
+        window.location.href = `/board/detail/${id}`;
+
       })
       .catch((error) => {
         console.error(error);
@@ -59,7 +61,6 @@ class BoardDetail extends Component {
       .then((res) => {
         if (res.data.content != null) {
           this.setState({ question: [res.data] }, () => {
-            console.log("asdasds");
             console.log(this.state.question); 
           });
           this.setState({ answer: [res.data.answerList] }, () => {
@@ -92,7 +93,7 @@ class BoardDetail extends Component {
   render() {
 
     return (
-      <div>
+      <div className="board-detail-wrap">
         {/* 내용 */}
         {this.state.question.map((board) => (
           <table className="detailTable" key={board.id}>
@@ -100,7 +101,6 @@ class BoardDetail extends Component {
             <tr><td className='detailSubject' colSpan={3}>{board.subject}</td></tr>
             <tr><td colSpan={3}><hr className='hrLine'></hr></td></tr>
             <tr><td className='detailNickName'><span>{board.name.name}</span>
-                 <span className='wall'>/</span>
                  <span className='detailCreateAt'>{new Date(board.createAt).toLocaleDateString()}</span> </td>
                  <td className='detailReadCount'>조회수</td>
                  <td className='detailBestCount'>추천수</td></tr>
@@ -111,30 +111,31 @@ class BoardDetail extends Component {
             </table>
         ))}
               <div className='best'>
-                <div>추천수</div><div><img src={this.state.isClicked ? bestBtn2 : bestBtn1} className='bestBtn' onClick={this.handleClick} /> </div>
+                <div style={{marginBottom:10}}>추천하기</div><div><img src={this.state.isClicked ? bestBtn2 : bestBtn1} className='bestBtn' onClick={this.handleClick} /> </div>
               </div>
-              <hr className='hrLine'></hr>
               {this.state.answer.map((ans) => (
-  <div>
-    <table className='replyBox'>
-      {ans.map((reply) => (
-        <tr key={reply.id}>
-          <td className='replyNickName'></td>
-          <td className='replyContent'>{reply.content}<span className='replyCreateAt'>{new Date(reply.createAt).toLocaleDateString()}</span></td>
-          <td className='modifyBtn'>수정</td>
-          <td className='deleteBtn'>삭제</td>
-        </tr>
-      ))}
-    </table>
-    <hr className='hrLine2'></hr>
-  </div>
+          <div>
+            <table className='replyBox'>
+              {ans.map((reply) => (
+                <tr key={reply.id}>
+                  <td className='replyNickName'></td>
+                  <td className='replyContent'>{reply.content}<span className='replyCreateAt'>{new Date(reply.createAt).toLocaleDateString()}</span></td>
+                  <td className='modifyBtn'>수정</td>
+                  <td className='deleteBtn'>삭제</td>
+                </tr>
               ))}
+            </table>
+            <hr className='hrLine2'></hr>
+          </div>
+              ))}
+              <div className="answer-wrap">
         <textarea
+          className="answer-text"
           onChange={this.handleTextareaChange}
           value={this.state.answerContent}
         ></textarea>
-        <button onClick={this.handleSubmitAnswer}>답변 달기</button>
-
+        <button className="answer-btn" onClick={this.handleSubmitAnswer}>답변 달기</button>
+        </div>
             </div>
             )
             }

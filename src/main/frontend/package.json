@@ -25,7 +25,7 @@
     "recharts": "^2.5.0",
     "redux": "^4.2.1",
     "redux-action": "^1.2.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4"  
   },
   "scripts": {
     "start": "react-scripts start",
@@ -48,6 +48,7 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
+    ],
+    "proxy": "ttps://openapi.naver.com"
   }
 }
