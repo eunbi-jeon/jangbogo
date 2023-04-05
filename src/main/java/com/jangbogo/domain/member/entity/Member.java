@@ -67,11 +67,6 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    
-    @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Product> productList = new ArrayList<>();
-
    
     public Member(String email, String password, String name, Role role, Provider provider, String region, String age, String providerId, String imageUrl) {
         this.email = email;

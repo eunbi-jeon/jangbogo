@@ -1,6 +1,6 @@
 
 import React, {useState, useEffect} from 'react';
-import '../css/search.css'
+import '../css/savelist.css'
 import axios from 'axios';
 import Save from '../components/Save';
 

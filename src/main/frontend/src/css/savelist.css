@@ -1,24 +1,54 @@
 
-.save-item{
+*{
+  word-break: keep-all;
+}
+.savelist-top{
+  display: flex;
+  justify-content: space-between;
+  margin: 2% 5% 0 5%;
+  padding-top: 100px;
+}
+.countItem{
+  font-size: 40px;
+}
+.listline{
+  width:90%;
+  margin:0 auto;
+  padding: 10px;
+  border-bottom:3px solid black;
+}
+ul{display: flex;
+  flex-wrap: wrap;
+  margin:0 auto;}
+li{
+  list-style-type: none;
+}
+.search-item{
   margin:20px;
-  width: 600px;
+  width: 260px;
   display:flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content:flex-start;
-  padding-bottom: 10px;
+  border:1px solid gainsboro;
+  border-radius: 8px;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+  padding: 10px;
   border-bottom: 1px solid gainsboro;
 }
-.save-item-left{
-  padding-right:20px;
+.search-item-left{
+  width:250px;
+  display: flex;
+  align-items: flex-start;
+
 }
-.save-item-left img{
-  width:70px;
-  height: 70px;
+.search-item-left img{
+  width:150px;
+  height: 150px;
   border-radius: 5px;
+  padding:20px;
 }
-.save-item-center {
-  width:700px;
+.search-item-info {
+  width:250px;
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -28,10 +58,19 @@
   justify-content: space-around;
   cursor: pointer;
 }
-
-.save-item-center div.price {
+.mallName{
+  color:#ED712E;
+  font-weight: bold;
+}
+.title{
+  height: 45px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+.price {
   height: 30px;
-  font-size: 27px;
+  font-size: 30px;
   font-weight: 600;
   font-stretch: normal;
   font-style: normal;
@@ -54,9 +93,8 @@
   color: #000000;
 }
 
-.delete-img{
-  width: 30px;
-  height:30px;
+.deletebtn{
+
   cursor: pointer;
 }
 .save-item-right {

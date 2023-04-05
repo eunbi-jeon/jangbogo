@@ -1,7 +1,5 @@
 package com.jangbogo.dto;
 
-import com.jangbogo.domain.Product;
-import com.jangbogo.domain.member.entity.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,15 +14,14 @@ import lombok.ToString;
 @ToString
 @Builder
 public class ProductRequestDto {
-
-	private String productId;
-    private String title;
-    private String link;
-    private String image;
-    private String mallName;
-    private Integer lprice;
-  
-
+	
+			private String productId;
+		    private String title;
+		    private String link;
+		    private String image;
+		    private String mallName;
+		    private Integer lprice;
+		  
 
 	
 }

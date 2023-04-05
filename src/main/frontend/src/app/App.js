@@ -11,7 +11,7 @@ import ProfileModify from '../pages/users/ProfileModify';
 import Search from '../pages/Search'
 import SaveList from '../components/List';
 import Save from '../components/Save';
-
+import savesub from '../components/savesub';
 import OAuth2RedirectHandler from '../pages/users/OAuth2RedirectHandler';
 import NotFound from '../common/NotFound';
 import LoadingIndicator from '../common/LoadingIndicator';
@@ -90,9 +90,9 @@ class App extends Component {
                 render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
               <Route path="/search" 
-              			render={(props) => <Search query={this.state.query} authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
+              			render={() => <Search query={this.state.query} authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
               <PrivateRoute path="/save" 
-              			render={(props)=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></PrivateRoute>
+              			render={(props)=><Save currentUser={this.state.currentUser}/>}></PrivateRoute>
               <Route path="/aa" component={SaveList}></Route>
 
               <Route component={NotFound}></Route>

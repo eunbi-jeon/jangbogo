@@ -44,31 +44,36 @@ public class Product extends BaseTimeEntity{
 	private Integer lprice;
 	
 	private String mallName;
+		
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "favListId")
+	private FavList favList;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade =CascadeType.PERSIST)
-	@JoinColumn(name = "name")
-	private Member user;
-	
-
-	private Integer count=0;
+	private Integer count;
 	
 
 	@Builder
-	public Product (String productId, String title, String image, String link, Integer lprice, String mallName, Member user) {
+	public Product (String productId, String title, String image, String link, Integer lprice, String mallName, FavList favList) {
 		this.productId = productId;
 		this.title = title;
 		this.image = image;
 		this.link = link;
 		this.lprice = lprice;
 		this.mallName = mallName;
-		this.user = user;
-        if(!user.getProductList().contains(this))
-            user.getProductList().add(this);
+		this.favList=favList;
+		
+		if (!favList.getProducts().contains(this))
+			favList.getProducts().add(this);
     }
 
 	public void addCount(Integer count) {
 		this.count +=count;
 	}
+	
+    public void updateCount(Integer count){
+        this.count = count;
+    }
+
 
 
 
