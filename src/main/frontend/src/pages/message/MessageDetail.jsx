@@ -1,52 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import "../../css/messageform.css";
+import {useParams} from 'react-router-dom';
 
-function MessageDetail() {
-  const { id } = useParams();
-  const [message, setMessage] = useState({});
+class MessageDetail extends Component {
+        constructor(props) {
+            super(props);
 
-  useEffect(() => {
-    axios.get(`/api/messages/receiver/{id}`)
-      .then(res => {
-        setMessage(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, [id]);
+            this.state = {
+              message : []
+            };
+        }
 
-  const modal = document.querySelector('.modal');
-  const openBtn = document.querySelector('.open-btn');
-  const closeBtn = document.querySelector('.close-btn');
-  
-  openBtn.addEventListener('click', () => {
-    modal.classList.add('show');
-  });
-  
-  closeBtn.addEventListener('click', () => {
-    modal.classList.remove('show');
-  });
+        MessageDetail() {
+            const {id} = this.props.match.params;
+            const accessToken = localStorage.getItem("accessToken");
 
-  return (
+            axios
+                .get(`/api/messages/receiver/{id}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })
+                .then(res => {
+                    this.setMessage({ message : [res.data.result.data]});
+                    console.log(res.data.result.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+              }
 
-<div>
-  <div class="modal">
-    <h2>받은 쪽지</h2>
-      <form>
-          <label for="message"></label>
-          <span id="content">{message.content}</span>
-          <span id="sender" name="sender">{message.sender}</span>
-          <span id="createAt" name="createAt">{message.createBy}</span>
-      </form>
-    <button class="close-btn">닫기</button>
-    <button class="delete-btn">삭제</button>
-  </div>
-
-  <p class="open-btn">쪽지</p>
-</div>
-);
+    // return (
+    //     <div>
+    //     {this.data.map((message) => (
+    //         <{message.id}
+        
+    //         <h2>{message.sender}</h2>
+    //         <p></p>
+    //         <div >
+    //             <strong>Content:</strong>
+    //             {message.content}<br/>
+    //             <strong>Sender:</strong>
+    //             {message.sender}<br/> {message.createBy}<br/>
+    //         </div>
+    //     ))
+    //     </div>
+    //     }
+    // );
+        
 }
 
 export default MessageDetail;

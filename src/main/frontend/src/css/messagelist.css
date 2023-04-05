@@ -1,0 +1,15 @@
+.list{
+    width: 200px;
+    border: 1px solid lightgoldenrodyellow;
+    border-radius:5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.wrap{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}

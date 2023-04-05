@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '2.7.10'
+	id 'org.springframework.boot' version '2.7.9'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
@@ -8,40 +8,21 @@ group = 'com'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
-
 repositories {
 	mavenCentral()
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
+	//lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	
 	//JPA 라이브러리
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	
-	//validation javax : spring boot 2.3 이상에서 사용 설정
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.4'
-	
-	//h2 DB
-	runtimeOnly 'com.h2database:h2'
-	
-	implementation 'org.json:json:20200518'
-	
-
-	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.6.3'
-	
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    
 
 	//스프링 시큐리티
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
@@ -63,12 +44,35 @@ dependencies {
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.4'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-security', version: '1.6.4'
 	testImplementation group: 'org.springdoc', name: 'springdoc-openapi-webmvc-core', version: '1.6.4'
+	
+	//validation javax : spring boot 2.3 이상에서 사용 설정
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.4'
+	
+	//h2 DB
+	runtimeOnly 'com.h2database:h2'
 
 	//stmt 이메일 전송 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 	//타임리프 - 메일 템플릿 사용
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	// Apache HttpComponents HttpClient사용을 위한 HttpComponents dependency 추가
+	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+
+	// Jackson 라이브러리 추가
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
+
+	// gson
+	implementation 'com.google.code.gson:gson:2.8.7'
+
+	// json
+	implementation 'org.json:json:20210307'
+
+
+	//aop
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
 }
 
 tasks.named('test') {

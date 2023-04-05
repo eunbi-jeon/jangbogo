@@ -45,7 +45,11 @@ public class MessageService {
 
     @Transactional(readOnly = true)
     public List<MessageDto> receiveMessages(Member member) {
-        List<DirectMessage> messageList = messageRepository.findAllByReceiverAndDeletedByReceiverFalseOrderByIdDesc(member);
+    	Long id = 1L;
+    	Member member1 = memberRepository.findById(id).orElse(null);
+        List<DirectMessage> messageList = messageRepository.findAllByReceiverAndDeletedByReceiverFalseOrderByIdDesc(member1);
+        
+        System.out.println("메세지 리스트 출력 "+messageList.size());
         return messageList.stream()
                 .map(message -> MessageDto.toDto(message))
                 .collect(Collectors.toList());
