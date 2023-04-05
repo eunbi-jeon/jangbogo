@@ -50,6 +50,7 @@ class Header extends Component {
 
   // 검색 관련 요청 끝
 
+  //드롭다운 메뉴 배열
   categorymenu = [
     { id: 'fruit', value: '과일' },
     { id: 'vegetables', value: '채소' },
@@ -59,6 +60,17 @@ class Header extends Component {
     { id: 'eggs/dairy', value: '계란/유제품' },
     { id: 'snack', value: '과자/간식' },
   ];
+
+  //드롭다운 메뉴 클릭시 검색 요청
+  handleCategoryClick = (category) => {
+    this.setState({query: category}, () => {
+      const { onSearch } = this.props;
+      if (typeof onSearch === 'function') { 
+        onSearch(category);  
+      }
+      this.props.history.push(`/search?query=${category}`);
+    });
+  }
 
   render(){
   return (
@@ -107,7 +119,7 @@ class Header extends Component {
           </span>
           <div className='dropdown-menu'>
               {this.categorymenu.map((category) => (
-                  <div key={category.id} >{category.value}</div> ))}
+                  <div key={category.id} onClick={() => this.handleCategoryClick(category.value)}>{category.value}</div> ))}
             </div>
           </div>
           <span style={{marginRight:30}}>커뮤니티</span>

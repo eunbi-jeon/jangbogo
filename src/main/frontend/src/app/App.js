@@ -10,7 +10,6 @@ import Mypage from '../pages/user/Mypage';
 import ProfileModify from '../pages/user/ProfileModify';
 import FindPassword from '../pages/user/FindPassword';
 
-
 import Search from '../pages/Search';
 import SaveList from '../components/List';
 import Save from '../components/Save';
@@ -23,6 +22,8 @@ import LoadingIndicator from '../common/LoadingIndicator';
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants';
 import PrivateRoute from '../common/PrivateRouter';
+
+import '../css/root.css'
 
 
 class App extends Component {
