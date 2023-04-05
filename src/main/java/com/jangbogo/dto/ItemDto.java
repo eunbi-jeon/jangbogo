@@ -29,11 +29,10 @@ public class ItemDto {
     
     public ItemDto(JSONObject itemJson) {
     	this.productId=itemJson.getString("productId");
-
     	this.title = itemJson.getString("title");
     	this.link = itemJson.getString("link");
         this.image = itemJson.getString("image");
-
+        this.lprice = itemJson.getInt("lprice");
         this.mallName = itemJson.getString("mallName");
         this.category1=itemJson.getString("category1");
         this.category2=itemJson.getString("category2");
