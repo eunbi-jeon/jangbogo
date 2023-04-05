@@ -1,5 +1,6 @@
 package com.jangbogo.dto;
 
+
 import com.jangbogo.domain.Product;
 import com.jangbogo.domain.member.entity.Member;
 
@@ -27,4 +28,18 @@ public class ProductRequestDto {
 
 
 	
+<<<<<<< HEAD
+=======
+				product.getProductId(),
+				product.getTitle(),
+		    	product.getLink(),
+		    	product.getImage(),
+		    	product.getMallName(),
+		    	product.getLprice(),
+		    	product.getUser().getName()
+		   
+	    	);
+	}
+
+>>>>>>> 66ef775d76714e9a80c91047f09a43d4296be784
 }

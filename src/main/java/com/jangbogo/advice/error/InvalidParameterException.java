@@ -1,6 +1,6 @@
 package com.jangbogo.advice.error;
 
-//import com.jangbogo.advice.error.DefaultException;
+import com.jangbogo.advice.error.DefaultException;
 import com.jangbogo.advice.payload.ErrorCode;
 
 import lombok.Getter;

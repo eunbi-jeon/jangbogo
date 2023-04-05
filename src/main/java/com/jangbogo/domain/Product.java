@@ -1,5 +1,6 @@
 package com.jangbogo.domain;
 
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,7 @@ import com.jangbogo.dto.ProductRequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,7 +35,12 @@ public class Product extends BaseTimeEntity{
 	private Long id;
 	
 	private String productId;
+<<<<<<< HEAD
 	
+=======
+
+	@Column(nullable = false)
+>>>>>>> 66ef775d76714e9a80c91047f09a43d4296be784
 	private String title;
 
 
@@ -42,6 +49,31 @@ public class Product extends BaseTimeEntity{
 	private String link;
 
 	private Integer lprice;
+//<<<<<<< HEAD
+//
+//	@Column(nullable = false)
+//	private Integer myprice;
+//	
+//	//관심 상품
+//	public Product(ProductRequestDto requestDto) {
+//		this.title = requestDto.getTitle();
+//		this.image = requestDto.getImage();
+//		this.link = requestDto.getLink();
+//		this.lprice = requestDto.getLprice();
+//		this.myprice = 0 ;
+//		
+//	}
+//	
+//	//관심 가격 업데이트
+//	public void update(ProductMypriceRequestDto requestDto) {
+//		this.myprice = requestDto.getMyprice();
+//	}
+//	
+//	//예약시간 가격 업데이트
+//	public void updateByItemDto(ItemDto itemDto) {
+//		this.lprice = itemDto.getLprice();
+//	}
+//=======
 	
 	private String mallName;
 	

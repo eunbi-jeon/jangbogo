@@ -83,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**", "/api/**")
                 .permitAll()
-                .antMatchers("/login/**","/auth/**", "/oauth2/**")
+                .antMatchers("/login/**","/auth/**", "/oauth2/**", "/api/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -105,5 +105,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
 
         http.addFilterBefore(customOncePerRequestFilter(), UsernamePasswordAuthenticationFilter.class);
-    } 
+    }
 }
