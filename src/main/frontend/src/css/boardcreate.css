@@ -1,6 +1,46 @@
 .createWrap{
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+    width: 600px;
+    margin: 0 auto;
+    padding: 50px 100px;
+    margin-top: 30px;
 }
+
+.board-create-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.board-create-form > input, textarea {
+    border: none;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+}
+
+.board-create-form > input {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.board-create-form > textarea {
+    background-color: rgb(241, 241, 241);
+    height: 300px;
+    border-radius: 10px;
+    padding: 30px;
+    font-size: 16px;
+    line-height: 30px;
+}
+
+.board-btn {
+    margin-top: 30px;
+    font-size: 16px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: tomato;
+    color: white;
+    font-weight: bold;
+}
+
+

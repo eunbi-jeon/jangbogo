@@ -2,6 +2,7 @@
     margin: 0 auto;
     padding: 50px 50px 30px 50px;
     position: relative;
+    width: 1000px;
 }
 
 .profile-avatar {
@@ -10,6 +11,7 @@
     border-radius: 100%;
     overflow: hidden;
     margin:0 auto;
+    background-color: gainsboro;
 }
 
 .profile-img {
@@ -31,6 +33,7 @@
     position: absolute;
     right: 50px;
     top: 50px;
+    border-radius: 10px;
 }
 
 .profile-info-etc {
@@ -66,6 +69,7 @@ li {
     font-weight: bold;
     width: 100px;
     height: 30px;
+    border-radius: 10px;
 }
 
 .fav-box{
@@ -85,10 +89,11 @@ li {
 }
 
 .img-form-btn {
-    width: 100px;
     margin: 10px;
+    padding: 10px;
     background-color: tomato;
     color: white;
+    border-radius: 10px;
 }
 
 .img-form-box {

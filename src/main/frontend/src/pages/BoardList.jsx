@@ -42,9 +42,7 @@ class BoardList extends Component {
         return (
             <div>
                 <div className="boardWrap">
-                    <h1>게시판</h1>
                     <span className="hrLine1">
-                        <hr></hr>
                     </span>
                     <table className="boardList">
                         <thead>
@@ -72,17 +70,14 @@ class BoardList extends Component {
                                         <td className="bestCount">{question.voter}</td>
                                         <td className="readCount">{question.readCount}</td>
                                     </tr>
-                                    <tr><td colSpan={4}><span className="hrLine3"><hr></hr></span></td></tr>
+                                    <tr><td colSpan={4}><div className="hrLine3"></div></td></tr>
                                     </>
                                 ))}
                                 
                         </tbody>
                     </table>
-                    <span className="hrLine1">
-                        <hr></hr>
-                    </span>
                     <button className="boardCreate">
-                        <Link to="/board/create">글 쓰기</Link>
+                        <Link to="/board/create" style={{color:'white'}}>글 쓰기</Link>
                     </button>
                 </div>
             </div>

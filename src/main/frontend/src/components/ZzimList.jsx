@@ -2,50 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../css/savelist.css";
 
-const [zzim, setZzim] = useState([]);
-
-// 찜 리스트 추가
-const addToZzim = useCallback((product) => {
-  setZzim((zzim) => {
-    // 중복체크
-    const finded = zzim.find((product) => product.id === item.id);
-    const { link, id, productId, title, image, lprice, mallName} = item;
-
-
-    if (finded === undefined) {
-      // 새로 데이터를 return
-      return [...zzim, { link, id, productId, title, image, lprice, mallName, count: 1 }];     }
-  
-    else {
-      return zzim.map((product) => {
-        if (product.id === id) {
-          return {
-            link, id, productId, title, image, lprice, mallName,
-            count: product.count + 1,
-          };
-        } else {
-          return product;
-        }
-      });
-    }
-  });
-}, []);
-
-
-// product 제거
-const removeItem = useCallback((id) => {
-  setZzim((zzim) => {
-    return zzim.filter((product) => product.id !== id);
-  });
-}, []);
-
-// product 전체 제거
-const removeAll = useCallback(() => {
-  setZzim([]);
-}, []);
-
-
 function SaveList({link, id, productId, title, image, lprice, mallName, removeItem}){
+
+  const [zzim, setZzim] = useState([]);
 
 	const numberWithCommas = (price)=> {
 	    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -75,6 +34,48 @@ function SaveList({link, id, productId, title, image, lprice, mallName, removeIt
       aleart('상품 삭제 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
     }
   };
+
+  // 찜 리스트 추가
+const addToZzim = useCallback((product) => {
+  setZzim((zzim) => {
+    // 중복체크
+    const finded = zzim.find((product) => product.id === item.id);
+    const { link, id, productId, title, image, lprice, mallName} = item;
+
+
+    if (finded === undefined) {
+      // 새로 데이터를 return
+      return [...zzim, { link, id, productId, title, image, lprice, mallName, count: 1 }];     }
+  
+    else {
+      return zzim.map((product) => {
+        if (product.id === id) {
+          return {
+            link, id, productId, title, image, lprice, mallName,
+            count: product.count + 1,
+          };
+        } else {
+          return product;
+        }
+      });
+    }
+  });
+}, []);
+
+  // product 제거
+  // 중복 오류나서 함수이름 변경 removeItem -> removeZzimItem
+  const removeZzimItem = useCallback((id) => {
+    setZzim((zzim) => {
+      return zzim.filter((product) => product.id !== id);
+    });
+  }, []);
+
+  // product 전체 제거
+  const removeAll = useCallback(() => {
+    setZzim([]);
+  }, []);
+
+
   return (
     <>
     

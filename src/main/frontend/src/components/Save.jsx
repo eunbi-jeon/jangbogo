@@ -7,6 +7,15 @@ function Save(props) {
   const item = props.item;
   const currentUser = props.currentUser;
 
+  const handleSaveButtonClick = async () => {
+    const savedItemId = await saveItem();
+    if (savedItemId) {
+    const savedItems = JSON.parse(localStorage.getItem('savedItems')) || [];
+    savedItems.push(savedItemId);
+    localStorage.setItem('savedItems', JSON.stringify(savedItems));
+    }
+  };
+
   const saveItem = async (currentUser) => {
     try {
       const response = await axios.post(

@@ -13,8 +13,10 @@ class Mypage extends Component {
     constructor(props) {
         super(props);
         this.fileInputRef = React.createRef();
-      }
+      console.log(props);
 
+      }
+      
       handleFileInputChange = (event) => {
         const file = event.target.files[0];
         const formData = new FormData();
@@ -105,22 +107,6 @@ class Mypage extends Component {
                                 <li>작성 댓글 4</li>
                                 <li>작성 댓글 5</li>
                             <button className='more-btn'>더보기</button>
-                        </div>
-                        <div className='etc-box'>
-                            <div className='box-title'>내가 즐겨찾는 물품</div>
-                            <div className='fav-box'>
-                                <span className='fav-site'>물품 1</span>
-                                <span className='fav-site'>물품 2</span>
-                                <span className='fav-site'>물품 3</span>
-                                </div>
-                        </div>
-                        <div className='etc-box'>
-                            <div className='box-title'>내가 즐겨찾는 품목</div>
-                            <div className='fav-box'>
-                                <span className='fav-item'>품목 1</span>
-                                <span className='fav-item'>품목 2</span>
-                                <span className='fav-item'>품목 3</span>
-                                </div>
                         </div>
                     </div>
                 </div>    
