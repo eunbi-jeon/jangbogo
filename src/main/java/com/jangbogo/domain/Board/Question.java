@@ -54,9 +54,9 @@ public class Question extends BaseTimeEntity{
     
     @ManyToMany
     Set<Member> voter;
-    
+
+    @JsonIgnore
 	@OneToMany (mappedBy = "question", cascade = CascadeType.REMOVE)
-	@JsonIgnore
 	private List<Answer> answerList; 
 	
 	// 신고
