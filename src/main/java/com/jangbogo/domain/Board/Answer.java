@@ -49,7 +49,8 @@ public class Answer extends BaseTimeEntity {
 	
 	private Integer depth;
 	
-	@ManyToOne			
+	@ManyToOne		
+	@JsonBackReference
 	private Question question;
 
 	@ManyToOne

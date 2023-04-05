@@ -12,16 +12,44 @@ class BoardDetail extends Component {
     this.state = {
       isClicked: false,
       question: [],
-      answers: [],
+      answer:[],
+      answerContent: "",
     };
   }
+  handleTextareaChange = (event) => {
+    this.setState({ answerContent: event.target.value });
+  };
 
-  componentDidMount() {
-
+  handleSubmitAnswer = () => {
     const { id } = this.props.match.params;
     const token = localStorage.getItem("accessToken");
-    console.log('게시글 ID111111:', id);
 
+    axios
+      .post(
+        `http://localhost:8080/board/answer/create/${id}`,
+        { content: this.state.answerContent },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
+      .then((res) => {
+        // 성공적으로 요청을 보낸 경우
+        console.log(res.data);
+        // 답변 작성 후, 답변 목록을 다시 불러오는 코드를 추가하세요.
+        // this.loadAnswers();
+        this.setState({ answerContent: "" }); // 답변 작성란 초기화
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    const token = localStorage.getItem("accessToken");
     axios
       .get(`http://localhost:8080/board/detail/${id}`, {
         headers: {
@@ -29,14 +57,14 @@ class BoardDetail extends Component {
         },
       })
       .then((res) => {
-        if (res.data.content != null) { // res.data.content가 비어있지 않을 때만 실행
-          console.log("결과값 출력");
-          console.log(res.data);
-          this.setState({ question: [res.data] });
-          console.log("question 출력");
-          console.log(this.state.question);
-          console.log("question 값 출력");
-          console.log(this.state.question[0].content);
+        if (res.data.content != null) {
+          this.setState({ question: [res.data] }, () => {
+            console.log("asdasds");
+            console.log(this.state.question); 
+          });
+          this.setState({ answer: [res.data.answerList] }, () => {
+            console.log(this.state.answer);
+          });
         }
       })
       .catch((error) => {
@@ -62,41 +90,7 @@ class BoardDetail extends Component {
   };
 
   render() {
-    //   const { question } = this.state;
-    //   if (!question || Object.keys(question).length === 0) {
-    //     return <div>                
-    //       <div className='boarDetailWrap'>
-    //     {/* 내용 */}
-    //     {this.state.question.map((question) => (
-    //     <table className="detailTable">
-    //         <tr><td className='detailSubject' colSpan={3}>제목</td></tr>
-    //         <tr><td colSpan={3}><hr className='hrLine'></hr></td></tr>
-    //         <tr><td className='detailNickName'><span>닉네임</span>
-    //              <span className='wall'>/</span><span className='detailCreateAt'>작성날짜</span> </td><td className='detailReadCount'>조회수</td><td className='detailBestCount'>추천수</td></tr>
-    //         <tr><td colSpan={3}><hr className='hrLine2'></hr></td></tr>
-    //         <tr><td className='detailContent' colSpan={3}>어디얌{question.content}</td></tr>
-    //     </table>
-    //     ))}
-    //     <div className='best'>
-    //         <div>추천수</div><div><img src={this.state.isClicked? bestBtn2 : bestBtn1}  className='bestBtn' onClick={this.handleClick}/> </div>
-    //     </div>
-    //     <button className='goBackBtn' onClick={() => this.props.history.goBack()}>돌아가기</button>
-    //     <hr className='hrLine'></hr>
-    //     <div>전체 댓글 <span className='replyCount'>10</span></div>
-    //     {/* 댓글 */}
-    //     <table className='replyBox'>
-    //         <tr>
-    //         <td className='replyNickName'>댓글 닉네임<span className='replyCreateAt'>작성날짜</span></td>
-    //         <td className='replyContent' colSpan={3}>댓글내요요용</td>
-    //         <td className='modifyBtn'>수정</td>
-    //         <td className='deleteBtn'>삭제</td>
-    //         </tr>
-    //     </table>
-    //     <hr className='hrLine2'></hr>
-    // </div></div>;
-    //   }
 
-    // 실제 값 출력부분
     return (
       <div>
         {/* 내용 */}
@@ -112,19 +106,7 @@ class BoardDetail extends Component {
                  <td className='detailBestCount'>추천수</td></tr>
              <tr><td colSpan={3}><hr className='hrLine2'></hr></td></tr>
 
-            {/* <tr><td className='detailNickName'><span>{board.name.name}</span> */}
-
-
-              {/* <tr><td className='detailContent'>
-                <span>{board.content}내용ㅇㅇㅇ</span>
-                <span className='wall'>/</span>
-                <span className='detailCreateAt'>{new Date(board.createAt).toLocaleDateString()}</span>
-              </td>
-                <td className='detailReadCount'></td>
-                <td className='detailBestCount'></td></tr> */}
               <tr><td className='detailContent' colSpan={3}>{board.content}</td></tr>
-              <tr><td colSpan={3}><hr className='hrLine2'></hr></td></tr>
-              
             </tbody>
             </table>
         ))}
@@ -132,19 +114,27 @@ class BoardDetail extends Component {
                 <div>추천수</div><div><img src={this.state.isClicked ? bestBtn2 : bestBtn1} className='bestBtn' onClick={this.handleClick} /> </div>
               </div>
               <hr className='hrLine'></hr>
-              {this.state.answers.map((answer) => (
-                <div>
-                  <table className='replyBox'>
-                    <tr key={answer.id}>
-                      <td className='replyNickName'>{answer.name}</td>
-                      <td className='replyContent'>{answer.content}<span className='replyCreateAt'>{answer.createAt}</span></td>
-                      <td className='modifyBtn'><Link to={`/answer/modify/${answer.id}`}>수정</Link></td>
-                      <td className='deleteBtn'><Link to={`/answer/delete/${answer.id}`}>삭제</Link></td>
-                    </tr>
-                  </table>
-                  <hr className='hrLine2'></hr>
-                </div>
+              {this.state.answer.map((ans) => (
+  <div>
+    <table className='replyBox'>
+      {ans.map((reply) => (
+        <tr key={reply.id}>
+          <td className='replyNickName'></td>
+          <td className='replyContent'>{reply.content}<span className='replyCreateAt'>{new Date(reply.createAt).toLocaleDateString()}</span></td>
+          <td className='modifyBtn'>수정</td>
+          <td className='deleteBtn'>삭제</td>
+        </tr>
+      ))}
+    </table>
+    <hr className='hrLine2'></hr>
+  </div>
               ))}
+        <textarea
+          onChange={this.handleTextareaChange}
+          value={this.state.answerContent}
+        ></textarea>
+        <button onClick={this.handleSubmitAnswer}>답변 달기</button>
+
             </div>
             )
             }

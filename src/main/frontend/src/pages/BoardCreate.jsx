@@ -22,7 +22,7 @@ Authorization: "Bearer " + token,
 }
 }) // 입력된 데이터를 요청 바디에 포함하여 전송
 .then(response => {
-alert("글 등록 완료")
+alert("글 등록 완료");
 console.log(response.data);
 })
 .catch(error => {
