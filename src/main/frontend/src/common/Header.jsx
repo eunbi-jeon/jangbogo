@@ -95,8 +95,6 @@ class Header extends Component {
         </div>
             { this.props.authenticated ? (
                     <div className="header-top-menu-wrap">
-                        <span className="header-top-menu" id="sign-up"><Link to='/signup'>찜한 상품</Link></span>
-                        <span style={{marginLeft:20, marginRight:20}}>l</span>
                         <span className="header-top-menu" id="mypage"><Link to='/mypage'>마이페이지</Link></span>
                         <span style={{marginLeft:20, marginRight:20}}>l</span>
                         <span className="header-top-menu" id="logout" onClick={this.props.onLogout}>로그아웃</span>
@@ -113,7 +111,8 @@ class Header extends Component {
       <div className='line'></div>
       <div className="header-menu">
         <div className="menu-wrap">
-          <div className='category'>
+          <div className='header-menu-left'>
+          <span className='category'>
           <img src={menuicon} alt="메뉴아이콘" style={{width:20}}/>
           <span style={{marginLeft:10}} className='category-title'>전체 카테고리
           </span>
@@ -121,8 +120,13 @@ class Header extends Component {
               {this.categorymenu.map((category) => (
                   <div key={category.id} onClick={() => this.handleCategoryClick(category.value)}>{category.value}</div> ))}
             </div>
-          </div>
+          </span>
           <span style={{marginRight:30}}><Link to='/board/list'>커뮤니티</Link></span>
+          </div>
+          { this.props.authenticated ? (
+            <span>찜한 상품</span>
+          ):(<div></div>)}
+          </div>
         </div>
       </div>
     </header>

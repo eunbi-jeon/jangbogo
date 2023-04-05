@@ -79,6 +79,12 @@ header {
     align-items: center;
     padding: 20px 40px;
     font-weight: bold;
+    justify-content: space-between;
+}
+
+.header-menu-left {
+    display: flex;
+    flex-direction: row;
 }
 
 .category {

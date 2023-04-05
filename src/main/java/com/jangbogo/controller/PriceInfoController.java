@@ -44,7 +44,7 @@ public class PriceInfoController {
 
         List<PriceInfo> priceList = priceInfoJsonParser.parsePriceInfo();
 
-        if (priceInfoRepository.count() == 0) {
+        if (priceInfoRepository.findAll().size() == 0) {
             // DB에 저장된 데이터가 없는 경우
             priceInfoRepository.saveAll(priceList);
         } else {

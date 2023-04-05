@@ -1,153 +1,144 @@
 .Container {
-    width: 100vw;
-   display: flex;
-   flex-direction: column;
-   justify-content: center; 
-   align-items: center; 
-
-
+    width: 1100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    margin: 0 auto;
 }
+
 .section1{
     width: 80%;
     height: 400px;
     margin: 5% 10% 5% 10%;
-    background-color: rgba(252, 235, 184, 0.245);
-    
     display: flex;
     justify-content: center;
 }
+
+
 .PriceInfoBox {
-    width: 100%;
+    width: 1100px;
     display: flex;
-    margin-bottom: 2%;
+    padding: 50px 80px 30px 80px;
+    border: 5px solid rgb(234, 234, 234);
+    border-radius: 20px;
 }
+
+.icon-wrap {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-box {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.icon-img {
+    width: 80px;
+    height: 80px;
+}
+
+.itemCode {
+    font-size: 14px;
+    padding: 5px 10px;
+    font-weight: bold;
+    background-color: tomato;
+    border-radius: 20px;
+    color: white;
+    margin-bottom: 5px;
+}
+
 .itemName {
-    color: ForestGreen  ;
-    font-size: 19pt;
+    color:tomato;
+    font-size: 42px;
     font-weight: bold;
-    margin: 20% 10% 0 0 ;
 }
 
-.icon_box {
-    width: 400px;
-    height: 400px;
-    text-align: center;
-    margin: 20% 0 0 35%;
+.unit {
+    font-size: 8pt;
+    margin-top: 10px;
 }
 
-
-
-.circle {
-    width: 150px;
-    height: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    background-color: white;
-    margin: 5% 10% 8% 25%;
-
+.chart-part {
+    margin-left: 80px;
 }
 
-.icon_img {
-    width: 50%;
-}
-
-.itemCode{
-    font-size: 20px;
-    font-weight: bold;
-    margin: 0 10% 0 0;
-}
-
-.info_box {
-    width: 600px; 
-    height: 100%;
-    margin: 5% 0 0 10%;
-}
-
-
-
-.unit{
-    font-size: 13px;
+.infoDate {
+    position: relative;
     text-align: right;
-    margin-right: 2%;
+    margin-top: 10px;
 }
 
-.infoDate{
-    text-align: right;
-    font-size: 15px;
-    margin: 0 0 50% 0;
-}
-
-.infoDate > p{
-    color: rgb(117, 117, 117);
-    margin-block-start: 0;
-    margin-block-end: 0;
-}
-
-
-.section2{
-    width: 100%;
-    margin: 3% 5% 3% 5%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.question{
-    width: 100%;
-    font-size: 30px;
+.infoDate > p {
+    font-size: 8pt;
+    display: inline;
     font-weight: bold;
-    text-align: center;
-    
+    color: rgb(149, 149, 149);
 }
 
-
-.priceInfoCategory{
+.priceInfoCategory {
+    width: 1100px;
+    padding: 20px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
 }
 
-.priceInfoCategory > ul {
+.iconIMG {
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+    background-color: rgb(244, 244, 244);
     display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-top: 30px;
-  }
-  
-  .priceInfoCategory > ul > li {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 60px;
     margin-bottom: 20px;
+}
 
-  }
-  .priceInfoCategory li:last-child {
-    margin-right: 0;
-  }
-  
-  .iconIMG > img {
-    width: 80%;
-    padding: 10%;
-  }
-  
-  .iconIMG{
-    background-color: aliceblue;
-    border-radius: 5%;
-    width: 130px;
-    height: 130px;
-    display: flex;
-    justify-content: center;
-  }
+.iconIMG > img {
+    width: 80px;
+    height: 80px;
+}
 
+.priceInfoCategory > ul > li {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
 
+.main-banner-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
 
+.main-banner {
+    margin-top: 80px;
+    text-align: center;
+}
 
+.banner-img {
+    border-radius: 30px;
+    box-shadow: 0px 0px 10px 10px rgba(223, 223, 223, 0.328);
+    margin: 30px;
+}
 
+.banner-img-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    background-color: white;
+    border: 3px solid gainsboro;
+    z-index: 1;
+}
 
-
-  
