@@ -71,17 +71,17 @@ public class QuestionService {
 			return op.get();
 		}else {
 			throw new DataNotFoundException("요청한 파일을 찾지 못했습니다. "); 
-		}		
+		}		 
 	}
 	
 	// 생성
 	public void create(Board board, String subject, String content, Member name) {
 		
-		// 욕설 필터링
-        if (isProfanity(subject) || isProfanity(content)) {
-            // 욕설이 포함된 제목이나 내용을 입력한 경우 예외를 던지거나 다른 처리를 할 수 있습니다.
-            throw new IllegalArgumentException("금지어가 포함된 제목이나 내용입니다.");
-        }
+//		// 욕설 필터링
+//        if (isProfanity(subject) || isProfanity(content)) {
+//            // 욕설이 포함된 제목이나 내용을 입력한 경우 예외를 던지거나 다른 처리를 할 수 있습니다.
+//            throw new IllegalArgumentException("금지어가 포함된 제목이나 내용입니다.");
+//        }
 
 		Question q = new Question();
 		q.setBoard(board);
