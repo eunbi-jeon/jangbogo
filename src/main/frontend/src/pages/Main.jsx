@@ -10,9 +10,6 @@ import icon500 from '../img/priceInfo_icon/500.png';
 import icon600 from '../img/priceInfo_icon/600.png';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid ,ResponsiveContainer } from 'recharts';
 
-
-
-
 function Main() {
   const [items, setItems] = useState([]);
   const [currentItem, setCurrentItem] = useState(null);
