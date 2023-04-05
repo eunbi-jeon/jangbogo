@@ -1,6 +1,6 @@
 package com.jangbogo.domain.member.entity;
 
-<<<<<<< HEAD
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,22 +13,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-=======
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jangbogo.domain.Product.Product;
 import com.jangbogo.domain.common.BaseTimeEntity;
 import lombok.*;
 
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
->>>>>>> 66ef775d76714e9a80c91047f09a43d4296be784
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jangbogo.domain.Product;
 import com.jangbogo.domain.common.BaseTimeEntity;
 
 import lombok.AllArgsConstructor;
@@ -45,7 +44,6 @@ import lombok.Setter;
 public class Member extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -72,16 +70,8 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-<<<<<<< HEAD
-    
-    @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Product> productList = new ArrayList<>();
 
-   
-=======
     @Builder
->>>>>>> 66ef775d76714e9a80c91047f09a43d4296be784
     public Member(String email, String password, String name, Role role, Provider provider, String region, String age, String providerId, String imageUrl) {
         this.email = email;
         this.password = password;
@@ -116,15 +106,11 @@ public class Member extends BaseTimeEntity {
         this.age = age;
     }
 
-<<<<<<< HEAD
 
-
-}
-=======
     //임시 비밀번호 발급
     public void updatePassWord(String password) {
         this.password = password;
     }
 
 }
->>>>>>> 66ef775d76714e9a80c91047f09a43d4296be784
+
