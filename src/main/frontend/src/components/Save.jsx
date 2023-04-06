@@ -46,7 +46,14 @@ function Save(props) {
 
   return (
     <>
-      <button onClick={handleSaveButtonClick}>보관하기</button>
+      <button 
+      style={{padding:10, 
+              borderRadius:3, 
+              backgroundColor:'tomato',
+              color:'white',
+              fontWeight:'bold',
+              position: 'absolute',
+              right: 10}} onClick={handleSaveButtonClick}>보관하기</button>
     </>
   );
 }

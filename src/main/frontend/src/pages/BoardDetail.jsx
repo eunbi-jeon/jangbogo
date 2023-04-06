@@ -118,10 +118,10 @@ class BoardDetail extends Component {
             <table className='replyBox'>
               {ans.map((reply) => (
                 <tr key={reply.id}>
-                  <td className='replyNickName'></td>
+                  <td className='replyNickName'>{reply.name.name}</td>
                   <td className='replyContent'>{reply.content}<span className='replyCreateAt'>{new Date(reply.createAt).toLocaleDateString()}</span></td>
-                  <td className='modifyBtn'>수정</td>
-                  <td className='deleteBtn'>삭제</td>
+                  <td><button className="reply-btn">수정</button></td>
+                  <td><button className="reply-btn">삭제</button></td>
                 </tr>
               ))}
             </table>
