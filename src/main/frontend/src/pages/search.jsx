@@ -115,7 +115,6 @@ function Search(props) {
       <>
       <div className="search-container">
         <div className='sort-box'>
-
           <label htmlFor="sortOrder"></label>
           <select id="sortBy" name="sortBy" value={sortBy} onChange={handleSortByChange}>
             <option value="sim">관련도순</option>
@@ -139,7 +138,6 @@ function Search(props) {
                     <Save authenticated={authenticated} onClick={(e) => {e.stopPropagation(); handleSave(item)}} item={item} />
                 </div>
               </div>
-
             </div>
           </li>
         ))}
