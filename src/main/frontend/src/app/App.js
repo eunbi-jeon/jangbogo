@@ -21,7 +21,7 @@ import MessageForm from '../pages/message/MessageForm';
 
 
 import Search from '../pages/Search';
-import ZzimItem from '../components/ZzimItem'
+import ZzimItem from '../components/ZzimHandler'
 import Save from '../components/Save';
 
 import OAuth2RedirectHandler from '../pages/user/OAuth2RedirectHandler';

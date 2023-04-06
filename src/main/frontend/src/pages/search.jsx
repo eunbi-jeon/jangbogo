@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import '../css/search.css'
 import axios from 'axios';
 import Save from '../components/Save';
-import ZzimItem from '../components/ZzimItem';
+import ZzimItem from '../components/ZzimHandler';
 
 
 function numberWithCommas(pNumber) {
@@ -122,7 +122,6 @@ function Search(props) {
             <option value="date">최신순</option>
           </select>
         </div>
-        <ZzimItem/>
         <ul>    
           {items.slice(0, 30).map(item => (
             <li key={item.link}>

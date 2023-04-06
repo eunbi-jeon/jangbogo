@@ -14,8 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jangbogo.domain.Product.Product;
 import com.jangbogo.domain.common.BaseTimeEntity;
+import com.jangbogo.domain.product.Product;
+
 import lombok.*;
 
 import org.hibernate.annotations.DynamicUpdate;

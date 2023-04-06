@@ -4,6 +4,7 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jangbogo.config.security.token.CurrentUser;
 import com.jangbogo.config.security.token.UserPrincipal;
-import com.jangbogo.domain.Product.Zzim;
-import com.jangbogo.domain.Product.Product;
 import com.jangbogo.domain.member.entity.Member;
+import com.jangbogo.domain.product.Product;
+import com.jangbogo.domain.product.Zzim;
 import com.jangbogo.dto.ProductRequestDto;
 import com.jangbogo.repository.MemberRepository;
 import com.jangbogo.repository.ProductRepository;
@@ -28,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin("http://localhost:3000")
 public class ZzimController {
 
 
@@ -53,7 +55,6 @@ public class ZzimController {
     public ResponseEntity<?> addProductToZzim(@CurrentUser UserPrincipal currentUser, 
     									@RequestBody ProductRequestDto productDto, Integer count) {
 
-        log.info("찜 Post 요청 : {}", currentUser.getEmail());
     	Member user = memberRepository.findByEmail(currentUser.getEmail()).orElse(null);
 
         zzimService.saveProducts(user, productDto, count);
@@ -62,13 +63,13 @@ public class ZzimController {
         return ResponseEntity.ok(productDto);
     }
 
-    @DeleteMapping("api/products/{productId}")
-    public ResponseEntity<?> removeProductFromFavList(@CurrentUser UserPrincipal currentUser, @PathVariable Long prodId) {
+    @DeleteMapping("api/products/{prodId}")
+    public ResponseEntity<?> removeProductFromFavList(@CurrentUser UserPrincipal currentUser, @PathVariable Product product) {
     	Member user = memberRepository.findByEmail(currentUser.getEmail()).orElse(null); 
     	Zzim zzim = zzimRepository.findByUserEmail(user.getEmail());
-    	zzim.setCount(zzim.getCount()-1);
         
-    	zzimService.deleteProduct(prodId);
+    	zzimService.deleteProduct(product.getId());
+    	zzim.setCount(zzim.getCount()-1);
 
         return ResponseEntity.ok().build();
     }

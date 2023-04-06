@@ -1,4 +1,4 @@
-package com.jangbogo.domain.Product;
+package com.jangbogo.domain.product;
 
 
 
@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jangbogo.domain.common.BaseTimeEntity;
 
 
@@ -51,20 +53,22 @@ public class Product extends BaseTimeEntity{
     
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "zzimId")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Zzim zzim;
 	
     private Integer count;
 	
 
 	@Builder
-    public Product (String productId, String title, String image, String link, Integer lprice, String mallName, Zzim zzim) {		
+    public Product (String productId, String title, String image, String link, Integer lprice, String mallName, Integer count, Zzim zzim) {		
 		this.productId = productId;
 		this.title = title;
 		this.image = image;
 		this.link = link;
 		this.lprice = lprice;
 		this.mallName = mallName;
-        this.zzim=zzim;
+        this.count = count;
+		this.zzim=zzim;
         
         if (!zzim.getProducts().contains(this))
         	zzim.getProducts().add(this);
@@ -73,7 +77,6 @@ public class Product extends BaseTimeEntity{
 	public void addCount(Integer count) {
 		this.count +=count;
 	}
-
 
 
 

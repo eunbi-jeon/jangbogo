@@ -27,6 +27,7 @@ function Save(props) {
           },
         }
       );
+      alert("상품이 '찜한 품목'에 저장되었습니다!");
       return response.data.productId;
     } catch (error) {
       console.error(error);

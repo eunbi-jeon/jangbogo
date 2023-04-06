@@ -1,4 +1,4 @@
-package com.jangbogo.domain.Product;
+package com.jangbogo.domain.product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,21 +14,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jangbogo.domain.member.entity.Member;
 import com.jangbogo.dto.ProductRequestDto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 @Entity
-@Data
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Zzim {
 
     @Id
-    @Column(name = "favListId")
+    @Column(name = "zzimId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
@@ -38,6 +43,7 @@ public class Zzim {
     
     @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL
             , orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Product> products = new ArrayList<>();
     
     private Integer count;

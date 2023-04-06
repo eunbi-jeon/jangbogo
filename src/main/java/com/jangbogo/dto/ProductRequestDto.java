@@ -1,8 +1,8 @@
 package com.jangbogo.dto;
 
 
-import com.jangbogo.domain.Product.Product;
 import com.jangbogo.domain.member.entity.Member;
+import com.jangbogo.domain.product.Product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,8 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -24,7 +23,7 @@ public class ProductRequestDto {
     private String image;
     private String mallName;
     private Integer lprice;
-  
+    private Integer count;
 
 
 }

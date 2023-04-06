@@ -1,0 +1,15 @@
+.savelist-top{
+  display: flex;
+  justify-content: space-between;
+  margin: 2% 5% 0 5%;
+  padding-top: 100px;
+}
+.countItem{
+  font-size: 40px;
+}
+.listline{
+  width:90%;
+  margin:0 auto;
+  padding: 10px;
+  border-bottom:3px solid black;
+}
