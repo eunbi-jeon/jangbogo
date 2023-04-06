@@ -19,8 +19,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     
     public Member getMember(String username) {
-    	
-    	
         Optional<Member> member = this.memberRepository.findByEmail(username);
         
         if (member.isPresent()) {  //Optional 에 SiteUser가 검색되면 (존재하면) 

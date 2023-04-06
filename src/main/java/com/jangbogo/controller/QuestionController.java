@@ -1,10 +1,13 @@
 package com.jangbogo.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.jangbogo.config.security.token.CurrentUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +30,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin("http://localhost:3000")
+@Slf4j
 public class QuestionController {
 	
 	private final QuestionService questionService; 
 	private final MemberService memberService;
+
+	//내가쓴글 조회
+	@GetMapping("/board/my")
+	public ResponseEntity<List<Question>> myBoardList(@CurrentUser Member member){
+		log.info("퀘스쳔 컨트롤러 회원정보 = {}", member.getEmail());
+		return questionService.getMyBoard(member);
+	}
+
 	@GetMapping("/board/list")
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	public ResponseEntity<Page<Question>> questionList(
