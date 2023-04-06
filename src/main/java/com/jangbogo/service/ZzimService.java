@@ -9,9 +9,9 @@ import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import com.jangbogo.domain.Product.Zzim;
-import com.jangbogo.domain.Product.Product;
 import com.jangbogo.domain.member.entity.Member;
+import com.jangbogo.domain.product.Product;
+import com.jangbogo.domain.product.Zzim;
 import com.jangbogo.dto.ProductRequestDto;
 import com.jangbogo.repository.ZzimRepository;
 import com.jangbogo.repository.MemberRepository;
@@ -41,55 +41,40 @@ public class ZzimService {
 	public void saveProducts(Member user, ProductRequestDto req, Integer count) {
 	    Zzim zzim = zzimRepository.findByUserEmail(user.getEmail());
 
-		log.info("찜 처리 시작");
 	    if (zzim == null) {
-			log.info("찜 생성");
-	    	zzim = Zzim.creatZzim(user);
-	    	zzimRepository.save(zzim);
-			log.info("찜 저장완료");
+	        zzim = Zzim.creatZzim(user);
+	        zzim.setCount(zzim.getCount() + 1);
+	        zzimRepository.save(zzim);
 	    }
 
-<<<<<<< HEAD
-		    productRepository.save(buildProductreq(req));
-	    	zzim.setCount(zzim.getCount()+1);
-	    }else {
-	    	product.addCount(count);
+	    try {
+	        Product product = productRepository.findByZzimId(zzim.getId());
+
+	        if (product == null) {
+	            zzim.setCount(zzim.getCount() + 1);
+	            zzimRepository.save(zzim);
+	            productRepository.save(buildProductreq(req,zzim));
+	        } else {
+	            product.addCount(count);
+	        }
+	    } catch (Exception e){
+	        e.printStackTrace();
 	    }
-=======
-		log.info("찜 방 번호로 상품 찾기");
-	    Product product = productRepository.findByZzimId(zzim.getId());
-
-		try {
-
-			if (product == null) {
-				log.info("상품 저장");
-				productRepository.save(buildProductreq(req,zzim));
-				zzim.setCount(zzim.getCount() + 1);
-				log.info("상품 카운트 증가");
-			} else {
-				product.addCount(count);
-				log.info("카운트 추가");
-			}
-
-		} catch (Exception e){
-			e.printStackTrace();
-		}
->>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 	}
 
-		private Product buildProductreq(ProductRequestDto req, Zzim zzim) {
+	private Product buildProductreq(ProductRequestDto req, Zzim zzim) {
+	    return Product.builder()
+	            .productId(req.getProductId())
+	            .title(req.getTitle())
+	            .image(req.getImage())
+	            .link(req.getLink())
+	            .lprice(req.getLprice())
+	            .mallName(req.getMallName())
+	            .count(1)
+	            .zzim(zzim)
+	            .build();
+	}
 
-				return Product.builder()
-						.productId(req.getProductId())
-						.title(req.getTitle())
-						.image(req.getImage())
-						.link(req.getLink())
-						.lprice(req.getLprice())
-						.mallName(req.getMallName())
-						.zzim(zzim)
-						.build()
-						;
-			}
 		
 		//찜 리스트 조회
 		public List<Product> viewZzim(Zzim zzim){

@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.jangbogo.domain.Product.Zzim;
-import com.jangbogo.domain.Product.Product;
 import com.jangbogo.domain.member.entity.Member;
+import com.jangbogo.domain.product.Product;
+import com.jangbogo.domain.product.Zzim;
 import com.jangbogo.dto.ProductRequestDto;
 
 @Repository

@@ -2,21 +2,7 @@
 *{
   word-break: keep-all;
 }
-.savelist-top{
-  display: flex;
-  justify-content: space-between;
-  margin: 2% 5% 0 5%;
-  padding-top: 100px;
-}
-.countItem{
-  font-size: 40px;
-}
-.listline{
-  width:90%;
-  margin:0 auto;
-  padding: 10px;
-  border-bottom:3px solid black;
-}
+
 ul{display: flex;
   flex-wrap: wrap;
   margin:0 auto;}
@@ -36,8 +22,9 @@ li{
   border-bottom: 1px solid gainsboro;
 }
 .save-item-left{
-  width:250px;
+  width:270px;
   display: flex;
+  flex-direction: row;
   align-items: flex-start;
 
 }
@@ -58,17 +45,18 @@ li{
   justify-content: space-around;
   cursor: pointer;
 }
-.mallName{
+.fav-mallName{
   color:#ED712E;
   font-weight: bold;
 }
-.title{
+.fav-title{
   height: 45px;
   font-size: 20px;
   display: flex;
   align-items: center;
+  color:black;
 }
-.price {
+.fav-price {
   height: 30px;
   font-size: 30px;
   font-weight: 600;
