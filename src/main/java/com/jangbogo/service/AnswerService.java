@@ -1,8 +1,19 @@
 package com.jangbogo.service;
 
 import java.time.LocalDateTime;
+<<<<<<< HEAD
 import java.util.Optional;
 
+=======
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+>>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 import org.springframework.stereotype.Service;
 
 import com.jangbogo.exeption.DataNotFoundException;
@@ -27,7 +38,10 @@ public class AnswerService {
 		answer.setQuestion(question);
 		answer.setContent(content);
 		answer.setCreateAt(LocalDateTime.now());
+<<<<<<< HEAD
 		answer.setQuestion(question);
+=======
+>>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 		answer.setName(name);
 		answer.setDepth(0);
 		answer.setParent(null);
@@ -97,5 +111,17 @@ public class AnswerService {
         answer.getReport().add(name);
         this.answerRepository.save(answer);
     }
+<<<<<<< HEAD
+=======
+    
+    public Page<Answer> getList(int page){
+    	List<Sort.Order> sorts = new ArrayList();
+    	sorts.add(Sort.Order.desc("createAt"));
+    	
+    	Pageable pageable =PageRequest.of(page, 10, Sort.by(sorts));
+    	
+    	return this.answerRepository.findAllByOrderByParentIdDescDepthAscCreateAtDesc(pageable);
+    }
+>>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 
 }

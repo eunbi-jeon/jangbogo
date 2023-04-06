@@ -17,6 +17,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+<<<<<<< HEAD
+=======
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+>>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 import com.jangbogo.domain.common.BaseTimeEntity;
 import com.jangbogo.domain.member.entity.Member;
 
@@ -47,7 +52,12 @@ public class Answer extends BaseTimeEntity {
 	
 	private Integer depth;
 	
+<<<<<<< HEAD
 	@ManyToOne			
+=======
+	@ManyToOne		
+	@JsonBackReference
+>>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 	private Question question;
 
 	@ManyToOne

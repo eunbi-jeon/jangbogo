@@ -1,0 +1,104 @@
+
+*{
+  word-break: keep-all;
+}
+.savelist-top{
+  display: flex;
+  justify-content: space-between;
+  margin: 2% 5% 0 5%;
+  padding-top: 100px;
+}
+.countItem{
+  font-size: 40px;
+}
+.listline{
+  width:90%;
+  margin:0 auto;
+  padding: 10px;
+  border-bottom:3px solid black;
+}
+ul{display: flex;
+  flex-wrap: wrap;
+  margin:0 auto;}
+li{
+  list-style-type: none;
+}
+.save-item{
+  margin:20px;
+  width: 260px;
+  display:flex;
+  border:1px solid gainsboro;
+  border-radius: 8px;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+  padding: 10px;
+  border-bottom: 1px solid gainsboro;
+}
+.save-item-left{
+  width:250px;
+  display: flex;
+  align-items: flex-start;
+
+}
+.save-item-left img{
+  width:150px;
+  height: 150px;
+  border-radius: 5px;
+  padding:20px;
+}
+.save-item-info {
+  width:250px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  justify-content: space-around;
+  cursor: pointer;
+}
+.mallName{
+  color:#ED712E;
+  font-weight: bold;
+}
+.title{
+  height: 45px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+.price {
+  height: 30px;
+  font-size: 30px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: -0.54px;
+  text-align: left;
+  color: #E8344E;
+}
+
+.save-item-info span.unit {
+  width: 17px;
+  height: 18px;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: -0.9px;
+  text-align: center;
+  color: #000000;
+}
+
+.deletebtn{
+
+  cursor: pointer;
+}
+.save-item-right {
+  display: flex;
+  align-items: center;
+ 
+}

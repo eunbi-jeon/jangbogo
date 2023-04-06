@@ -32,11 +32,18 @@ public class MessageController {
     @Operation(summary = "쪽지 작성", description = "쪽지 보내기")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/messages")
+<<<<<<< HEAD
     public Response createMessage(@Valid @RequestBody MessageCreateRequest req, @CurrentUser UserPrincipal userPrincipal) {    	
     	Member member = memberRepository.findByEmail(userPrincipal.getEmail()).orElseThrow(() ->
                 new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
         );
     	
+=======
+    public Response createMessage(@Valid @RequestBody MessageCreateRequest req, @CurrentUser UserPrincipal userPrincipal) {
+        Member member = memberRepository.findById(userPrincipal.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
+        );
+>>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
         return Response.success(messageService.createMessage(member, req));
     }
 
@@ -47,10 +54,13 @@ public class MessageController {
         Member member = memberRepository.findById(userPrincipal.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
         );
+<<<<<<< HEAD
     	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getEmail());
     	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getName());
     	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getUsername());
     	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getPassword());
+=======
+>>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
         return Response.success(messageService.receiveMessages(member));
     }
 

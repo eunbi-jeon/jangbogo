@@ -4,12 +4,22 @@ import java.security.Principal;
 
 import javax.validation.Valid;
 
+<<<<<<< HEAD
 import org.springframework.http.HttpStatus;
+=======
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+>>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+<<<<<<< HEAD
+=======
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+>>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 import com.jangbogo.domain.Board.Answer;
 import com.jangbogo.domain.Board.Board;
 import com.jangbogo.domain.Board.Question;
@@ -29,6 +39,7 @@ public class AnswerController {
 	private final AnswerService answerService; 
 	private final MemberService memberService;
 
+<<<<<<< HEAD
 	@PostMapping("/answer/create/{id}")
 	public String answerCreate(Model model, @PathVariable("id") Long id, @Valid
  			AnswerDto answerDto, BindingResult bindingResult, Principal principal,
@@ -46,6 +57,24 @@ public class AnswerController {
 	        answerService.createChildReply(question, parentId, answerDto.getContent(), member);
 	        return String.format("redirect:/board/detail/%s#answer%s", parentReply.getQuestion().getId(), parentReply.getId());
 	    }
+=======
+	@PostMapping("/board/answer/create/{id}")
+	public void answerCreate(@RequestBody AnswerDto answerDto,@PathVariable("id") Long id ,BindingResult bindingResult, Principal principal) {
+		// @RequestBody 어노테이션을 추가하여 Request Body에서 데이터를 읽어옴
+		System.out.println("create controller 호출");
+		if (bindingResult.hasErrors()) {
+			System.out.println("create controller 호출");
+
+		}	
+		System.out.println("create controller 호출");
+
+		Question question = this.questionService.getQuestion(id);
+		Member member = this.memberService.getMember(principal.getName());
+
+		this.answerService.create(question,answerDto.getContent() ,member);
+
+	}
+>>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 		
 	//답변수정 
     @GetMapping("/answer/modify/{id}")
@@ -112,5 +141,42 @@ public class AnswerController {
         return String.format("redirect:/question/detail/%s#answer_%s", 
                 answer.getQuestion().getId(), answer.getId());
     }
+<<<<<<< HEAD
+=======
+    
+//	@PostMapping("/board/answer/list/{id}")
+//	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//	public ResponseEntity<Page<Answer>> answerList(
+//			@RequestParam(value = "page", defaultValue = "0") int page,
+//			@RequestParam(value = "kw", defaultValue = "") String kw) {
+//
+//		Page<Answer> paging = this.answerService.getList(page);
+//		System.out.println("answerlist 호출");
+//
+//		if (paging.getContent().isEmpty()) {
+//			return ResponseEntity.noContent().build(); // 비어있는 경우 null 반환
+//		}
+//
+//		return ResponseEntity.ok(paging); // 비어있지 않은 경우 Page 객체 반환
+//	}
+    
+    
+    
+//	@GetMapping("/answer/list/{id}")
+//	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//	public ResponseEntity<Page<Answer>> answerList(
+//			@RequestParam(value = "page", defaultValue = "0") int page,
+//			@RequestParam(value = "kw", defaultValue = "") String kw) {
+//
+//		Page<Answer> paging = this.answerService.getList(page);
+//
+//
+//		if (paging.getContent().isEmpty()) {
+//			return ResponseEntity.noContent().build(); // 비어있는 경우 null 반환
+//		}
+//
+//		return ResponseEntity.ok(paging); // 비어있지 않은 경우 Page 객체 반환
+//	}
+>>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 
 }

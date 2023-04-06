@@ -8,7 +8,7 @@ import naverLogo from '../../img/Naver-Login.png';
 
 import axios from 'axios';
 
-class Login extends Component {
+class FindPassword extends Component {
 
     componentDidMount() {
         if(this.props.location.state && this.props.location.state.error) {
@@ -130,4 +130,4 @@ class LoginForm extends Component {
     }
 }
 
-export default Login;
+export default FindPassword;

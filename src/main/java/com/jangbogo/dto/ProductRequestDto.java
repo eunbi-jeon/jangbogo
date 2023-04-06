@@ -1,8 +1,13 @@
 package com.jangbogo.dto;
 
 
+<<<<<<< HEAD
 import com.jangbogo.domain.Product;
 
+=======
+import com.jangbogo.domain.Product.Product;
+import com.jangbogo.domain.member.entity.Member;
+>>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +29,7 @@ public class ProductRequestDto {
     private String image;
     private String mallName;
     private Integer lprice;
+<<<<<<< HEAD
     private String name;
     
 
@@ -42,4 +48,9 @@ public class ProductRequestDto {
 	    	);
 	}
 
+=======
+  
+
+
+>>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 }

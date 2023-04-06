@@ -4,12 +4,17 @@ import com.jangbogo.advice.payload.ErrorResponse;
 import com.jangbogo.config.security.token.CurrentUser;
 import com.jangbogo.config.security.token.UserPrincipal;
 import com.jangbogo.domain.member.entity.Member;
+import com.jangbogo.exeption.MemberNotFoundException;
 import com.jangbogo.payload.request.auth.*;
 import com.jangbogo.payload.response.AuthResponse;
 import com.jangbogo.payload.response.MailResponse;
 import com.jangbogo.payload.response.Message;
 
+<<<<<<< HEAD
 import com.jangbogo.service.MailService;
+=======
+//import com.jangbogo.service.MailService;
+>>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 
 import com.jangbogo.service.auth.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,6 +27,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,7 +43,7 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
-    private final MailService mailService;
+  //  private final MailService mailService;
 
     @Operation(summary = "유저 정보 확인", description = "현제 접속된 유저정보를 확인합니다.")
     @ApiResponses(value = {
@@ -51,7 +58,12 @@ public class AuthController {
     public ResponseEntity<?> whoAmI(
             @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
     ) {
-        return authService.whoAmI(userPrincipal);
+            System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+            log.info("매개 유저정보 {}", userPrincipal.getName());
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            Member member = memberRepository.findByName(authentication.getName())
+//                    .orElseThrow(MemberNotFoundException::new);
+            return authService.whoAmI(userPrincipal);
     }
 
     @Operation(summary = "유저 정보 삭제", description = "현제 접속된 유저정보를 삭제합니다.")
@@ -65,6 +77,7 @@ public class AuthController {
     public ResponseEntity<?> delete(
             @Parameter(description = "Accesstoken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
     ){
+        log.info("유저 정보 = {}", userPrincipal.getEmail());
         return authService.delete(userPrincipal);
     }
 
@@ -73,10 +86,10 @@ public class AuthController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "유저 로그인 성공",
                     content = { @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = AuthResponse.class) ) } ),
+                            schema = @Schema(implementation = AuthResponse.class) ) } ),
             @ApiResponse(responseCode = "400", description = "유저 로그인 실패",
                     content = { @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ErrorResponse.class) ) } ),
+                            schema = @Schema(implementation = ErrorResponse.class) ) } ),
     })
     @PostMapping(value = "/signin")
     public ResponseEntity<?> signin(
@@ -196,7 +209,7 @@ public class AuthController {
         int result = emailCheck(email);
         if (result == 1) {
             MailResponse mail = authService.createMailAndChangePassword(email);
-            mailService.sendMail(mail, "updatePass");
+  //          mailService.sendMail(mail, "updatePass");
         }
         return result;
     }
@@ -211,7 +224,7 @@ public class AuthController {
         log.info("결과값 = {}", result);
         if (result == 0) {
             MailResponse mail = authService.sendCode(email, code);
-            mailService.sendMail(mail, "signUpCode");
+   //         mailService.sendMail(mail, "signUpCode");
         }else {
             return Integer.toString(result);
         }

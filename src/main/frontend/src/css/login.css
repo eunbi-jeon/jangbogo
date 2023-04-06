@@ -61,3 +61,7 @@ h1 {
 .social-login {
     margin-top: 50px;
 }
+
+button {
+    border: none;
+}
