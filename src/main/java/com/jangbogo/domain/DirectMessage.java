@@ -50,6 +50,7 @@ public class DirectMessage extends BaseTimeEntity {
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	private Member receiver; // 받는 사람
 
+	//생성자
     public DirectMessage(String title, String content, Member sender, Member receiver) {
         this.title = title;
         this.content = content;

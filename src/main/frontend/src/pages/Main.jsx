@@ -8,7 +8,7 @@ import icon300 from '../img/priceInfo_icon/300.png';
 import icon400 from '../img/priceInfo_icon/400.png';
 import icon500 from '../img/priceInfo_icon/500.png';
 import icon600 from '../img/priceInfo_icon/600.png';
-import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid ,ResponsiveContainer } from 'recharts';
+// import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid ,ResponsiveContainer } from 'recharts';
 
 import banner1 from '../img/banner/april-main-banner-1.jpg'
 import banner2 from '../img/banner/april-main-banner-2.jpg'

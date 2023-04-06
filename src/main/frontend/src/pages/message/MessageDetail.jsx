@@ -1,52 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import "../../css/Messageform";
+import {withRouter} from 'react-router-dom';
 
-function MessageDetail() {
-  const { id } = useParams();
-  const [message, setMessage] = useState({});
+class MessageDetail extends Component {
+        constructor(props) {
+            super(props);
 
-  useEffect(() => {
-    axios.get(`/api/messages/receiver/{id}`)
-      .then(res => {
-        setMessage(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, [id]);
+            this.state = {
+              message : {}
+            };
+        }
 
-  const modal = document.querySelector('.modal');
-  const openBtn = document.querySelector('.open-btn');
-  const closeBtn = document.querySelector('.close-btn');
-  
-  openBtn.addEventListener('click', () => {
-    modal.classList.add('show');
-  });
-  
-  closeBtn.addEventListener('click', () => {
-    modal.classList.remove('show');
-  });
+        componentDidMount() {  
+            const {id} = this.props.match.params; //MessageList Link 컴포넌트 경로에서 ID값을 추출하기 위해
+            const accessToken = localStorage.getItem("accessToken");
 
-  return (
-
-<div>
-  <div class="modal">
-    <h2>받은 쪽지</h2>
-      <form>
-          <label for="message"></label>
-          <span id="content">{message.content}</span>
-          <span id="sender" name="sender">{message.sender}</span>
-          <span id="createAt" name="createAt">{message.createBy}</span>
-      </form>
-    <button class="close-btn">닫기</button>
-    <button class="delete-btn">삭제</button>
-  </div>
-
-  <p class="open-btn">쪽지</p>
-</div>
-);
+            axios
+                .get(`/api/messages/receiver/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })
+                .then(res => {
+                    this.setState({ message : res.data.result.data});
+                    console.log(res.data.result.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+              }
+              render() {
+                const { message } = this.state;
+                return (
+                  <div>
+                    {/* Object.keys(message).length가 0보다 큰 경우(즉, message 객체가 비어있지 않은 경우)에는 message 객체의 내용을 출력*/}
+                    {Object.keys(message).length > 0 ? (
+                      <div key={message.id}>
+                        <h4>{message.sender}</h4>
+                        <p></p>
+                        <div>
+                          <div> Content: {message.content}</div><br/>
+                          <div> Sender: {message.senderName}</div><br/> 
+                          <div>{message.createat}</div><br/>
+                        </div>
+                      </div>
+                    ) : (
+                        //  그렇지 않은 경우에는 "데이터를 불러오는 중입니다."라는 문구를 출력 
+                      <div>데이터를 불러오는 중입니다.</div>
+                    )}
+                  </div>
+                );
+              }
 }
 
-export default MessageDetail;
+export default withRouter(MessageDetail);

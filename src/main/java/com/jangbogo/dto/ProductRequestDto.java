@@ -1,8 +1,7 @@
 package com.jangbogo.dto;
 
 
-import com.jangbogo.domain.Product.Product;
-import com.jangbogo.domain.member.entity.Member;
+import com.jangbogo.domain.Product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +23,22 @@ public class ProductRequestDto {
     private String image;
     private String mallName;
     private Integer lprice;
-  
+    private String name;
+    
 
+
+	public static ProductRequestDto toDto(Product product) {
+		return new ProductRequestDto (
+	
+				product.getProductId(),
+				product.getTitle(),
+		    	product.getLink(),
+		    	product.getImage(),
+		    	product.getMallName(),
+		    	product.getLprice(),
+		    	product.getUser().getName()
+		   
+	    	);
+	}
 
 }

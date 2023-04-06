@@ -15,6 +15,11 @@ import BoardCreate from '../pages/BoardCreate';
 
 import FindPassword from '../pages/user/FindPassword';
 
+import MessageList from '../pages/message/MessageList';
+import MessageDetail from '../pages/message/MessageDetail';
+import MessageForm from '../pages/message/MessageForm';
+
+
 import Search from '../pages/Search';
 import ZzimItem from '../components/ZzimItem'
 import Save from '../components/Save';
@@ -90,11 +95,15 @@ class App extends Component {
           </div>
           <div className="app-body">
             <Switch>
-              <PrivateRoute path="/mypage" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
-                component={Mypage}></PrivateRoute>
-              <PrivateRoute path="/setting/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
-              component={ProfileModify}></PrivateRoute>
+              <PrivateRoute path="/mypage" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={Mypage}></PrivateRoute>
+              <PrivateRoute path="/setting/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ProfileModify}></PrivateRoute>
               <Route path="/login" render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
+              
+              <PrivateRoute path="/messages/postbox/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MessageDetail}></PrivateRoute>  
+              <PrivateRoute path="/messages/postbox" authenticated={this.state.authenticated} currentUser={this.state.currentUser}  component={MessageList}></PrivateRoute>
+              <PrivateRoute path="/messages" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MessageForm}></PrivateRoute>
+              
+              
               <Route path="/signup" render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
               <PrivateRoute path="/board/detail/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardDetail}></PrivateRoute>
