@@ -48,7 +48,7 @@ public class ZzimService {
 	    if(product==null) {
 
 		    productRepository.save(buildProductreq(req));
-	    	zzim.setCount(zzim.getCount()+1);;
+	    	zzim.setCount(zzim.getCount()+1);
 	    }else {
 	    	product.addCount(count);
 	    }
