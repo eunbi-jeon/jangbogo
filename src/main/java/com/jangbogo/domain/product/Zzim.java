@@ -33,7 +33,7 @@ import lombok.Setter;
 public class Zzim {
 
     @Id
-    @Column(name = "zzimId")
+    @Column(name = "zzimid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
