@@ -13,9 +13,30 @@ class Mypage extends Component {
     constructor(props) {
         super(props);
         this.fileInputRef = React.createRef();
-      console.log(props);
-
+        console.log(props);
+        this.questions = [];
       }
+
+      componentDidMount() {
+        console.log("내가 작성한 글 요청")
+        const token = localStorage.getItem('accessToken');
+        axios
+            .get('http://localhost:8080/mypage/board', {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+            .then((res) => {
+                if (res.data) {
+                    console.log("게시글 출력")
+                    console.log(res.data);
+                    this.setState({ questions: res.data.content || [] });
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
       
       handleFileInputChange = (event) => {
         const file = event.target.files[0];

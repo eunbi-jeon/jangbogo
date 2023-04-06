@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.jangbogo.exeption.DataNotFoundException;
@@ -33,7 +34,13 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class QuestionService {
 
-	private final QuestionRepository questionRepository; 
+	private final QuestionRepository questionRepository;
+
+    //내가 쓴 글 조회
+    public ResponseEntity<List<Question>> getMyBoard(Member member){
+        List<Question> myboard = questionRepository.findByName(member);
+        return ResponseEntity.ok(myboard);
+    }
 	
 	 // 금지어 리스트
     private static final List<String> PROFANITY_LIST = Arrays.asList("욕설1", "욕설2", "욕설3");

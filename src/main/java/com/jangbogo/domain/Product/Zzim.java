@@ -26,6 +26,7 @@ import lombok.Setter;
 @Entity
 @Data
 public class Zzim {
+
     @Id
     @Column(name = "favListId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

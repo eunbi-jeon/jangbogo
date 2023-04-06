@@ -90,29 +90,22 @@ class App extends Component {
           </div>
           <div className="app-body">
             <Switch>
-              <Route exact path="/" component={Main}></Route>    
               <PrivateRoute path="/mypage" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
                 component={Mypage}></PrivateRoute>
               <PrivateRoute path="/setting/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
               component={ProfileModify}></PrivateRoute>
-              <Route path="/login"
-                render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
-              <Route path="/signup"
-                render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
+              <Route path="/login" render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
+              <Route path="/signup" render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
-              <PrivateRoute path="/board/list" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
-                component={BoardList}></PrivateRoute>
-              <PrivateRoute path="/board/create" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
-                component={BoardCreate}></PrivateRoute>
-              <PrivateRoute path="/board/detail/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
-                component={BoardDetail}></PrivateRoute>
-              <Route component={NotFound}></Route>
-              <Route path="/search" render={() => <Search query={this.state.query} authenticated={this.state.authenticated} currentUser={this.state.currentUser} />} />
-              <PrivateRoute path="/save" 
-                      component={()=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></PrivateRoute>
-              <Route path="/myfav" 
-                      component={()=><ZzimItem authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
+              <PrivateRoute path="/board/detail/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardDetail}></PrivateRoute>
+              <PrivateRoute path="/board/create" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardCreate}></PrivateRoute>
+              <PrivateRoute path="/board/list" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardList}></PrivateRoute>
+              <Route path="/search" render={(props) => <Search query={this.state.query} authenticated={this.state.authenticated} currentUser={this.state.currentUser} />} />
+              <PrivateRoute path="/save" render={(props)=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></PrivateRoute>
+              <Route path="/myfav" render={(props)=><ZzimItem authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
               <Route path="/password/find" component={FindPassword}></Route>
+              <Route exact path="/" component={Main}></Route> 
+              <Route component={NotFound}></Route>
             </Switch>
           </div>
           <div className="app-bottom-box">

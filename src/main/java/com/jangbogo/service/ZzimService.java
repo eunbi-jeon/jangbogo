@@ -2,9 +2,11 @@ package com.jangbogo.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import com.jangbogo.domain.Product.Zzim;
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class ZzimService {
 	
 	private final ZzimRepository zzimRepository ;
@@ -37,25 +40,37 @@ public class ZzimService {
 	//prod 저장
 	public void saveProducts(Member user, ProductRequestDto req, Integer count) {
 	    Zzim zzim = zzimRepository.findByUserEmail(user.getEmail());
-	    
+
+		log.info("찜 처리 시작");
 	    if (zzim == null) {
+			log.info("찜 생성");
 	    	zzim = Zzim.creatZzim(user);
 	    	zzimRepository.save(zzim);
+			log.info("찜 저장완료");
 	    }
-	    
-	    Product product = productRepository.findByZzimId(zzim.getId());
-	    	
-	    if(product==null) {
 
-		    productRepository.save(buildProductreq(req));
-	    	zzim.setCount(zzim.getCount()+1);;
-	    }else {
-	    	product.addCount(count);
-	    }
+		log.info("찜 방 번호로 상품 찾기");
+	    Product product = productRepository.findByZzimId(zzim.getId());
+
+		try {
+
+			if (product == null) {
+				log.info("상품 저장");
+				productRepository.save(buildProductreq(req,zzim));
+				zzim.setCount(zzim.getCount() + 1);
+				log.info("상품 카운트 증가");
+			} else {
+				product.addCount(count);
+				log.info("카운트 추가");
+			}
+
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 	}
-	
-		private Product buildProductreq(ProductRequestDto req) {
-				
+
+		private Product buildProductreq(ProductRequestDto req, Zzim zzim) {
+
 				return Product.builder()
 						.productId(req.getProductId())
 						.title(req.getTitle())
@@ -63,6 +78,7 @@ public class ZzimService {
 						.link(req.getLink())
 						.lprice(req.getLprice())
 						.mallName(req.getMallName())
+						.zzim(zzim)
 						.build()
 						;
 			}
