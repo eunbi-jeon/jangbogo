@@ -10,11 +10,7 @@ import com.jangbogo.payload.response.AuthResponse;
 import com.jangbogo.payload.response.MailResponse;
 import com.jangbogo.payload.response.Message;
 
-<<<<<<< HEAD
-import com.jangbogo.service.MailService;
-=======
 //import com.jangbogo.service.MailService;
->>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 
 import com.jangbogo.service.auth.AuthService;
 import io.swagger.v3.oas.annotations.Operation;

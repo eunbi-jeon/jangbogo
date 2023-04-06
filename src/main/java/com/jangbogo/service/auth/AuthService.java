@@ -20,12 +20,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 
-<<<<<<< HEAD
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
-
-=======
->>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -101,7 +95,7 @@ public class AuthService {
             String oriImgName = multipartFile.getOriginalFilename();
 
             String imgName = fileService.uploadFile(oriImgName, multipartFile.getBytes());
-            String uploadDir = "/profile/" + imgName;
+            String uploadDir = "./img/profile/" + imgName;
 
             member.updateImageUrl(uploadDir);
             memberRepository.save(member);
