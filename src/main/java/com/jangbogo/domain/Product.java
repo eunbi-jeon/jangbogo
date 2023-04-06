@@ -13,11 +13,9 @@ import javax.persistence.ManyToOne;
 
 import com.jangbogo.domain.common.BaseTimeEntity;
 import com.jangbogo.domain.member.entity.Member;
-import com.jangbogo.dto.ProductRequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

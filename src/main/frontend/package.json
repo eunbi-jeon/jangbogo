@@ -21,14 +21,9 @@
     "react-hook-form": "^7.43.8",
     "react-modal": "^3.16.1",
     "react-redux": "^8.0.5",
-<<<<<<< HEAD
-    "react-router-dom": "^5.3.4",
-    "react-scripts": "5.0.1",
-=======
     "react-router-dom": "^5.2.0",
     "react-scripts": "^5.0.1",
     "recharts": "^2.5.0",
->>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
     "redux": "^4.2.1",
     "redux-action": "^1.2.2",
     "web-vitals": "^2.1.4"  

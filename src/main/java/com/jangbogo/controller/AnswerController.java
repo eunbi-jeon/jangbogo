@@ -4,24 +4,19 @@ import java.security.Principal;
 
 import javax.validation.Valid;
 
-<<<<<<< HEAD
 import org.springframework.http.HttpStatus;
-=======
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
->>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-<<<<<<< HEAD
-=======
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
->>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 import com.jangbogo.domain.Board.Answer;
-import com.jangbogo.domain.Board.Board;
 import com.jangbogo.domain.Board.Question;
 import com.jangbogo.domain.member.entity.Member;
 import com.jangbogo.dto.AnswerDto;
@@ -39,7 +34,7 @@ public class AnswerController {
 	private final AnswerService answerService; 
 	private final MemberService memberService;
 
-<<<<<<< HEAD
+
 	@PostMapping("/answer/create/{id}")
 	public String answerCreate(Model model, @PathVariable("id") Long id, @Valid
  			AnswerDto answerDto, BindingResult bindingResult, Principal principal,
@@ -57,7 +52,6 @@ public class AnswerController {
 	        answerService.createChildReply(question, parentId, answerDto.getContent(), member);
 	        return String.format("redirect:/board/detail/%s#answer%s", parentReply.getQuestion().getId(), parentReply.getId());
 	    }
-=======
 	@PostMapping("/board/answer/create/{id}")
 	public void answerCreate(@RequestBody AnswerDto answerDto,@PathVariable("id") Long id ,BindingResult bindingResult, Principal principal) {
 		// @RequestBody 어노테이션을 추가하여 Request Body에서 데이터를 읽어옴
@@ -74,8 +68,6 @@ public class AnswerController {
 		this.answerService.create(question,answerDto.getContent() ,member);
 
 	}
->>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
-		
 	//답변수정 
     @GetMapping("/answer/modify/{id}")
     public String answerModify(AnswerDto answerDto, @PathVariable("id") Long id, Principal principal) {

@@ -2,14 +2,20 @@ package com.jangbogo.controller;
 
 import javax.validation.Valid;
 
-import com.jangbogo.config.security.token.CurrentUser;
-import com.jangbogo.config.security.token.UserPrincipal;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.jangbogo.config.security.token.CurrentUser;
+import com.jangbogo.config.security.token.UserPrincipal;
 import com.jangbogo.domain.member.entity.Member;
 import com.jangbogo.exeption.MemberNotEqualsException;
 import com.jangbogo.payload.request.message.MessageCreateRequest;
@@ -17,6 +23,8 @@ import com.jangbogo.payload.response.DM.Response;
 import com.jangbogo.repository.MemberRepository;
 import com.jangbogo.service.MessageService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Messages Controller", description = "Messages")
@@ -32,18 +40,15 @@ public class MessageController {
     @Operation(summary = "쪽지 작성", description = "쪽지 보내기")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/messages")
-<<<<<<< HEAD
     public Response createMessage(@Valid @RequestBody MessageCreateRequest req, @CurrentUser UserPrincipal userPrincipal) {    	
     	Member member = memberRepository.findByEmail(userPrincipal.getEmail()).orElseThrow(() ->
                 new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
         );
     	
-=======
     public Response createMessage(@Valid @RequestBody MessageCreateRequest req, @CurrentUser UserPrincipal userPrincipal) {
         Member member = memberRepository.findById(userPrincipal.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
         );
->>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
         return Response.success(messageService.createMessage(member, req));
     }
 
@@ -54,13 +59,11 @@ public class MessageController {
         Member member = memberRepository.findById(userPrincipal.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
         );
-<<<<<<< HEAD
     	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getEmail());
     	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getName());
     	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getUsername());
     	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getPassword());
-=======
->>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
+
         return Response.success(messageService.receiveMessages(member));
     }
 

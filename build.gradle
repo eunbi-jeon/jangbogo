@@ -69,11 +69,9 @@ dependencies {
 	// json
 	implementation 'org.json:json:20210307'
 
-<<<<<<< HEAD
-=======
+
 //	//springfox
 //	implementation 'io.springfox:springfox-boot-starter:3.0.0'
->>>>>>> be985e41549ba282b5d80546d617aeb64b2a5333
 
 	//aop
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
