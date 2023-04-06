@@ -12,6 +12,7 @@ import com.jangbogo.payload.response.Message;
 
 //import com.jangbogo.service.MailService;
 
+import com.jangbogo.service.MailService;
 import com.jangbogo.service.auth.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -39,7 +40,7 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
-  //  private final MailService mailService;
+    private final MailService mailService;
 
     @Operation(summary = "유저 정보 확인", description = "현제 접속된 유저정보를 확인합니다.")
     @ApiResponses(value = {
@@ -56,9 +57,6 @@ public class AuthController {
     ) {
             System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
             log.info("매개 유저정보 {}", userPrincipal.getName());
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//            Member member = memberRepository.findByName(authentication.getName())
-//                    .orElseThrow(MemberNotFoundException::new);
             return authService.whoAmI(userPrincipal);
     }
 
@@ -205,7 +203,7 @@ public class AuthController {
         int result = emailCheck(email);
         if (result == 1) {
             MailResponse mail = authService.createMailAndChangePassword(email);
-  //          mailService.sendMail(mail, "updatePass");
+            mailService.sendMail(mail, "updatePass");
         }
         return result;
     }
@@ -220,7 +218,7 @@ public class AuthController {
         log.info("결과값 = {}", result);
         if (result == 0) {
             MailResponse mail = authService.sendCode(email, code);
-   //         mailService.sendMail(mail, "signUpCode");
+            mailService.sendMail(mail, "signUpCode");
         }else {
             return Integer.toString(result);
         }
