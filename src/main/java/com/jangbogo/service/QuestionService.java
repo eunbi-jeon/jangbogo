@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.jangbogo.exeption.DataNotFoundException;
@@ -33,7 +34,13 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class QuestionService {
 
-	private final QuestionRepository questionRepository; 
+	private final QuestionRepository questionRepository;
+
+    //내가 쓴 글 조회
+    public ResponseEntity<List<Question>> getMyBoard(Member member){
+        List<Question> myboard = questionRepository.findByName(member);
+        return ResponseEntity.ok(myboard);
+    }
 	
 	 // 금지어 리스트
     private static final List<String> PROFANITY_LIST = Arrays.asList("욕설1", "욕설2", "욕설3");
@@ -71,17 +78,17 @@ public class QuestionService {
 			return op.get();
 		}else {
 			throw new DataNotFoundException("요청한 파일을 찾지 못했습니다. "); 
-		}		
+		}		 
 	}
 	
 	// 생성
 	public void create(Board board, String subject, String content, Member name) {
 		
-		// 욕설 필터링
-        if (isProfanity(subject) || isProfanity(content)) {
-            // 욕설이 포함된 제목이나 내용을 입력한 경우 예외를 던지거나 다른 처리를 할 수 있습니다.
-            throw new IllegalArgumentException("금지어가 포함된 제목이나 내용입니다.");
-        }
+//		// 욕설 필터링
+//        if (isProfanity(subject) || isProfanity(content)) {
+//            // 욕설이 포함된 제목이나 내용을 입력한 경우 예외를 던지거나 다른 처리를 할 수 있습니다.
+//            throw new IllegalArgumentException("금지어가 포함된 제목이나 내용입니다.");
+//        }
 
 		Question q = new Question();
 		q.setBoard(board);

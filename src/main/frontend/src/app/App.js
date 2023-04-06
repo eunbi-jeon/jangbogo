@@ -9,6 +9,12 @@ import Login from '../pages/user/Login';
 import Mypage from '../pages/user/Mypage';
 import ProfileModify from '../pages/user/ProfileModify';
 
+import BoardList from '../pages/BoardList';
+import BoardDetail from '../pages/BoardDetail';
+import BoardCreate from '../pages/BoardCreate';
+
+import FindPassword from '../pages/user/FindPassword';
+
 import Search from '../pages/Search';
 import ZzimItem from '../components/ZzimItem'
 import Save from '../components/Save';
@@ -21,6 +27,8 @@ import LoadingIndicator from '../common/LoadingIndicator';
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants';
 import PrivateRoute from '../common/PrivateRouter';
+
+import '../css/root.css'
 
 
 class App extends Component {
@@ -82,33 +90,29 @@ class App extends Component {
           </div>
           <div className="app-body">
             <Switch>
-              <Route exact path="/" component={Main}></Route>    
               <PrivateRoute path="/mypage" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
                 component={Mypage}></PrivateRoute>
               <PrivateRoute path="/setting/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
               component={ProfileModify}></PrivateRoute>
-              <Route path="/login"
-                render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
-              <Route path="/signup"
-                render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
-              <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
-              <Route path="/search" 
-              			render={(props) => <Search query={this.state.query} authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
-              <PrivateRoute path="/save" 
-              			render={(props)=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></PrivateRoute>
-              <Route path="/aa" 
-              			render={(props)=><ZzimItem authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
- 
-
+              <Route path="/login" render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
+              <Route path="/signup" render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
+              <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
+              <PrivateRoute path="/board/detail/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardDetail}></PrivateRoute>
+              <PrivateRoute path="/board/create" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardCreate}></PrivateRoute>
+              <PrivateRoute path="/board/list" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardList}></PrivateRoute>
+              <Route path="/search" render={(props) => <Search query={this.state.query} authenticated={this.state.authenticated} currentUser={this.state.currentUser} />} />
+              <PrivateRoute path="/save" render={(props)=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></PrivateRoute>
+              <Route path="/myfav" render={(props)=><ZzimItem authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
+              <Route path="/password/find" component={FindPassword}></Route>
+              <Route exact path="/" component={Main}></Route> 
               <Route component={NotFound}></Route>
             </Switch>
-          </div>  
-            </BrowserRouter>
-            <div className="app-bottom-box">
+          </div>
+          <div className="app-bottom-box">
             <Footer />
-            </div>
-        </div>
-               
+          </div>
+            </BrowserRouter>
+        </div>      
       );
     }
   }

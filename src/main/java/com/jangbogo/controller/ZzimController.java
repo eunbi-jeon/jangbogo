@@ -2,6 +2,7 @@ package com.jangbogo.controller;
 
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class ZzimController {
 
 
@@ -50,8 +52,9 @@ public class ZzimController {
     @PostMapping("/api/products")
     public ResponseEntity<?> addProductToZzim(@CurrentUser UserPrincipal currentUser, 
     									@RequestBody ProductRequestDto productDto, Integer count) {
-    	System.out.println("로그인 상태!!!!!!!!!!!!!" +currentUser);
-    	Member user = memberRepository.findByEmail(currentUser.getEmail()).orElse(null); 
+
+        log.info("찜 Post 요청 : {}", currentUser.getEmail());
+    	Member user = memberRepository.findByEmail(currentUser.getEmail()).orElse(null);
 
         zzimService.saveProducts(user, productDto, count);
 

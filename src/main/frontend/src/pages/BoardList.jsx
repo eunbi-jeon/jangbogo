@@ -1,82 +1,84 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../css/boardList.css';
 
 class BoardList extends Component {
-
     constructor(props) {
-        super(props)
+        super(props);
 
         this.state = {
             questions: [],
             currentPage: 1,
             totalPages: null,
             error: null,
-        }
+        };
     }
 
     componentDidMount() {
-     {
-            const token = localStorage.getItem('accessToken');
-            axios.get('http://localhost:8080/board/list', {
+        const token = localStorage.getItem('accessToken');
+        axios
+            .get('http://localhost:8080/board/list', {
                 headers: {
-                    Authorization: 'Bearer ' + token
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+            .then((res) => {
+                if (res.data) {
+                    this.setState({ questions: res.data.content || [] });
                 }
             })
-                .then((res) => {
-                    const questions = res.data;
-                    this.setState({questions})
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        }
-    }
-    
-    handlePostClick = (questionId) => {
-
-        sessionStorage.setItem('scrollPosition', window.scrollY)
-        this.props.history.push(`/question/${questionId}`);
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
+    handlePostClick = (id) => {
+        console.log('게시글 ID:', id);
+    };
 
     render() {
-        console.log(this.state.questions);
+        const { questions } = this.state;
         return (
-
             <div>
                 <div className="boardWrap">
-                    <h1>게시판</h1>
-                    <span className='hrLine1'><hr></hr></span>
-                    <table className='boardList'>
-  <thead>
-    <tr>
-      <th className='listCount2'>번호</th>
-      <th className='listSubject2'>글제목</th>
-      <th className='bestCount2'>추천 수</th>
-      <th className='readCount2'>조회 수</th>
-    </tr>
-  </thead>
-  <tbody>
-    {this.state.questions.map((question) => (
-      <React.Fragment key={question.id}>
-        <tr onClick={() => this.handlePostClick(question.id, question.readCount)}>
-          <td className='listCount'>{question.id}</td>
-          <td className='listSubject'>
-            <Link to={`/question/detail/${question.id}`}>{question.subject}</Link>
-            <span className='replyCount'>{question.answer.length}</span>
-          </td>
-          <td className='bestCount'>{question.voter.length}</td>
-          <td className='readCount'>{question.readCount}</td>
-        </tr>
-        <tr className='hrLine3' />
-      </React.Fragment>
-    ))}
-  </tbody>
-</table>
-                    <span className='hrLine1'><hr ></hr></span>
-                    <button className='boardCreate'><Link to='/question/create'>글 쓰기</Link></button>
+                    <span className="hrLine1">
+                    </span>
+                    <table className="boardList">
+                        <thead>
+                            <tr>
+                                <th className="listCount2">번호</th>
+                                <th className="listSubject2">글제목</th>
+                                <th className="bestCount2">추천 수</th>
+                                <th className="readCount2">조회 수</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {questions && questions.map((question) => (
+                                <>
+                                    <tr key={question.id}
+                                        onClick={() => this.handlePostClick(question.id)}>
+                                        <td className="listCount">{question.id}</td>
+                                        <td className="listSubject">
+                                            <Link to={`/board/detail/${question.id}`}>
+                                                {question.subject}
+                                            </Link>
+                                            <span className="replyCount">
+                                                {question.answerList ? question.answerList.length: 0}
+                                            </span>
+                                        </td>
+                                        <td className="bestCount">{question.voter}</td>
+                                        <td className="readCount">{question.readCount}</td>
+                                    </tr>
+                                    <tr><td colSpan={4}><div className="hrLine3"></div></td></tr>
+                                    </>
+                                ))}
+                                
+                        </tbody>
+                    </table>
+                    <button className="boardCreate">
+                        <Link to="/board/create" style={{color:'white'}}>글 쓰기</Link>
+                    </button>
                 </div>
             </div>
         );

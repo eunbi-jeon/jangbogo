@@ -2,6 +2,7 @@ package com.jangbogo.repository;
 
 import java.util.List;
 
+import com.jangbogo.domain.member.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,10 +18,11 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 	
 	Question findBySubject(String subject);    
 
-	Question findByContent(String content); 
-	 
-	List<Question> findBySubjectLike(String subject); 
-	
+	Question findByContent(String content);
+
+
+	List<Question> findByName(Member member);
+
 	List<Question> findByContentLike(String content); 
 	
 	List<Question> findBySubjectLikeOrContentLike (String subject, String content); 

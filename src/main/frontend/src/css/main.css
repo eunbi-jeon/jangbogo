@@ -1,57 +1,144 @@
 .Container {
+    width: 1100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    margin: 0 auto;
+}
+
+.section1{
     width: 80%;
-    height: 350px;
-    margin: 5% 10% 5% 10%;
-    background-color: rgb(249, 248, 243);
-    display: flex;
- 
-}
-.PriceInfoBox {
-    width: 100%;
-    display: flex;
-}
-.itemName {
-    font-size: 15pt;
-    font-weight: bold;
-}
-
-.icon_box {
-    width: 300px;
     height: 400px;
-    text-align: center;
-    margin: 20% 30% 0 40%;
-}
-
-
-
-.circle {
-    width: 150px;
-    height: 150px;
+    margin: 5% 10% 5% 10%;
     display: flex;
     justify-content: center;
+}
+
+
+.PriceInfoBox {
+    width: 1100px;
+    display: flex;
+    padding: 50px 80px 30px 80px;
+    border: 5px solid rgb(234, 234, 234);
+    border-radius: 20px;
+}
+
+.icon-wrap {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
     align-items: center;
-    border-radius: 50%;
-    background-color: white;
-    margin: 5% 10% 10% 25%;
-
+    justify-content: center;
 }
 
-.icon_img {
-    width: 50%;
+.icon-box {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
 }
 
-.itemCode{
-    font-size: 25px;
+.icon-img {
+    width: 80px;
+    height: 80px;
+}
+
+.itemCode {
+    font-size: 14px;
+    padding: 5px 10px;
+    font-weight: bold;
+    background-color: tomato;
+    border-radius: 20px;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.itemName {
+    color:tomato;
+    font-size: 42px;
     font-weight: bold;
 }
 
-.info_box {
-    width: 300px; 
-    height: 100%;
-    margin: 2% 0 0 10%;
+.unit {
+    font-size: 8pt;
+    margin-top: 10px;
 }
 
-.infoDate{
-    font-size: 15px;
-    float: right;
+.chart-part {
+    margin-left: 80px;
 }
+
+.infoDate {
+    position: relative;
+    text-align: right;
+    margin-top: 10px;
+}
+
+.infoDate > p {
+    font-size: 8pt;
+    display: inline;
+    font-weight: bold;
+    color: rgb(149, 149, 149);
+}
+
+.priceInfoCategory {
+    width: 1100px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.iconIMG {
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+    background-color: rgb(244, 244, 244);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.iconIMG > img {
+    width: 80px;
+    height: 80px;
+}
+
+.priceInfoCategory > ul > li {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.main-banner-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.main-banner {
+    margin-top: 80px;
+    text-align: center;
+}
+
+.banner-img {
+    border-radius: 30px;
+    box-shadow: 0px 0px 10px 10px rgba(223, 223, 223, 0.328);
+    margin: 30px;
+}
+
+.banner-img-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    background-color: white;
+    border: 3px solid gainsboro;
+    z-index: 1;
+}
+

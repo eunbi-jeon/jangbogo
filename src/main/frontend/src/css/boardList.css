@@ -1,57 +1,61 @@
-.boardWrap{
+.boardWrap {
+  width: 1000px;
+  margin: 0 auto;
+  padding: 20px 30px;
+  margin-top: 50px;
+  text-align: center;
+}
 
-  }
   .boardWrap .boardList td{
     font-size: 16px;
   }
   .boardWrap .replyCount{
     font-size: 14px;
-    color: rgb(225, 59, 59);
+    color:tomato;
+    margin-left: 20px;
   }
   .bestCount,.readCount, .listCount, .listSubject{
+    padding: 20px;
     text-align: center;
   }
   .bestCount2,.readCount2, .listCount2, .listSubject2{
     text-align: center;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid tomato;
   }
   .listCount2{
     text-align: center;
     width: 100px;
   }
   .listSubject2{
-    width: 800px;
-    text-align: center;
+    width: 1200px;
+    width: 70%;
   }
-  .bestCount2, .readCount2{
+  .bestCount2{
     width: 100px;
     text-align: center;
   }
+  .readCount2{
+    width: 100px;
+  }
+
   .boardCreate{
-    text-align: center;
-    width: 60px;
-    background-color: rgb(255, 235, 199);
+    margin: 0 auto;
+    background-color: tomato;
     border: none;
     border-radius: 10px;
-    font-size: 13px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    font-size: 16px;
+    padding: 10px 20px;
     cursor: pointer;
-    border: 1px solid rgb(255, 200, 150);
-    
+    margin-top: 50px;
+    color: white;
+    font-weight: bold;
   }
-  a {
-    text-decoration: none;
-    color: black;
-  }
-  .hrLine1 hr{
-    height: 2px;
-    background-color: rgb(255, 235, 199);
-    border: 0px;
-    margin-top: -10px;
-  }
-  .hrLine3 hr{
-    height: 2px;
-    background-color: rgb(250, 247, 247);
-    border: 0px;
-  }
+
+.hrLine3 {
+  border: 0.5px solid gainsboro;
+}
+
+tbody {
+  margin-top: 10px;
+}
