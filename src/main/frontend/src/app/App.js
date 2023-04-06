@@ -84,12 +84,12 @@ class App extends Component {
               component={ProfileModify}></PrivateRoute>
             <Route path="/login"
               render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
-            {/* <PrivateRoute path="/messages" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
-              component={MessageForm}></PrivateRoute> */}
+            <PrivateRoute path="/messages/postbox/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+              component={MessageDetail}></PrivateRoute>  
             <PrivateRoute path="/messages/postbox" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
               component={MessageList}></PrivateRoute>
-            {/* <PrivateRoute path="/messages/postbox/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
-              component={MessageDetail}></PrivateRoute>   */}
+              <PrivateRoute path="/messages" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+              component={MessageForm}></PrivateRoute>
             <Route path="/signup"
               render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
             <Route path="/password/find" component={FindPassword} ></Route>

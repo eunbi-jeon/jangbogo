@@ -40,8 +40,8 @@ class MessageDetail extends Component {
                         <p></p>
                         <div>
                           <div> Content: {message.content}</div><br/>
-                          <div> Sender: {message.sender}</div><br/> 
-                          <div>{message.createBy}</div><br/>
+                          <div> Sender: {message.senderName}</div><br/> 
+                          <div>{message.createat}</div><br/>
                         </div>
                       </div>
                     ) : (
