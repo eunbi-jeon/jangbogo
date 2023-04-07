@@ -35,6 +35,16 @@ public class MessageController {
     private final MessageService messageService;
     private final MemberRepository memberRepository;
 
+    
+    
+    @GetMapping("/messages/findName/{searchValue}")
+    public Response findReceiver(@PathVariable("searchValue") String nickname) {
+    	Member member = memberRepository.findByName(nickname).orElseThrow(() ->
+        new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
+        );
+        return Response.success();
+    }
+    
     @PostMapping("/messages")
     public Response createMessage(@Valid @RequestBody MessageCreateRequest req, @CurrentUser UserPrincipal userPrincipal) {
 

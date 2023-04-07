@@ -11,6 +11,17 @@ class MessageDetail extends Component {
             };
         }
 
+        // deleteMessage(event) {
+        //     alert("쪽지를 삭제하시겠습니까?")
+        //   deleteThumb()
+        //   .then((response) => {
+        //       alert("쪽지가 삭제되었습니다.");
+        //       window.location.href = "/mypage";
+        //   }).catch((error) => {
+        //       alert((error && error.message) || '프로필 사진 삭제에 실패하였습니다. 관리자에게 문의하세요');
+        //       window.location.href = "/mypage"; 
+        //   })
+        // };
         
         componentDidMount() {  
             const {id} = this.props.match.params; //MessageList Link 컴포넌트 경로에서 ID값을 추출하기 위해
