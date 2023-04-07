@@ -114,13 +114,13 @@ class Mypage extends Component {
                     <div className='profile-info-etc'>
                         <div className='etc-box'>
                             <div className='box-title'>내가 작성한 글</div>
-                            <ul>
+                            {/* <ul> */}
                             {this.state.boards.map((board) => (
-                                    <il><Link to={`/board/detail/${board.id}`}>
+                                    <li><Link to={`/board/detail/${board.id}`}>
                                                 {board.subject}
-                                        </Link></il>
+                                        </Link></li>
                                         ))}
-                                        </ul>
+                                        {/* </ul> */}
                             <button className='more-btn'>더보기</button>
                         </div>
                         <div className='etc-box'>
