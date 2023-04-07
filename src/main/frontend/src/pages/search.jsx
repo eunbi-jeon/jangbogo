@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import '../css/search.css'
 import axios from 'axios';
 import Save from '../components/Save';
-import ZzimItem from '../components/ZzimHandler';
 
 
 function numberWithCommas(pNumber) {
@@ -10,13 +9,11 @@ function numberWithCommas(pNumber) {
 }
 
 function Search(props) {
-
-  console.log(props.query);
-
   const query = props.query;
+  const authenticated=props.authenticated;
   const [items, setItems] = useState([]);
   const [sortBy, setSortBy] = useState('관련도순');
-  const [authenticated, setAutenticated] = useState(false);
+
   const boldText = (text) => {
     return text.replaceAll(query, `<b>${query}</b>`);
   };
@@ -99,18 +96,11 @@ function Search(props) {
     } 
     
     
-    const handleSave = (item) => {
-      if (authenticated) {
-        return <Save item={item} />;
-      } else {
-        const confirmed = window.confirm("로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?");
-        if (confirmed) {
-        props.history.push('/login');
-        }
-      }
-    };
+
 };
   
+
+
     return (
       <>
       <div className="search-container">
@@ -135,7 +125,8 @@ function Search(props) {
                   <div className='price'>
                     {numberWithCommas(item.lprice)}
                     <span className='unit'>원</span>
-                    <Save authenticated={authenticated} onClick={(e) => {e.stopPropagation(); handleSave(item)}} item={item} />
+                    <Save authenticated={authenticated} onClick={(e) => {e.stopPropagation()}} item={item} />
+                   
                 </div>
               </div>
 

@@ -6,7 +6,7 @@ import "../css/saveitem.css"
 function ZzimItem(props) {
   const [products, setProducts] = useState([]);
   const [checked, setChecked] = useState([]);
-  const [checkedAll, setCheckedAll] = useState([]);
+  const [checkedAll, setCheckedAll] = useState(false);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -22,14 +22,23 @@ function ZzimItem(props) {
     fetchProducts();
   }, [checked]);
 
+  useEffect(() => {
+    const savedProducts = JSON.parse(localStorage.getItem('products'));
+    if (savedProducts) {
+      setProducts(savedProducts);
+    }
+  }, []);
 
-  const removeItem = (prodId) => {
-    console.log(prodId)
-    setProducts(products.filter((product) => product.id !== prodId));
-  };
-
+  useEffect(() => {
+    localStorage.setItem('products', JSON.stringify(products));
+  }, [products]);
 
   async function handleRemoveZzim() {
+    if (checked.length === 0) {
+      alert("삭제할 항목을 선택해주세요.");
+      return;
+    }
+    
     try {
       await Promise.all(
         checked.map((prodId) =>
@@ -41,8 +50,9 @@ function ZzimItem(props) {
           })
         )
       );
-      checked.forEach((prodId) => removeItem(prodId)); 
-      setChecked([]);
+
+   setCheckedAll(false);
+    setProducts(products.filter((product) => !checked.includes(product.id)));
       alert("선택하신 품목이 삭제되었습니다.");
     } catch (error) {
       console.error(error);
@@ -50,7 +60,9 @@ function ZzimItem(props) {
     }
   };
   
-  const handleCheckAll = () => {
+  
+  
+const handleCheckAll = () => {
     if (checkedAll) {
       setChecked([]);
       setCheckedAll(false);
@@ -59,14 +71,16 @@ function ZzimItem(props) {
       setChecked(ids);
       setCheckedAll(true);
     }
-  };
+ };
+
   const handleCheck = (prodId) => {
     if (checked.includes(prodId)) {
       setChecked(checked.filter((id) => id !== prodId));
+
     } else {
       setChecked([...checked, prodId]);
+      console.log(prodId)
     }
-    console.log(prodId)
   };
 
   return (
@@ -75,14 +89,26 @@ function ZzimItem(props) {
         <div className="countItem"> 찜한 품목({products.length})</div>
         <div className="delete">
           <button className="selectAllbtn" onClick={handleCheckAll}> 
-          {checked.length === products.length ? "전체 해제" : "전체 선택"}</button>
-          <button className="deletebtn" onClick={handleRemoveZzim}>삭제</button>
+          {checkedAll ? "전체 해제" : "전체 선택"}</button>
+          <button className="deletebtn" onClick={handleRemoveZzim}>
+            삭제
+          </button>
         </div>
       </div>
       <div className="listline"></div>
       <ul>    
         {products.map(product => (
-          <ZzimList key={product.id} id={product.id} link={product.link} title={product.title} image={product.image} lprice={product.lprice} mallName={product.mallName}  checked={checked.includes(product.id)} onCheck={handleCheck}/>
+          <ZzimList
+            key={product.id}
+            id={product.id}
+            link={product.link}
+            title={product.title}
+            image={product.image}
+            lprice={product.lprice}
+            mallName={product.mallName}
+            checked={checked.includes(product.id)}
+            onCheck={handleCheck}
+          />
         ))}
       </ul>
     </>

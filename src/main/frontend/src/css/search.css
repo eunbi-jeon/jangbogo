@@ -2,10 +2,18 @@
 .search-container{
     margin:10px;
 }
+.searchlist-top{
+    display: flex;
+    width:90%;
+    margin:0 auto;
+    padding-top:3%;
+    justify-content: space-between;
+}
 .sort-box{
     display: flex; 
     justify-content: right;
     margin-right: 70px;
+       
 }
 #sortBy{ 
     width:100px;

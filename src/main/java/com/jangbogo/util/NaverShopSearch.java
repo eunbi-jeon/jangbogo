@@ -32,6 +32,7 @@ public class NaverShopSearch {
         int status = httpStatus.value();
         String response = responseEntity.getBody();
         System.out.println("Response status: " + status);
+        System.out.println(response);
 
         return response;
 	};
