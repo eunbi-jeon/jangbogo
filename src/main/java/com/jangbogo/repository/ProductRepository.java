@@ -19,5 +19,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 
 	Product findByZzimId(Long zzimId);
 
+	List<Product> findByZzim(Zzim zzim);
+
+
+
 
 }

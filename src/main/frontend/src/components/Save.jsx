@@ -3,7 +3,6 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 function Save(props) {
-  const history = useHistory();
   const item=props.item
   const currentUser=props.currentUser;
   console.log(currentUser)

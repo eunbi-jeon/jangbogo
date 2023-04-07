@@ -43,12 +43,11 @@ public class ZzimController {
     public ResponseEntity<?> zzimList(@CurrentUser UserPrincipal currentUser) {
         
     	Member user = memberRepository.findByEmail(currentUser.getEmail()).orElse(null); 
-    	List<Product> product = productRepository.findAll();
-//    	Zzim zzim = zzimRepository.findByUserEmail(user.getEmail());
-//    	
-//        List<Product> productList = zzimService.viewZzim(zzim);
+    	Zzim zzim = zzimRepository.findByUserEmail(user.getEmail());
+    	List<Product> products = zzimService.viewZzim(zzim);
+    	   
+    	 return ResponseEntity.ok(products);
 
-        return ResponseEntity.ok(product);
     }
 
     @PostMapping("/api/products")
@@ -57,14 +56,13 @@ public class ZzimController {
 
     	Member user = memberRepository.findByEmail(currentUser.getEmail()).orElse(null);
 
+    	
         zzimService.saveProducts(user, productDto, count);
-
-
         return ResponseEntity.ok(productDto);
     }
 
     @DeleteMapping("api/products/{prodId}")
-    public ResponseEntity<?> removeProductFromFavList(@CurrentUser UserPrincipal currentUser, @PathVariable Product product) {
+    public ResponseEntity<?> removeProductFromFavList(@CurrentUser UserPrincipal currentUser, @PathVariable("prodId")  Product product) {
     	Member user = memberRepository.findByEmail(currentUser.getEmail()).orElse(null); 
     	Zzim zzim = zzimRepository.findByUserEmail(user.getEmail());
         

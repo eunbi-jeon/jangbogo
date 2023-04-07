@@ -53,29 +53,23 @@ public class Product extends BaseTimeEntity{
     
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "zzimId")
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "products"})
 	private Zzim zzim;
 	
-    private Integer count;
 	
-
 	@Builder
-    public Product (String productId, String title, String image, String link, Integer lprice, String mallName, Integer count, Zzim zzim) {		
+	public Product (String productId, String title, String image, String link, Integer lprice, String mallName, Zzim zzim) {		
 		this.productId = productId;
 		this.title = title;
 		this.image = image;
 		this.link = link;
 		this.lprice = lprice;
 		this.mallName = mallName;
-        this.count = count;
-		this.zzim=zzim;
-        
-        if (!zzim.getProducts().contains(this))
-        	zzim.getProducts().add(this);
-	}
-
-	public void addCount(Integer count) {
-		this.count +=count;
+		this.zzim = zzim;
+		
+		if (zzim != null ) {
+			zzim.getProducts().add(this);
+		}
 	}
 
 

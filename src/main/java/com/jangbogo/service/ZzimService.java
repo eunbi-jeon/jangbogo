@@ -42,26 +42,21 @@ public class ZzimService {
 	    Zzim zzim = zzimRepository.findByUserEmail(user.getEmail());
 
 	    if (zzim == null) {
+
 	        zzim = Zzim.creatZzim(user);
-	        zzim.setCount(zzim.getCount() + 1);
 	        zzimRepository.save(zzim);
 	    }
 
-	    try {
-	        Product product = productRepository.findByZzimId(zzim.getId());
-
-	        if (product == null) {
-	            zzim.setCount(zzim.getCount() + 1);
-	            zzimRepository.save(zzim);
-	            productRepository.save(buildProductreq(req,zzim));
-	        } else {
-	            product.addCount(count);
-	        }
-	    } catch (Exception e){
-	        e.printStackTrace();
-	    }
+        Product product = productRepository.findByZzimIdAndProductId(zzim.getId(), req.getProductId());
+        if(product==null) {
+	        productRepository.save(buildProductreq(req, zzim));	
+        	zzim.setCount(zzim.getCount() + 1);
+        }else {
+        	product.getCreateAt().toString();
+        }
+	     
 	}
-
+	
 	private Product buildProductreq(ProductRequestDto req, Zzim zzim) {
 	    return Product.builder()
 	            .productId(req.getProductId())
@@ -70,11 +65,9 @@ public class ZzimService {
 	            .link(req.getLink())
 	            .lprice(req.getLprice())
 	            .mallName(req.getMallName())
-	            .count(1)
 	            .zzim(zzim)
 	            .build();
 	}
-
 		
 		//찜 리스트 조회
 		public List<Product> viewZzim(Zzim zzim){
@@ -92,8 +85,14 @@ public class ZzimService {
 		
 		//찜 product 삭제
 		public void deleteProduct(Long id) {
-			productRepository.deleteById(id);
+		    Optional<Product> productOptional = productRepository.findById(id);
+		    if (productOptional.isPresent()) {
+		        productRepository.deleteById(id);
+		    } else {
+		        throw new RuntimeException("Product not found with id: " + id);
+		    }
 		}
+
 		
 		//찜 전체 삭제
 		public void deleteAll(Long id) {

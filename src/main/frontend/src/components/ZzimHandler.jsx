@@ -4,8 +4,9 @@ import ZzimList from './ZzimList';
 import "../css/saveitem.css"
 
 function ZzimItem(props) {
-  const [products, setProducts] = useState([]);	
+  const [products, setProducts] = useState([]);
   const [checked, setChecked] = useState([]);
+  const [checkedAll, setCheckedAll] = useState([]);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -16,20 +17,23 @@ function ZzimItem(props) {
         },
       });
       setProducts(response.data);
-      console.log(response.data);
     }
-    fetchProducts();
-  }, []);
 
-  const removeItem = (id) => {
-    setProducts(products.filter((product) => product.id !== id));
+    fetchProducts();
+  }, [checked]);
+
+
+  const removeItem = (prodId) => {
+    console.log(prodId)
+    setProducts(products.filter((product) => product.id !== prodId));
   };
 
-  async function handleRemoveFavorite() {
+
+  async function handleRemoveZzim() {
     try {
       await Promise.all(
-        checked.map((id) =>
-          axios.delete(`/api/products/${id}`, {
+        checked.map((prodId) =>
+          axios.delete(`/api/products/${prodId}`, {
             headers: {
               "Content-Type": "application/json;charset=UTF-8",
               Authorization: "Bearer " + localStorage.getItem("accessToken"),
@@ -37,7 +41,7 @@ function ZzimItem(props) {
           })
         )
       );
-      checked.forEach(removeItem);
+      checked.forEach((prodId) => removeItem(prodId)); 
       setChecked([]);
       alert("선택하신 품목이 삭제되었습니다.");
     } catch (error) {
@@ -45,19 +49,40 @@ function ZzimItem(props) {
       alert("품목 삭제 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
     }
   };
+  
+  const handleCheckAll = () => {
+    if (checkedAll) {
+      setChecked([]);
+      setCheckedAll(false);
+    } else {
+      const ids = products.map((product) => product.id);
+      setChecked(ids);
+      setCheckedAll(true);
+    }
+  };
+  const handleCheck = (prodId) => {
+    if (checked.includes(prodId)) {
+      setChecked(checked.filter((id) => id !== prodId));
+    } else {
+      setChecked([...checked, prodId]);
+    }
+    console.log(prodId)
+  };
 
   return (
     <>
       <div className="savelist-top">
-        <div className="countItem"> 찜한 품목()</div>
+        <div className="countItem"> 찜한 품목({products.length})</div>
         <div className="delete">
-          <button className="deletebtn" onClick={handleRemoveFavorite}>삭제</button>
+          <button className="selectAllbtn" onClick={handleCheckAll}> 
+          {checked.length === products.length ? "전체 해제" : "전체 선택"}</button>
+          <button className="deletebtn" onClick={handleRemoveZzim}>삭제</button>
         </div>
       </div>
       <div className="listline"></div>
       <ul>    
         {products.map(product => (
-          <ZzimList key={product.id} id={product.id} link={product.link} title={product.title} image={product.image} lprice={product.lprice} mallName={product.mallName}/>
+          <ZzimList key={product.id} id={product.id} link={product.link} title={product.title} image={product.image} lprice={product.lprice} mallName={product.mallName}  checked={checked.includes(product.id)} onCheck={handleCheck}/>
         ))}
       </ul>
     </>
