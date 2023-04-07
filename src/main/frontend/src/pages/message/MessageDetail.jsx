@@ -43,6 +43,7 @@ class MessageDetail extends Component {
                           <div> Sender: {message.senderName}</div><br/> 
                           <div>{message.createat}</div><br/>
                         </div>
+                        <button id='delete-btn'>삭제</button>
                       </div>
                     ) : (
                         //  그렇지 않은 경우에는 "데이터를 불러오는 중입니다."라는 문구를 출력 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../../css/messageForm.css';
 
 function MessageForm() {
   const [title, setTitle] = useState('');
@@ -32,21 +33,27 @@ function MessageForm() {
   return (
     
     <form onSubmit={handleSubmit}>
+      <div className='wrap'>
+        <div>
+      <h1>쪽지보내기</h1>
+      <hr/>
+      </div>
+      <div id='message_form'>        
       <div>
-        <h1>쪽지보내기</h1>
-        <hr/>
-        <label htmlFor="title">Title:</label>
-        <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <label htmlFor="receiverNickname"></label>
+        <input type="text" placeholder='받는 사람의 닉네임을 입력해주세요' id="receiverNickname" value={receiverNickname} onChange={(e) => setReceiver(e.target.value)} />
+      </div>
+      <hr/>
+      <div>
+        <label htmlFor="title"></label>
+        <input placeholder='쪽지 제목을 입력하세요' type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
       </div>
       <div>
-        <label htmlFor="content">Content:</label>
-        <textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} />
-      </div>
-      <div>
-        <label htmlFor="receiverNickname">Receiver:</label>
-        <input type="text" id="receiverNickname" value={receiverNickname} onChange={(e) => setReceiver(e.target.value)} />
-      </div>
+        <label htmlFor="content"></label>
+        <textarea placeholder='쪽지 내용을 입력하세요' id="content" value={content} onChange={(e) => setContent(e.target.value)} />
+      </div></div>
       <button type="submit">Send Message</button>
+      </div>
     </form>
   );
 }

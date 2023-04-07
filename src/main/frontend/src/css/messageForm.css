@@ -1,0 +1,23 @@
+.wrap{
+    display: block;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrap h1{
+    margin: 30px 40px;
+}
+
+#title , #content , #receiverNickname{
+    margin: 15px; 
+    border-radius: 5px;
+    font-size: 12px;
+    width: 100%;
+    height: 6.25em;
+    border: none;
+    resize: none;
+}
+
+#message_form{
+    margin: 10px 50px;
+}
