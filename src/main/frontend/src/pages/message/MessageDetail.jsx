@@ -11,6 +11,7 @@ class MessageDetail extends Component {
             };
         }
 
+        
         componentDidMount() {  
             const {id} = this.props.match.params; //MessageList Link 컴포넌트 경로에서 ID값을 추출하기 위해
             const accessToken = localStorage.getItem("accessToken");

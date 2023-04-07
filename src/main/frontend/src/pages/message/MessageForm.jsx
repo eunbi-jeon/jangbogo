@@ -10,24 +10,22 @@ function MessageForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('/api/messages', { title, content, receiverNickname })
+    axios.post('/api/messages', { title, content, receiverNickname }, 
+    { headers:{'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      })
       .then(() => {
         // 쪽지 전송 성공
         setTitle('');
         setContent('');
         setReceiver('');
         console.log('Message saved successfully');
+        window.location.href = "/messages/postbox";
       })
       .catch((error) => {
         // 쪽지 전송 실패
         console.error(error);
       });
-
-    axios.post('/api/messages', { title, content, receiverNickname }, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-        }
-      })
   };
 
   return (
