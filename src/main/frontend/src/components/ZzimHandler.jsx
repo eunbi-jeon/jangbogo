@@ -50,8 +50,8 @@ function ZzimItem(props) {
           })
         )
       );
-
-   setCheckedAll(false);
+   
+    setCheckedAll(false);
     setProducts(products.filter((product) => !checked.includes(product.id)));
       alert("선택하신 품목이 삭제되었습니다.");
     } catch (error) {

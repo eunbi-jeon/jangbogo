@@ -41,7 +41,7 @@ public class Zzim {
     @JoinColumn(name="email")
     private Member user;
     
-    @OneToMany(mappedBy = "zzim", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "zzim", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Product> products = new ArrayList<>();
     
@@ -56,8 +56,8 @@ public class Zzim {
        
     }
 
-    public void removeProduct(String productId) {
-        products.removeIf(product -> product.getProductId().equals(productId));
+    public void removeProduct(Long prodId) {
+        products.removeIf(p -> p.getId().equals(prodId));
     }
     
     public void addCount(Integer count) {

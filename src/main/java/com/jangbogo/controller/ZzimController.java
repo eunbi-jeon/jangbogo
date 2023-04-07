@@ -62,14 +62,16 @@ public class ZzimController {
     }
 
     @DeleteMapping("api/products/{prodId}")
-    public ResponseEntity<?> removeProductFromFavList(@CurrentUser UserPrincipal currentUser, @PathVariable("prodId")  Product product) {
+    public ResponseEntity<?> removeProductFromFavList(@CurrentUser UserPrincipal currentUser, @PathVariable("prodId")  Long prodId) {
     	Member user = memberRepository.findByEmail(currentUser.getEmail()).orElse(null); 
     	Zzim zzim = zzimRepository.findByUserEmail(user.getEmail());
         
-    	zzimService.deleteProduct(product.getId());
-    	zzim.setCount(zzim.getCount()-1);
+        zzim.removeProduct(prodId);
 
+        zzim.setCount(zzim.getCount() - 1);
+        zzimRepository.save(zzim);
         return ResponseEntity.ok().build();
     }
+    
 }
 
