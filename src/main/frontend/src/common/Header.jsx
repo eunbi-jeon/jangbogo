@@ -124,7 +124,10 @@ class Header extends Component {
           <span style={{marginRight:30}}><Link to='/board/list'>커뮤니티</Link></span>
           </div>
           { this.props.authenticated ? (
-            <span><Link to='/myfav'>찜한 상품</Link></span>
+            <div>
+            <span><Link to='/messages/postbox'>내 쪽지함</Link></span>
+            <span style={{marginLeft:30}}><Link to='/myfav'>찜한 상품</Link></span>
+            </div>
           ):(<div></div>)}
           </div>
         </div>

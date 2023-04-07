@@ -35,11 +35,12 @@ public class MessageController {
     private final MemberRepository memberRepository;
 
     @PostMapping("/messages")
-    public Response createMessage(@Valid @RequestBody MessageCreateRequest req, @CurrentUser UserPrincipal userPrincipal) {
+    public Response createMessage(@CurrentUser UserPrincipal userPrincipal, @Valid @RequestBody MessageCreateRequest req) {
+
         Member member = memberRepository.findByEmail(userPrincipal.getEmail()).orElseThrow(() ->
-                new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
-        );
+                    new UsernameNotFoundException("유저 정보를 찾을 수 없습니다."));
         return Response.success(messageService.createMessage(member, req));
+
     }
 
     @GetMapping("/messages/receiver")
@@ -47,10 +48,6 @@ public class MessageController {
         Member member = memberRepository.findById(userPrincipal.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
         );
-    	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getEmail());
-    	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getName());
-    	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getUsername());
-    	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getPassword());
 
         return Response.success(messageService.receiveMessages(member));
     }

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jangbogo.config.security.token.CurrentUser;
+import com.jangbogo.config.security.token.UserPrincipal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -38,9 +39,9 @@ public class QuestionController {
 
 	//내가쓴글 조회
 	@GetMapping("/board/my")
-	public ResponseEntity<List<Question>> myBoardList(@CurrentUser Member member){
-		log.info("퀘스쳔 컨트롤러 회원정보 = {}", member.getEmail());
-		return questionService.getMyBoard(member);
+	public ResponseEntity<List<Question>> myBoardList(@CurrentUser UserPrincipal userPrincipal){
+		log.info("퀘스쳔 컨트롤러 회원정보 = {}", userPrincipal.getEmail());
+		return questionService.getMyBoard(userPrincipal);
 	}
 
 	@GetMapping("/board/list")

@@ -13,15 +13,14 @@ class Mypage extends Component {
     constructor(props) {
         super(props);
         this.fileInputRef = React.createRef();
-        console.log(props);
-        this.questions = [];
+        this.state = { boards: [] };
       }
 
       componentDidMount() {
         console.log("내가 작성한 글 요청")
         const token = localStorage.getItem('accessToken');
         axios
-            .get('http://localhost:8080/mypage/board', {
+            .get('http://localhost:8080/board/my', {
                 headers: {
                     Authorization: 'Bearer ' + token,
                 },
@@ -30,7 +29,9 @@ class Mypage extends Component {
                 if (res.data) {
                     console.log("게시글 출력")
                     console.log(res.data);
-                    this.setState({ questions: res.data.content || [] });
+                    this.setState({ boards : res.data });
+                    console.log(this.state.boards)
+                    
                 }
             })
             .catch((error) => {
@@ -113,11 +114,13 @@ class Mypage extends Component {
                     <div className='profile-info-etc'>
                         <div className='etc-box'>
                             <div className='box-title'>내가 작성한 글</div>
-                                <li>작성글 1</li>
-                                <li>작성글 2</li>
-                                <li>작성글 3</li>
-                                <li>작성글 4</li>
-                                <li>작성글 5</li>
+                            <ul>
+                            {this.state.boards.map((board) => (
+                                    <il><Link to={`/board/detail/${board.id}`}>
+                                                {board.subject}
+                                        </Link></il>
+                                        ))}
+                                        </ul>
                             <button className='more-btn'>더보기</button>
                         </div>
                         <div className='etc-box'>

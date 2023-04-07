@@ -67,6 +67,7 @@ public class ZzimController {
     public ResponseEntity<?> removeProductFromFavList(@CurrentUser UserPrincipal currentUser, @PathVariable Product product) {
     	Member user = memberRepository.findByEmail(currentUser.getEmail()).orElse(null); 
     	Zzim zzim = zzimRepository.findByUserEmail(user.getEmail());
+        log.info("상품번호 {}", product.getId());
         
     	zzimService.deleteProduct(product.getId());
     	zzim.setCount(zzim.getCount()-1);
