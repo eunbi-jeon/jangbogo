@@ -1,9 +1,12 @@
 package com.jangbogo.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.validation.Valid;
 
+import com.jangbogo.config.security.token.CurrentUser;
+import com.jangbogo.config.security.token.UserPrincipal;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +34,12 @@ public class AnswerController {
 	private final QuestionService questionService;
 	private final AnswerService answerService; 
 	private final MemberService memberService;
+
+    //내가 쓴 댓글 조회
+    @GetMapping("/answer/my")
+    public ResponseEntity<List<Answer>> myBoardList(@CurrentUser UserPrincipal userPrincipal){
+        return answerService.getMyAnswer(userPrincipal);
+    }
 
 	@PostMapping("/board/answer/create/{id}")
 	public void answerCreate(@RequestBody AnswerDto answerDto,@PathVariable("id") Long id ,BindingResult bindingResult, Principal principal) {

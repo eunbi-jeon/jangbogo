@@ -1,6 +1,5 @@
 package com.jangbogo.service;
 
-
 import com.jangbogo.domain.member.entity.Member;
 import com.jangbogo.exeption.DataNotFoundException;
 import com.jangbogo.repository.MemberRepository;

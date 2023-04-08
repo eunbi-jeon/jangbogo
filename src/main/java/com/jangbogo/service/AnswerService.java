@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.jangbogo.config.security.token.UserPrincipal;
+import com.jangbogo.repository.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.jangbogo.exeption.DataNotFoundException;
@@ -23,8 +26,16 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class AnswerService {
 	
-	private final AnswerRepository answerRepository; 
+	private final AnswerRepository answerRepository;
+	private final MemberRepository memberRepository;
 
+
+	//내가 쓴 댓글 조회
+	public ResponseEntity<List<Answer>> getMyAnswer(UserPrincipal userPrincipal){
+		Member member = memberRepository.findByEmail(userPrincipal.getEmail()).orElse(null);
+		List<Answer> myAnswer = answerRepository.findByName(member);
+		return ResponseEntity.ok(myAnswer);
+	}
 	
 	// 댓글 생성
 	public Answer create(Question question, String content, Member name) {	

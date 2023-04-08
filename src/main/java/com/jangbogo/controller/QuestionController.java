@@ -6,27 +6,13 @@ import java.util.Map;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import com.jangbogo.config.security.token.CurrentUser;
-import com.jangbogo.config.security.token.UserPrincipal;
-
-import com.jangbogo.domain.Board.Board;
-import com.jangbogo.exeption.DataNotFoundException;
-import com.jangbogo.repository.BoardRepository;
-
-import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.server.ResponseStatusException;
 
 import com.jangbogo.config.security.token.CurrentUser;
@@ -49,12 +35,10 @@ public class QuestionController {
 	private final QuestionService questionService; 
 	private final MemberService memberService;
 	private final MemberRepository memberRepository;
-	private final BoardRepository boardRepository;
-  
+
 	//내가쓴글 조회
 	@GetMapping("/board/my")
 	public ResponseEntity<List<Question>> myBoardList(@CurrentUser UserPrincipal userPrincipal){
-		log.info("퀘스쳔 컨트롤러 회원정보 = {}", userPrincipal.getEmail());
 		return questionService.getMyBoard(userPrincipal);
 	}
 
@@ -65,14 +49,9 @@ public class QuestionController {
 			@PathVariable("board_id") Long board_id,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "kw", defaultValue = "") String kw) {
-		System.out.println("list컨트롤러 잘 호출됌~~~");
-		System.out.println("board_id:"+board_id);
-		System.out.println("region:"+region);
-		System.out.println("page:"+page);
 
 		Page<Question> paging = this.questionService.getList(board_id,region,page);
 
-		System.out.println("list 컨트롤러~~~~~~~~~");
 		if (paging.getContent().isEmpty()) {
 			return ResponseEntity.noContent().build(); // 비어있는 경우 null 반환
 		}
@@ -89,10 +68,6 @@ public class QuestionController {
 
 		}
 
-		System.out.println("create controller 호출");
-		System.out.println("Board타입: "+board_id);
-		System.out.println("region확이니ㅣㅣㅣㅣㅣㅣ:"+questionDto.getRegion());
-
 		Member member = this.memberService.getMember(principal.getName());
 
 		this.questionService.create(board_id, questionDto.getRegion(),questionDto.getSubject(), questionDto.getContent(), member);
@@ -103,17 +78,13 @@ public class QuestionController {
 	@GetMapping("/board/detail/{id}")
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	public ResponseEntity<Map<String, Object>> questionDetail (@PathVariable("id") Long id , AnswerDto answerDto, @CurrentUser UserPrincipal userPrincipal) {
-	    System.out.println("아이디======"+id);
-	    System.out.println("접속한 유저정보 : "+userPrincipal.getEmail());
 	    Question q = this.questionService.getQuestion(id); 
 	    Optional<Member> member = memberRepository.findByEmail(userPrincipal.getEmail());
-	    System.out.println("컨트롤러 호출이 됨");
 
 	    if (q.getContent().isEmpty()) {
 	        return ResponseEntity.noContent().build(); // 비어있는 경우 null 반환
 	    }
 
-	    System.out.println(q.getContent());
 	    Map<String, Object> response = new HashMap<>();
 	    response.put("question", q);
 	    response.put("member", member.orElse(null));

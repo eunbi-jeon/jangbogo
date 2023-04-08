@@ -8,6 +8,7 @@ const BoardCreate = ({ match }) => {
   const [content, setContent] = useState("");
   const [board_id, setBoardId] = useState("");
   const [region, setRegion] = useState("");
+  const [isEditMode, setIsEditMode] = useState(false);
 
  useEffect(() => {
     const { board_id } = match.params;
@@ -18,6 +19,14 @@ const BoardCreate = ({ match }) => {
     console.log("board_id:" + board_id);
     console.log("region:" + region);
   }, [match.params]);
+
+  const handleTitleChange = (e) => {
+    setSubject(e.target.value);
+    }
+    
+    const handleContentChange = (e) => {
+    setContent(e.target.value);
+    }
 
   useEffect(() => {
     // 수정 페이지일 경우, 기존 글 내용 불러오기

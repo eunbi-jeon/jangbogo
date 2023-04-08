@@ -17,33 +17,6 @@ class BoardList extends Component {
         };
     }
 
-    // componentDidMount() {
-    //     const { board_id } = this.props.match.params;
-    //     const { region } = this.props.match.params;
-    //     this.setState({
-    //         board_id: board_id,
-    //         region: region
-    //       });
-    //     console.log("board_id:"+board_id);
-    //     console.log("region:"+region);
-    //     console.log("this.stateboard_id:"+this.state.board_id);
-    //     console.log("this.stateregion:"+this.state.region);
-    //     const token = localStorage.getItem('accessToken');
-    //     axios
-    //     .get(`http://localhost:8080/board/list/${board_id}?region=${region}&page=${this.state.currentPage}`, {
-    //             headers: {
-    //                 Authorization: 'Bearer ' + token,
-    //             },
-    //         })
-    //         .then((res) => {
-    //             if (res.data) {
-    //                 this.setState({ questions: res.data.content || [] });
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.error(error);
-    //         });         
-    // }
     componentDidMount() {
         this.fetchQuestions();
     }

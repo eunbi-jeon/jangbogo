@@ -27,9 +27,8 @@ class BoardDetail extends Component {
   }
   
 
-
   handleInputChange = (event) => {
-    this.setState({ answerContent: event.target.value });
+    this.setState({ replyContent: event.target.value });
   };
   handleTextareaChange = (event) => {
     this.setState({ answerContent: event.target.value });
@@ -38,6 +37,7 @@ class BoardDetail extends Component {
     this.setState({ showReplyForm: true, selectedReplyId: parentId });
   };
 
+  // 게시글 삭제
   questionDeleteClick = () => {
     const { id } = this.props.match.params;
     const token = localStorage.getItem("accessToken");
@@ -57,43 +57,10 @@ class BoardDetail extends Component {
         });
     }
   }
-       
 
-  
-  componentDidMount() {
-    const { id } = this.props.match.params;
-    const { board_id } = this.props.match.params;
-    const { region } = this.props.match.params;
-        this.setState({
-            board_id: board_id,
-            region: region
-          });
-    const token = localStorage.getItem("accessToken");
-    console.log("idddddddddddddd:"+board_id);
-    axios
-      .get(`http://localhost:8080/board/detail/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => {
-        if (res.data.content != null) {
-          this.setState({ question: [res.data] }, () => {
-            console.log(this.state.question); 
-          });
-          this.setState({ answer: [res.data.answerList] }, () => {
-            console.log(this.state.answer);
-          });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
 
-  
-   answerDeleteClick = (id) => {
-    console.log("dddddddddddddddddddddddddddddddddddd" + id)
+  //댓글 삭제     
+  answerDeleteClick = (id) => {
     const token = localStorage.getItem("accessToken");
     const result = window.confirm("댓글을 삭제 하시겠습니까?");
     if (result) {
@@ -110,6 +77,7 @@ class BoardDetail extends Component {
           console.error(error);
         });
     }
+  }
   
   
   handleEditClick = (reply) => {
@@ -118,15 +86,14 @@ class BoardDetail extends Component {
       selectedReplyId: reply.id,
       replyContent: reply.content
     });
-    console.log("댓글 id~~~~~~~~~"+reply)
   }
   
   
+  //추천, 추천취소
   handleClick = () => {
     
     this.setState({ isClicked: !this.state.isClicked }, () => {
 
-      
       const confirmMessage = this.state.isClicked
         ? "추천을 하시겠습니까?"
         : "추천을 취소 하시겠습니까?";
@@ -156,6 +123,39 @@ class BoardDetail extends Component {
     }
   });
 };
+
+componentDidMount() {
+  const { id } = this.props.match.params;
+  const { board_id } = this.props.match.params;
+  const { region } = this.props.match.params;
+      
+  this.setState({
+          board_id: board_id,
+          region: region
+  });
+  
+  const token = localStorage.getItem("accessToken");
+
+  axios
+    .get(`http://localhost:8080/board/detail/${id}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+    .then((res) => {
+      if (res.data.content != null) {
+        this.setState({ question: [res.data] }, () => {
+          console.log(this.state.question); 
+        });
+        this.setState({ answer: [res.data.answerList] }, () => {
+          console.log(this.state.answer);
+        });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 
 
 componentDidMount() {
@@ -344,16 +344,7 @@ handleSaveEditClick = (id) => {
 
                     </div>
                   </div>) 
-
-
-
-
                   : /*  여기부터는 false 값일때 출력들 */ 
-                  
-                  
-                  
-                  
-                  
                   (<div>
         <div className="board-detail-wrap">
         {/* 내용 */}
@@ -453,5 +444,6 @@ handleSaveEditClick = (id) => {
         }
       </div>
     )
-          }
-    }    export default BoardDetail;
+  }
+}
+export default BoardDetail;

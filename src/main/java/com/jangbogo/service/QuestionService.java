@@ -2,7 +2,6 @@ package com.jangbogo.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,9 +13,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import com.jangbogo.config.security.token.UserPrincipal;
-import com.jangbogo.repository.MemberRepository;
-
 import com.jangbogo.repository.BoardRepository;
+import com.jangbogo.repository.MemberRepository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
 
 import com.jangbogo.exeption.DataNotFoundException;
 import com.jangbogo.domain.Board.Answer;
@@ -50,18 +49,6 @@ public class QuestionService {
         return ResponseEntity.ok(myboard);
     }
 
-	 // 금지어 리스트
-    private static final List<String> PROFANITY_LIST = Arrays.asList("욕설1", "욕설2", "욕설3");
-    
-    // 욕설 필터링 메서드
-    private boolean isProfanity(String text) {
-        for (String profanity : PROFANITY_LIST) {
-            if (text.contains(profanity)) {
-                return true;
-            }
-        }
-        return false;
-    }
 	
 	// 페이징
     public Page<Question> getList(Long board_id,String region,int page) {
@@ -70,9 +57,6 @@ public class QuestionService {
 
         Pageable pageable = PageRequest.of(page, 10 , Sort.by(sorts));
 
-        //Specification<Question> spec = search(kw);
-
-        //return this.questionRepository.findAll(spec, pageable);
         if(!region.equals("undefined")){
             return this.questionRepository.findByBoardIdAndRegion(board_id,region, pageable);
         }else {
