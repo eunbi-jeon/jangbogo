@@ -1,13 +1,13 @@
 package com.jangbogo.controller;
 
 import java.security.Principal;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.jangbogo.config.security.token.CurrentUser;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.server.ResponseStatusException;
 
+import com.jangbogo.config.security.token.CurrentUser;
+import com.jangbogo.config.security.token.UserPrincipal;
 import com.jangbogo.domain.Board.Question;
 import com.jangbogo.domain.member.entity.Member;
 import com.jangbogo.dto.AnswerDto;
 import com.jangbogo.dto.QuestionDto;
+import com.jangbogo.repository.MemberRepository;
 import com.jangbogo.service.MemberService;
 import com.jangbogo.service.QuestionService;
 
@@ -30,19 +33,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin("http://localhost:3000")
-@Slf4j
 public class QuestionController {
 	
 	private final QuestionService questionService; 
 	private final MemberService memberService;
-
-	//내가쓴글 조회
-	@GetMapping("/board/my")
-	public ResponseEntity<List<Question>> myBoardList(@CurrentUser Member member){
-		log.info("퀘스쳔 컨트롤러 회원정보 = {}", member.getEmail());
-		return questionService.getMyBoard(member);
-	}
-
+	private final MemberRepository memberRepository;
+	
 	@GetMapping("/board/list")
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	public ResponseEntity<Page<Question>> questionList(
@@ -51,7 +47,7 @@ public class QuestionController {
 
 		Page<Question> paging = this.questionService.getList(page);
 
-
+		System.out.println("list 컨트롤러~~~~~~~~~");
 		if (paging.getContent().isEmpty()) {
 			return ResponseEntity.noContent().build(); // 비어있는 경우 null 반환
 		}
@@ -101,42 +97,26 @@ public class QuestionController {
 	
 	@GetMapping("/board/detail/{id}")
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	public ResponseEntity<Question> questionDetail (@PathVariable("id") Long id , AnswerDto answerDto) {
-		System.out.println("아이디======"+id);
-		Question q = this.questionService.getQuestion(id); 
-	
-	System.out.println("컨트롤러 호출이 됨");
-	
-	if (q.getContent().isEmpty()) {
-		return ResponseEntity.noContent().build(); // 비어있는 경우 null 반환
+	public ResponseEntity<Map<String, Object>> questionDetail (@PathVariable("id") Long id , AnswerDto answerDto, @CurrentUser UserPrincipal userPrincipal) {
+	    System.out.println("아이디======"+id);
+	    System.out.println("접속한 유저정보 : "+userPrincipal.getEmail());
+	    Question q = this.questionService.getQuestion(id); 
+	    Optional<Member> member = memberRepository.findByEmail(userPrincipal.getEmail());
+	    System.out.println("컨트롤러 호출이 됨");
+
+	    if (q.getContent().isEmpty()) {
+	        return ResponseEntity.noContent().build(); // 비어있는 경우 null 반환
+	    }
+
+	    System.out.println(q.getContent());
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("question", q);
+	    response.put("member", member.orElse(null));
+	    return ResponseEntity.ok(response);
 	}
-	
-	System.out.println(q.getContent());
-	return ResponseEntity.ok(q);
-	}
-
-
-
-	@GetMapping("/board/modify/{id}")
-	public String questionModify(QuestionDto questionDto, @PathVariable("id") Long id, Principal principal) {
-	
-	Question question = this.questionService.getQuestion(id);
-	
-	if(!question.getName().getEmail().equals(principal.getName())) {
 		
-	    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-	    
-	}
-	
-	questionDto.setSubject(question.getSubject());
-	questionDto.setContent(question.getContent());
-	
-	
-	return "question_form";
-	}
-	
-	@PostMapping("/board/modify/{id}")
-	public String questionModify(@Valid QuestionDto questionDto, BindingResult bindingResult, 
+	@PutMapping("/board/modify/{id}")
+	public String questionModify(@RequestBody QuestionDto questionDto, BindingResult bindingResult, 
 	    Principal principal, @PathVariable("id") Long id) {
 	
 	
@@ -156,6 +136,8 @@ public class QuestionController {
 	return String.format("redirect:/question/detail/%s", id);
 	}
 	
+	
+	
 	@GetMapping("/board/delete/{id}")
 	public String questionDelete(Principal principal, @PathVariable("id") Long id) {
 	
@@ -171,13 +153,34 @@ public class QuestionController {
 	
 	return "redirect:/";
 	}
+	
+	@GetMapping("/board/{id}")
+	public void getQuestion(Principal principal, @PathVariable("id") Long id) {
+		Question question = this.questionService.getQuestion(id);
+		System.out.println("question 호출 겟");
+		question.setSubject(question.getSubject());
+		question.setContent(question.getContent());
+		this.questionService.save(question);
+	}
+	
 
-	@GetMapping("/board/vote/{id}")
+	// 조회수
+	@PostMapping("/board/increment-read-count/{id}")
+	public ResponseEntity<Question> incrementReadCount(@PathVariable Long id) {
+		Question question = questionService.findById(id);
+	    question.setReadCount(question.getReadCount() + 1);
+	    Question updatedQuestion = questionService.save(question);
+	    System.out.println("조회수~~~~~~~~~~~~~~~~");
+	    return ResponseEntity.ok(updatedQuestion);
+	}
+	
+	@PutMapping("/board/{id}/vote")
 	public String questionVote(Principal principal, @PathVariable("id") Long id) {
+		System.out.println("vote 컨트롤러 호출");
 	Question question = this.questionService.getQuestion(id);
 	Member member = this.memberService.getMember(principal.getName());
 	this.questionService.vote(question, member);
-	return String.format("redirect:/question/detail/%s", id);
+	return String.format("redirect:/booard/detail/%s", id);
 	}
 	
 	@GetMapping("/board/report/{id}")
@@ -187,5 +190,6 @@ public class QuestionController {
 	this.questionService.report(question, member);
 	return String.format("redirect:/question/detail/%s", id);
 	}
+	
 
 }

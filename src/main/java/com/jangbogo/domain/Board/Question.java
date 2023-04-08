@@ -59,6 +59,10 @@ public class Question extends BaseTimeEntity{
 	@JsonManagedReference
 	private List<Answer> answerList; 
 	
+	// 조회수
+	@Column(name = "read_count")
+	private int readCount;
+	
 	// 신고
 	@ManyToMany
 	Set<Member> report;

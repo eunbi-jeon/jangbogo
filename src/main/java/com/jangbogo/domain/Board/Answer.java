@@ -42,9 +42,9 @@ public class Answer extends BaseTimeEntity {
 	// 대댓글 부모
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_id")
-	private Answer parent;
+	private Answer parentId;
 	
-	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+	@OneToMany(mappedBy = "parentId", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
 	private List<Answer> child = new ArrayList<>();
 	
 	private Integer depth;
