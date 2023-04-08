@@ -1,4 +1,6 @@
 package com.jangbogo.domain;
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -50,12 +52,14 @@ public class DirectMessage extends BaseTimeEntity {
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	private Member receiver; // 받는 사람
 
-    public DirectMessage(String title, String content, Member sender, Member receiver) {
+    public DirectMessage(String title, String content, Member sender, Member receiver, LocalDateTime createAt) {
         this.title = title;
         this.content = content;
         this.sender = sender;
         this.receiver = receiver;
-        this.deletedBySender = this.deletedByReceiver = false;
+        this.deletedBySender = false;
+        this.deletedByReceiver = false;
+        this.setCreateAt(createAt);
     }
 
 	// 편지 삭제와 관련된 메소드 

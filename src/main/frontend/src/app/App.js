@@ -15,8 +15,10 @@ import BoardCreate from '../pages/BoardCreate';
 
 import FindPassword from '../pages/user/FindPassword';
 
-import MessageList from '../pages/message/MessageList';
-import MessageDetail from '../pages/message/MessageDetail';
+import MessageReceiveList from '../pages/message/MessageReceiveList';
+import MessageSenderList from '../pages/message/MessageSenderList';
+import MessageReceiverDetail from '../pages/message/MessageReceiverDetail';
+import MessageSenderDetail from '../pages/message/MessageSenderDetail';
 import MessageForm from '../pages/message/MessageForm';
 
 
@@ -99,8 +101,10 @@ class App extends Component {
               <PrivateRoute path="/setting/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ProfileModify}></PrivateRoute>
               <Route path="/login" render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
               
-              <PrivateRoute path="/messages/postbox/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MessageDetail}></PrivateRoute>  
-              <PrivateRoute path="/messages/postbox" authenticated={this.state.authenticated} currentUser={this.state.currentUser}  component={MessageList}></PrivateRoute>
+              <PrivateRoute path="/messages/postbox/receiver/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MessageReceiverDetail}></PrivateRoute>  
+              <PrivateRoute path="/messages/postbox/sender/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MessageSenderDetail}></PrivateRoute>  
+              <PrivateRoute path="/messages/postbox/receiver" authenticated={this.state.authenticated} currentUser={this.state.currentUser}  component={MessageReceiveList}></PrivateRoute>
+              <PrivateRoute path="/messages/postbox/sender" authenticated={this.state.authenticated} currentUser={this.state.currentUser}  component={MessageSenderList}></PrivateRoute>
               <PrivateRoute path="/messages" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MessageForm}></PrivateRoute>
       
               <Route path="/signup" render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
