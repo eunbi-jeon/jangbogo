@@ -42,13 +42,18 @@ function Search(props) {
         const sortedData = sortBy === 'asc' ? 
         filteredData.sort((a, b) => a.lprice - b.lprice) 
         : sortBy === 'sim' ? filteredData.sort((a, b) => b.mallScore - a.mallScore) 
-        : filteredData.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+        : filteredData.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));        
         
-        setItems(prevItems=>[...prevItems, ...sortedData]);
-        
+        if (start === 1) {
+          setItems(sortedData);
+        } else {
+          setItems(prevItems => [...prevItems, ...sortedData]);
+        }
+
         if (sortedData.length === 0) {
           alert("검색 결과가 없습니다.");
         }
+      
       } catch (error) {
         console.error(error);
         setItems([]);
@@ -79,6 +84,8 @@ function Search(props) {
     const selectedValue = e.target.value;
    
       setSortBy(selectedValue);
+      setStart(1);
+      setItems([]); 
     }
 
     return (

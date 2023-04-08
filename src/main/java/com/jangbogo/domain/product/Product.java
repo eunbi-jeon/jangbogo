@@ -22,13 +22,14 @@ import lombok.Builder;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Getter
+@Getter @Setter
 public class Product extends BaseTimeEntity{
 	
 	@Id
@@ -59,17 +60,17 @@ public class Product extends BaseTimeEntity{
 	
 	@Builder
 	public Product (String productId, String title, String image, String link, Integer lprice, String mallName, Zzim zzim) {		
-		this.productId = productId;
-		this.title = title;
-		this.image = image;
-		this.link = link;
-		this.lprice = lprice;
-		this.mallName = mallName;
-		this.zzim = zzim;
-		
-		if (zzim != null ) {
-			zzim.getProducts().add(this);
-		}
+	    this.productId = productId;
+	    this.title = title;
+	    this.image = image;
+	    this.link = link;
+	    this.lprice = lprice;
+	    this.mallName = mallName;
+	    this.zzim = zzim;
+	    
+	    if (zzim != null ) {
+	        zzim.getProducts().add(this);
+	    }
 	}
 
 

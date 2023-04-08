@@ -55,11 +55,12 @@ public class Zzim {
        return zzim;
        
     }
-
-    public void removeProduct(Long prodId) {
-        products.removeIf(product -> product.getId().equals(prodId));
-
-    }
+    
+	public void removeProduct(Product product) {
+	    this.products.remove(product);
+	    product.setZzim(null);
+	}
+    
     
     public void addCount(Integer count) {
         if (this.count == null) {
