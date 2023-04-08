@@ -34,39 +34,24 @@ public class AnswerController {
 
 	@PostMapping("/board/answer/create/{id}")
 	public void answerCreate(@RequestBody AnswerDto answerDto,@PathVariable("id") Long id ,BindingResult bindingResult, Principal principal) {
-		// @RequestBody 어노테이션을 추가하여 Request Body에서 데이터를 읽어옴
-		System.out.println("create controller 호출");
-		if (bindingResult.hasErrors()) {
-			System.out.println("create controller 호출");
+	    System.out.println("댓글/대댓글 컨트롤러 호출");
 
-		}	
-		System.out.println("create controller 호출");
+	    Question question = this.questionService.getQuestion(id);
+	    Member member = this.memberService.getMember(principal.getName());
 
-		Question question = this.questionService.getQuestion(id);
-		Member member = this.memberService.getMember(principal.getName());
-
-		this.answerService.create(question,answerDto.getContent() ,member);
-
+	    if (answerDto.getParentId() == null) { // 댓글 생성
+	        this.answerService.create(question, answerDto.getContent(), member);
+	    } else { // 대댓글 생성
+	        this.answerService.createChildReply(question, answerDto.getParentId().getId(), answerDto.getContent(), member);
+	    }
 	}
-		
-	//답변수정 
-    @GetMapping("/answer/modify/{id}")
-    public String answerModify(AnswerDto answerDto, @PathVariable("id") Long id, Principal principal) {
-        
-    	Answer answer = this.answerService.getAnswer(id);
-    	
-        if (!answer.getName().getEmail().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
-        }
-        answerDto.setContent(answer.getContent());
-        return "answer_form";
-    }
-    
     
     //답변 수정
-    @PostMapping("/answer/modify/{id}")
-    public String answerModify(@Valid AnswerDto answerDto, BindingResult bindingResult,
+    @PutMapping("/answer/modify/{id}")
+    public String answerModify(@RequestBody AnswerDto answerDto, BindingResult bindingResult,
             @PathVariable("id") Long id, Principal principal) {
+    	
+    	System.out.println("모디파이 댓글~~~~~");
         if (bindingResult.hasErrors()) {
             return "answer_form";
         }
@@ -90,6 +75,7 @@ public class AnswerController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
         
+        System.out.println("삭제 컨트롤러 호출");
         this.answerService.delete(answer);
         
         return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());

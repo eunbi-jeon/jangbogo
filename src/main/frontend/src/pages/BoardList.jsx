@@ -96,7 +96,30 @@ class BoardList extends Component {
 
     handlePostClick = (id) => {
         console.log('게시글 ID:', id);
+        const token = localStorage.getItem('accessToken');
+        axios
+            .post(`http://localhost:8080/board/increment-read-count/${id}`, null, {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+            .then((res) => {
+                const updatedQuestion = res.data;
+                const updatedQuestions = this.state.questions.map((question) => {
+                    if (question.id === updatedQuestion.id) {
+                        return updatedQuestion;
+                    }
+                    return question;
+                });
+                this.setState({ questions: updatedQuestions });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
+    
+    
+    
 
     handlePageClick(page) {
         this.setState({ currentPage: page }, () => {
@@ -144,7 +167,7 @@ class BoardList extends Component {
                                                 {question.answerList ? question.answerList.length : 0}
                                             </span>
                                         </td>
-                                        <td className="bestCount">{question.voter}</td>
+                                        <td className="bestCount">{question.voter.length}</td>
                                         <td className="readCount">{question.readCount}</td>
                                     </tr>
                                     <tr><td colSpan={4}><div className="hrLine3"></div></td></tr>

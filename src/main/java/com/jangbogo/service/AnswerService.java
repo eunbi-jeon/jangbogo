@@ -33,10 +33,10 @@ public class AnswerService {
 		answer.setQuestion(question);
 		answer.setContent(content);
 		answer.setCreateAt(LocalDateTime.now());
-		answer.setQuestion(question);
 		answer.setName(name);
 		answer.setDepth(0);
-		answer.setParent(null);
+		answer.setParentId(null);
+		
 		
 		this.answerRepository.save(answer); 
 		
@@ -55,7 +55,7 @@ public class AnswerService {
 		childReply.setName(name);
 		childReply.setCreateAt(LocalDateTime.now());
 		childReply.setDepth(parentReply.getDepth() + 1);
-		childReply.setParent(parentReply);
+		childReply.setParentId(parentReply);
 		
 		return answerRepository.save(childReply);
 	}
@@ -112,4 +112,5 @@ public class AnswerService {
     	
     	return this.answerRepository.findAllByOrderByParentIdDescDepthAscCreateAtDesc(pageable);
     }
+
 }

@@ -19,8 +19,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.ResponseEntity;
-
 import org.springframework.stereotype.Service;
 
 import com.jangbogo.exeption.DataNotFoundException;
@@ -43,7 +41,7 @@ public class QuestionService {
         List<Question> myboard = questionRepository.findByName(member);
         return ResponseEntity.ok(myboard);
     }
-	
+
 	 // 금지어 리스트
     private static final List<String> PROFANITY_LIST = Arrays.asList("욕설1", "욕설2", "욕설3");
     
@@ -82,11 +80,10 @@ public class QuestionService {
 		if ( op.isPresent()) {
 			return op.get();
 		}else {
-			throw new DataNotFoundException("요청한 파일을 찾지 못했습니다. ");
-		}
+			throw new DataNotFoundException("요청한 파일을 찾지 못했습니다. "); 
+		}		 
 	}
 	
-	// 생성
 	public void create(Long board_id, String region,String subject, String content, Member name) {
         Board board;
         Optional<Board> ob= boardRepository.findById(board_id);
@@ -125,7 +122,11 @@ public class QuestionService {
     
     // 추천
     public void vote(Question question, Member name) {
-    	question.getVoter().add(name);
+    	if(question.getVoter().contains(name)) {
+    		question.getVoter().remove(name);
+    	}else {
+    		question.getVoter().add(name);
+    	}
         this.questionRepository.save(question);
     }
     
@@ -134,7 +135,23 @@ public class QuestionService {
     	question.getReport().add(name);
     	this.questionRepository.save(question);
     }
-	
+    
+    // 조회수
+    public void incrementReadCount(Long id) {
+        Question question = findById(id);
+        
+        question.setReadCount(question.getReadCount() + 1);
+        save(question);
+    }
+    
+    public Question findById(Long id) {
+        return questionRepository.findById(id).orElse(null);
+    }
+    public Question save(Question question) {
+        return questionRepository.save(question);
+    }
+
+
     // 검색기능
     private Specification<Question> search(final String kw) {
     	
