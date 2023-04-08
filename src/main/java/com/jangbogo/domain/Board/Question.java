@@ -41,7 +41,7 @@ public class Question extends BaseTimeEntity{
     @Column(length = 4000)
     private String content;
     
- //   private String region;
+    private String region;
     
 //    private int readCount;
     

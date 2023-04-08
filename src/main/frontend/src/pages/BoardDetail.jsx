@@ -14,6 +14,8 @@ class BoardDetail extends Component {
       question: [],
       answer:[],
       answerContent: "",
+      board_id:null,
+      region:''
     };
   }
   handleTextareaChange = (event) => {
@@ -40,7 +42,7 @@ class BoardDetail extends Component {
         // 답변 작성 후, 답변 목록을 다시 불러오는 코드를 추가하세요.
         // this.loadAnswers();
         this.setState({ answerContent: "" }); // 답변 작성란 초기화
-        window.location.href = `/board/detail/${id}`;
+        window.location.href = `/board/detail/${this.state.board_id}/${id}`;
 
       })
       .catch((error) => {
@@ -51,7 +53,14 @@ class BoardDetail extends Component {
   
   componentDidMount() {
     const { id } = this.props.match.params;
+    const { board_id } = this.props.match.params;
+    const { region } = this.props.match.params;
+        this.setState({
+            board_id: board_id,
+            region: region
+          });
     const token = localStorage.getItem("accessToken");
+    console.log("idddddddddddddd:"+board_id);
     axios
       .get(`http://localhost:8080/board/detail/${id}`, {
         headers: {

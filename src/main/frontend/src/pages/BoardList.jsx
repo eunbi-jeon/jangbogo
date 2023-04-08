@@ -10,11 +10,10 @@ class BoardList extends Component {
         this.state = {
             questions: [],
             currentPage: 1,
+            totalPage: null,
             error: null,
-            board_id: 0,
-            region: '',
-   
-            
+            board_id:0,
+            region:''
         };
     }
 
@@ -24,9 +23,14 @@ class BoardList extends Component {
     //     this.setState({
     //         board_id: board_id,
     //         region: region
-    //     });
+    //       });
+    //     console.log("board_id:"+board_id);
+    //     console.log("region:"+region);
+    //     console.log("this.stateboard_id:"+this.state.board_id);
+    //     console.log("this.stateregion:"+this.state.region);
+    //     const token = localStorage.getItem('accessToken');
     //     axios
-    //         .get(`http://localhost:8080/board/list/${board_id}?region=${region}`, {
+    //     .get(`http://localhost:8080/board/list/${board_id}?region=${region}&page=${this.state.currentPage}`, {
     //             headers: {
     //                 Authorization: 'Bearer ' + token,
     //             },
@@ -38,13 +42,13 @@ class BoardList extends Component {
     //         })
     //         .catch((error) => {
     //             console.error(error);
-    //         });
+    //         });         
     // }
     componentDidMount() {
         this.fetchQuestions();
-      }
+    }
 
-      async fetchQuestions() {
+    async fetchQuestions() {
         try {
             const { board_id } = this.props.match.params;
             const { region } = this.props.match.params;
@@ -52,45 +56,70 @@ class BoardList extends Component {
                 board_id: board_id,
                 region: region
             });
-    
+            console.log("board_id:" + board_id);
+            console.log("region:" + region);
+            console.log("this.state.board_id:" + this.state.board_id);
+            console.log("this.state.region:" + this.state.region);
             const token = localStorage.getItem('accessToken');
-            const res = await axios.get(`http://localhost:8080/board/list/${board_id}?region=${region}&page=${this.state.currentPage}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const res = await axios .get(`http://localhost:8080/board/list/${board_id}?region=${region}`, { //&page=${this.state.currentPage} 붙여!!!!!!!!!!!!!!!!!!
+                            headers: {
+                                Authorization: 'Bearer ' + token,
+                            },
+                        })
+                        .then((res) => {
+                            if (res.data) {
+                                this.setState({ questions: res.data.content || [] });
+                                this.setState({ totalPage : Math.ceil(res.data.content.length / 10)});
+                                console.log("testt23232ttttt"+ Math.ceil(res.data.content.length / 10));
+                            }
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+            
+          //  const questions = res.data.questions;
+           // const totalPage = Math.ceil(res.data.content.length / 10);
     
-            const questions = res.data.questions;
-            const totalPage = res.data.totalPage;
+            // this.setState({
+            //     questions: questions,
+            //     totalPage: totalPage
+            // });
     
-            this.setState({
-                questions: questions,
-                totalPage: totalPage
-            });
+            console.log("totalCount"+this.state.totalPage);
+            console.log(this.state.questions);
+           
     
-            console.log(this.state.questions[0]);
-            console.log("questionddddddd:"+questions.length);
         } catch (error) {
             console.error(error);
         }
     }
-    
-    
+
+    handlePostClick = (id) => {
+        console.log('게시글 ID:', id);
+    };
+
+    handlePageClick(page) {
+        this.setState({ currentPage: page }, () => {
+          this.fetchQuestions();
+        });
+      }
 
     render() {
-        const { region } = this.state;
-        const { questions} = this.state;
+        console.log("testttttttttttt:"+this.state.board_id);
+        const{board_id}=this.state;
+        console.log("testttttttttttt:"+this.state.board_id);
+        const{region}=this.state;
+        const { questions, totalPage, currentPage } = this.state;
 
         const pageNumbers = [];
-        for (let i = 1; i <= Math.ceil(this.state.totalPage / 10); i++) {
-            pageNumbers.push(i);
+        for (let i = 1; i <= totalPage; i++) {
+          pageNumbers.push(i);
         }
         return (
             <div><h2 >{region}</h2>
                 <div className="boardWrap">
                     <span className="hrLine1">
                     </span>
-
                     <table className="boardList">
                         <thead>
                             <tr>
@@ -105,11 +134,10 @@ class BoardList extends Component {
                                 <>
                                     <tr key={question.id}
                                         onClick={() => this.handlePostClick(question.id)}>
-
-                                        <td className="listCount">{(currentPage - 1) * 10 + index + 1}</td>
-                                        {/* <td className="listCount">{index + 1}</td> */}
+                                             {/* <td className="listCount">{(currentPage - 1) * 10 + index + 1}</td> */}
+                                        <td className="listCount">{index+1}</td>
                                         <td className="listSubject">
-                                            <Link to={`/board/detail/${this.state.board_id}/${question.id}`}>
+                                        <Link to={`/board/detail/${this.state.board_id}/${question.id}`}>
                                                 {question.subject}
                                             </Link>
                                             <span className="replyCount">
@@ -125,7 +153,6 @@ class BoardList extends Component {
 
                         </tbody>
                     </table>
-
                     <div>
                         {pageNumbers.map((page) => (
                             <span key={page} onClick={() => this.handlePageClick(page)}>
@@ -134,7 +161,7 @@ class BoardList extends Component {
                         ))}
                     </div>
                     <button className="boardCreate">
-                        <Link to={`/board/create/${this.state.region ? this.state.region : ''}`} style={{ color: 'white' }}>글 쓰기</Link>
+                        <Link to={`/board/create/${this.state.board_id}/${this.state.region ? this.state.region : ''}`} style={{color:'white'}}>글 쓰기</Link>
                     </button>
                 </div>
             </div>
