@@ -106,11 +106,3 @@ li{
     cursor: pointer;
 }
 
-.findMorebtn {
-    display: block;
-    width: 90%;
-    margin:0 auto;
-    margin-top: 20px;
-    height: 80px;
-    font-size: 30px;
-  }
