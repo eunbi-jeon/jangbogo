@@ -41,7 +41,7 @@ public class Question extends BaseTimeEntity{
     @Column(length = 4000)
     private String content;
     
- //   private String region;
+    private String region;
     
 //    private int readCount;
     
@@ -58,6 +58,10 @@ public class Question extends BaseTimeEntity{
 	@OneToMany (mappedBy = "question", cascade = CascadeType.REMOVE)
 	@JsonManagedReference
 	private List<Answer> answerList; 
+	
+	// 조회수
+	@Column(name = "read_count")
+	private int readCount;
 	
 	// 신고
 	@ManyToMany

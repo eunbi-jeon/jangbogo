@@ -19,7 +19,7 @@ import com.jangbogo.dto.ItemDto;
 @Component
 public class NaverShopSearch {
 
-	public String search(String query, int display, String sort) {
+	public String search(String query, int start, int display, String sort) {
 		RestTemplate rest = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Naver-Client-Id", "ZbxOPpeRfxe__sSH8zBF");
@@ -27,11 +27,12 @@ public class NaverShopSearch {
         String body = "";
 
         HttpEntity<String> requestEntity = new HttpEntity<String>(body, headers);
-        ResponseEntity<String> responseEntity = rest.exchange("https://openapi.naver.com/v1/search/shop.json?query=" + query +"&display=" + display + "&sort="+sort, HttpMethod.GET, requestEntity, String.class);
+        ResponseEntity<String> responseEntity = rest.exchange("https://openapi.naver.com/v1/search/shop.json?query=" + query +"&start=" +start+"&display=" + display + "&sort="+sort, HttpMethod.GET, requestEntity, String.class);
         HttpStatus httpStatus = responseEntity.getStatusCode();
         int status = httpStatus.value();
         String response = responseEntity.getBody();
         System.out.println("Response status: " + status);
+        System.out.println(response);
 
         return response;
 	};
@@ -44,7 +45,7 @@ public class NaverShopSearch {
 		
 			for (int i=0; i<items.length();i++) {
 				JSONObject itemJson = items.getJSONObject(i);
-				System.out.println(itemJson);
+				System.out.println("하이" +itemJson);
 				ItemDto itemDto = new ItemDto(itemJson);
 				itmList.add(itemDto);
 			}

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import '../../css/message.css';
 
 class MessageList extends Component {
   constructor(props) {
@@ -12,8 +13,8 @@ class MessageList extends Component {
   componentDidMount() {
     const accessToken = localStorage.getItem("accessToken");
 
-    axios
-      .get("/api/messages/receiver", {
+    axios//보낸 쪽지 전부 확인
+      .get("/api/messages/sender", {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -34,19 +35,20 @@ class MessageList extends Component {
   render() {
     const { messages } = this.state;
     return (
-      <div className="listWrap">
-        <h1>쪽지 리스트</h1>
+      <div id="wrap">
+        <h1>보낸 쪽지</h1>
+        <button type="button" onClick={() => { window.location.href = '/messages'; }}>새 쪽지</button>
+        <button type="button" onClick={() => { window.location.href = '/messages/postbox/receiver'; }}>받은 쪽지 목록</button>
         <hr />
         <ul>
           {messages.map((message) => (
-            <li
-              style={{ border: "1px solid tomato", borderRadius: "5px" }}
-              key={message.id}
+            <li key={message.id}
             >
-              <Link to={`/messages/postbox/${message.id}`}>
+              <Link to={`/messages/postbox/sender/${message.id}`}>
+                <h3 className="listName">받은 사람: {message.receiverName}</h3>
                 <h2 className="listTitle">{message.title}</h2>
-                <h3 className="listSender">보낸 사람: {message.senderName}</h3>
-                <h5>{message.createat}</h5>
+                
+                <h5>{message.createAt}</h5>
               </Link>
             </li>
           ))}

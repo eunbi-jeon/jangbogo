@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Link, withRouter} from 'react-router-dom';
+import { NavLink,Link, withRouter} from 'react-router-dom';
 
 import "../css/header.css"
 import "../css/root.css"
@@ -121,7 +121,10 @@ class Header extends Component {
                   <div key={category.id} onClick={() => this.handleCategoryClick(category.value)}>{category.value}</div> ))}
             </div>
           </span>
-          <span style={{marginRight:30}}><Link to='/board/list'>커뮤니티</Link></span>
+          <span style={{marginRight:30}}><NavLink activeClassName="active" to='/board/list/1/seoul'>서울</NavLink></span>
+          <span style={{marginRight:30}}><NavLink activeClassName="active" to='/board/list/1/busan'>부산</NavLink></span>
+          <span style={{marginRight:30}}><NavLink activeClassName="active" to='/board/list/1/gyeonggido'>경기도</NavLink></span>
+          <span style={{marginRight:30}}><NavLink activeClassName="active" to='/board/list/2'>커뮤니티</NavLink></span>
           </div>
           { this.props.authenticated ? (
             <div>

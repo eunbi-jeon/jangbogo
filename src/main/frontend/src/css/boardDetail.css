@@ -44,22 +44,20 @@ table .detailSubject{
   .replyContent{
     width: 1500px;
     padding-left: 10px;
-    font-weight: bold;
   }
-  
   .replyNickName{
     width: 150px;
   }
-  .reply-btn{
+  .modifyBtn, .deleteBtn{
     text-align: center;
-    width: 40px;
-    background-color: tomato;
+    width: 60px;
+    border: 1px solid rgb(255, 200, 150);
+    background-color: rgb(255, 235, 199);
     border-radius: 10px;
     font-size: 13px;
     padding-top: 5px;
     padding-bottom: 5px;
-    font-weight: bold;
-    color: white;
+    cursor: pointer;
   }
 
   .best{

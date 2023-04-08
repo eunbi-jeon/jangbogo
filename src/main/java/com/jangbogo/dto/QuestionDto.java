@@ -19,9 +19,10 @@ public class QuestionDto {
 	
 	@NotEmpty(message="내용은 필수 항목 입니다. ")
 	private String content; 
-	
-    private Board board; 
+
+//	private Long board_id;
+//    private Board board;
     
-  //  private String region;
+    private String region;
 
 }

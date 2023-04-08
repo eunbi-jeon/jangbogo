@@ -1,0 +1,96 @@
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    display: none;
+    }
+
+/* 모달창 제목 스타일 */
+.modal h2 {
+margin-top: 0;
+}
+
+/* 쪽지 보내기 폼 스타일 */
+.modal #wrap {
+    margin: auto 0;
+display: flex;
+flex-direction: column;
+}
+
+
+.modal #wrap input {
+border-radius: 5px;
+margin-bottom: 20px;
+padding: 10px;
+border: 1px solid #ccc;
+width: 100%;
+}
+
+.modal #wrap textarea {
+height: 100px;
+width: 100%;
+margin-bottom: 20px;
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 5px;
+}
+
+.modal #wrap button {
+align-self: flex-end;
+padding: 5px 10px;
+background-color: tomato;
+color: #fff;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+/* 모달창 닫기 버튼 스타일 */
+.modal .close-btn {
+position: absolute;
+top: 10px;
+right: 10px;
+padding: 5px 10px;
+background-color: #ccc;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+/* 모달창이 나타날 때의 스타일 */
+.modal.show {
+display: block;
+animation: modal-show 0.3s ease;
+}
+
+/* 모달창이 사라질 때의 스타일 */
+.modal.hide {
+animation: modal-hide 0.3s ease;
+}
+
+/* 모달창이 나타날 때의 애니메이션 */
+@keyframes modal-show {
+from {
+    opacity: 0;
+    }
+to {
+    opacity: 1;
+    }
+}
+
+/* 모달창이 사라질 때의 애니메이션 */
+@keyframes modal-hide {
+from {
+    opacity: 1;
+    }
+to {
+    opacity: 0;
+    }
+}
