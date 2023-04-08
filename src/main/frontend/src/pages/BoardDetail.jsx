@@ -42,7 +42,7 @@ class BoardDetail extends Component {
         // 답변 작성 후, 답변 목록을 다시 불러오는 코드를 추가하세요.
         // this.loadAnswers();
         this.setState({ answerContent: "" }); // 답변 작성란 초기화
-        window.location.href = `/board/detail/${id}`;
+        window.location.href = `/board/detail/${this.state.board_id}/${id}`;
 
       })
       .catch((error) => {

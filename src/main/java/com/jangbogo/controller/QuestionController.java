@@ -57,6 +57,7 @@ public class QuestionController {
 		System.out.println("list컨트롤러 잘 호출됌~~~");
 		System.out.println("board_id:"+board_id);
 		System.out.println("region:"+region);
+		System.out.println("page:"+page);
 
 		Page<Question> paging = this.questionService.getList(board_id,region,page);
 
