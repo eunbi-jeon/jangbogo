@@ -22,7 +22,7 @@ function Main() {
   const month = new Date().getMonth() +1;
   
   useEffect(() => {
-    axios.post('http://localhost:8080/')
+    // axios.post('http://localhost:8080/')
     axios.get('http://localhost:8080/')
       .then(response => {
         setItems(response.data);
@@ -194,6 +194,7 @@ function Main() {
           </ul>
         </div>
       </div>
+      {/* 배너 이미지 슬라이드 */}
       <div className="main-banner">
       <div className="main-banner-title">
         {month}월은 어떤 제철음식이 있을까요?

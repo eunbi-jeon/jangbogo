@@ -13,7 +13,11 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import com.jangbogo.config.security.token.UserPrincipal;
+import com.jangbogo.repository.MemberRepository;
+
 import com.jangbogo.repository.BoardRepository;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,9 +39,13 @@ import lombok.RequiredArgsConstructor;
 public class QuestionService {
 
 	private final QuestionRepository questionRepository;
+    private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
+    
+    
     //내가 쓴 글 조회
-    public ResponseEntity<List<Question>> getMyBoard(Member member){
+    public ResponseEntity<List<Question>> getMyBoard(UserPrincipal userPrincipal){
+        Member member = memberRepository.findByEmail(userPrincipal.getEmail()).orElse(null);
         List<Question> myboard = questionRepository.findByName(member);
         return ResponseEntity.ok(myboard);
     }

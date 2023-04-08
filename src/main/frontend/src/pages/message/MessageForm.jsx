@@ -35,7 +35,7 @@ function MessageForm() {
         setTitle('');
         setContent('');
         setReceiver('');
-        console.log('Message saved successfully');
+        alert('Message saved successfully');
       })
       .catch((error) => {
         console.error(error);

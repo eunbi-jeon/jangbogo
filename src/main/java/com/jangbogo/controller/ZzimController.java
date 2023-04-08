@@ -70,8 +70,6 @@ public class ZzimController {
     	    Zzim zzim = zzimRepository.findByUserIdAndProducts_Id(user.getId(), prodId);
     	 
     	     zzimService.deleteProduct(prodId);
-    	
-    	    
         return ResponseEntity.ok().build();
     }
     
