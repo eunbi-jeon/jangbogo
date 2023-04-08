@@ -38,10 +38,14 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 //    Page<Question> findAllByOrderByReadCountDesc(Pageable pageable);
 //
 //    Page<Question> findAllByKeywordOrderByReadCountDesc(@Param("kw") String kw, Pageable pageable);
-	
-	Page<Question> findAll(Pageable pageable); 
-	
-    Page<Question> findAll(Specification<Question> spec, Pageable pageable);
+
+	// board_id를 기준으로 검색하는 메소드
+	Page<Question> findByBoardId(Long boardId, Pageable pageable);
+
+	// board_id와 region을 기준으로 검색하는 메소드
+	Page<Question> findByBoardIdAndRegion(Long boardId, String region, Pageable pageable);
+
+	Page<Question> findAll(Specification<Question> spec, Pageable pageable);
 
     @Query("select "
             + "distinct q "

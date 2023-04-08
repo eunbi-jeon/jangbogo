@@ -14,6 +14,8 @@ class BoardDetail extends Component {
       question: [],
       answer:[],
       answerContent: "",
+      board_id:null,
+      region:''
     };
   }
   handleTextareaChange = (event) => {
@@ -51,7 +53,14 @@ class BoardDetail extends Component {
   
   componentDidMount() {
     const { id } = this.props.match.params;
+    const { board_id } = this.props.match.params;
+    const { region } = this.props.match.params;
+        this.setState({
+            board_id: board_id,
+            region: region
+          });
     const token = localStorage.getItem("accessToken");
+    console.log("idddddddddddddd:"+board_id);
     axios
       .get(`http://localhost:8080/board/detail/${id}`, {
         headers: {

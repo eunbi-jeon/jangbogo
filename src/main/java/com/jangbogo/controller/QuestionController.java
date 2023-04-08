@@ -2,11 +2,15 @@ package com.jangbogo.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jangbogo.config.security.token.CurrentUser;
+import com.jangbogo.domain.Board.Board;
+import com.jangbogo.exeption.DataNotFoundException;
+import com.jangbogo.repository.BoardRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -35,7 +39,7 @@ public class QuestionController {
 	
 	private final QuestionService questionService; 
 	private final MemberService memberService;
-
+	private final BoardRepository boardRepository;
 	//내가쓴글 조회
 	@GetMapping("/board/my")
 	public ResponseEntity<List<Question>> myBoardList(@CurrentUser Member member){
@@ -43,13 +47,18 @@ public class QuestionController {
 		return questionService.getMyBoard(member);
 	}
 
-	@GetMapping("/board/list")
+	@GetMapping("/board/list/{board_id}")
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	public ResponseEntity<Page<Question>> questionList(
+			@RequestParam(value = "region", required = false) String region,
+			@PathVariable("board_id") Long board_id,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "kw", defaultValue = "") String kw) {
+		System.out.println("list컨트롤러 잘 호출됌~~~");
+		System.out.println("board_id:"+board_id);
+		System.out.println("region:"+region);
 
-		Page<Question> paging = this.questionService.getList(page);
+		Page<Question> paging = this.questionService.getList(board_id,region,page);
 
 
 		if (paging.getContent().isEmpty()) {
@@ -59,19 +68,22 @@ public class QuestionController {
 		return ResponseEntity.ok(paging); // 비어있지 않은 경우 Page 객체 반환
 	}
 
-	@PostMapping("/board/create")
-	public void questionCreate(@RequestBody QuestionDto questionDto, BindingResult bindingResult, Principal principal) {
+	@PostMapping("/board/create/{board_id}")
+	public void questionCreate(@PathVariable("board_id") Long board_id,@RequestBody QuestionDto questionDto, BindingResult bindingResult, Principal principal) {
 		// @RequestBody 어노테이션을 추가하여 Request Body에서 데이터를 읽어옴
 		System.out.println("create controller 호출");
 		if (bindingResult.hasErrors()) {
 			System.out.println("create controller 호출");
 
-		}	
+		}
+
 		System.out.println("create controller 호출");
+		System.out.println("Board타입: "+board_id);
+		System.out.println("region확이니ㅣㅣㅣㅣㅣㅣ:"+questionDto.getRegion());
 
 		Member member = this.memberService.getMember(principal.getName());
 
-		this.questionService.create(questionDto.getBoard(), questionDto.getSubject(), questionDto.getContent(), member);
+		this.questionService.create(board_id, questionDto.getRegion(),questionDto.getSubject(), questionDto.getContent(), member);
 
 	}
 
