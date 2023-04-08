@@ -45,7 +45,7 @@ public class NaverShopSearch {
 		
 			for (int i=0; i<items.length();i++) {
 				JSONObject itemJson = items.getJSONObject(i);
-				System.out.println(itemJson);
+				System.out.println("하이" +itemJson);
 				ItemDto itemDto = new ItemDto(itemJson);
 				itmList.add(itemDto);
 			}

@@ -21,7 +21,7 @@ public class SearchRequestController {
 								@RequestParam("category1") String category1,  
 								@RequestParam(defaultValue = "1") int start, 						
 								@RequestParam(defaultValue = "100") int display, 
-									@RequestParam String sort){
+									@RequestParam(defaultValue = "sim") String sort){
 		String resultString = naverShopSearch.search(query, start, display, sort);
 		return naverShopSearch.fromJSONtoItems(resultString);
 	}
