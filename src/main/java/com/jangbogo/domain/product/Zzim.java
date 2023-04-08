@@ -57,7 +57,8 @@ public class Zzim {
     }
 
     public void removeProduct(Long prodId) {
-        products.removeIf(p -> p.getId().equals(prodId));
+        products.removeIf(product -> product.getId().equals(prodId));
+
     }
     
     public void addCount(Integer count) {

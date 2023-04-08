@@ -83,6 +83,18 @@ public class ZzimService {
 			return items;
 		}
 		
+		//찜 product 삭제
+		public Optional<Product> deleteProduct(Long id) {
+		    Optional<Product> productOptional = productRepository.findById(id);
+		    log.info(id.toString());
+		    if (productOptional.isPresent()) {
+		    	log.info(id.toString());
+		        productRepository.deleteById(id);
+		    } else {
+		        throw new RuntimeException("Product not found with id: " + id);
+		    }
+		    return productOptional;
+		}
 
 		
 		//찜 전체 삭제

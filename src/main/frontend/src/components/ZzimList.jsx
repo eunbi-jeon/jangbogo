@@ -5,6 +5,7 @@ function ZzimList({ link, image, lprice, mallName, title, id, checked, onCheck }
 
   const [isChecked, setIsChecked] = useState(!checked);
 
+
   const numberWithCommas = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };

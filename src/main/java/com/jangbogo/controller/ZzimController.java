@@ -1,6 +1,9 @@
 package com.jangbogo.controller;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.EntityManager;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +40,7 @@ public class ZzimController {
     private final ZzimService zzimService;
     private final MemberRepository memberRepository;
     private final ZzimRepository zzimRepository;
-    
+    private final EntityManager entityManager;
     //조회
     @GetMapping("/api/products")
     public ResponseEntity<?> zzimList(@CurrentUser UserPrincipal currentUser) {
@@ -66,10 +69,14 @@ public class ZzimController {
     	Member user = memberRepository.findByEmail(currentUser.getEmail()).orElse(null); 
     	Zzim zzim = zzimRepository.findByUserEmail(user.getEmail());
         
+        int beforeSize = zzim.getProducts().size();
         zzim.removeProduct(prodId);
-
-        zzim.setCount(zzim.getCount() - 1);
-        zzimRepository.save(zzim);
+        int afterSize = zzim.getProducts().size();
+        zzim.setCount(zzim.getCount()-1);
+        
+        System.out.println("before size: " + beforeSize + ", after size: " + afterSize);
+        entityManager.detach(zzim); 
+        
         return ResponseEntity.ok().build();
     }
     

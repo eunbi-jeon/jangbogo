@@ -8,6 +8,7 @@ function ZzimItem(props) {
   const [checked, setChecked] = useState([]);
   const [checkedAll, setCheckedAll] = useState(false);
 
+  
   useEffect(() => {
     async function fetchProducts() {
       const response = await axios.get('/api/products', {
@@ -22,16 +23,6 @@ function ZzimItem(props) {
     fetchProducts();
   }, [checked]);
 
-  useEffect(() => {
-    const savedProducts = JSON.parse(localStorage.getItem('products'));
-    if (savedProducts) {
-      setProducts(savedProducts);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('products', JSON.stringify(products));
-  }, [products]);
 
   async function handleRemoveZzim() {
     if (checked.length === 0) {

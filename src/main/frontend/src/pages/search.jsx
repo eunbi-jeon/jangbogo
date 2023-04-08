@@ -74,30 +74,22 @@ function Search(props) {
   
 
 	const handleSortByChange = (e) => {
-	  const selectedValue = e.target.value;
-	  
-	  if (selectedValue === "관련도순") {
-	    setSortBy("sim");
-	  
-	  } else if (selectedValue === "최신순") {
-	    setSortBy("date");
-	  
-	  } else if (selectedValue === "낮은가격순") {
-	    setSortBy("asc");
-	  
-	  }
-	
-    const onClickItem=(item, e)=>{
-      if (!e || !e.target || e.target.nodeName !== "BUTTON") {
-        window.open(item.link, "_blank");
-      }else{
-      e.preventDefault();
-    }
-    } 
-    
-    
+        const selectedValue = e.target.value;
+        
+        if (selectedValue === "관련도순") {
+          setSortBy("sim");
+        
+        } else if (selectedValue === "최신순") {
+          setSortBy("date");
+        
+        } else if (selectedValue === "낮은가격순") {
+          setSortBy("asc");
+        
+        }
+  }
 
-};
+
+
   
 
 
@@ -114,7 +106,7 @@ function Search(props) {
           </select>
         </div>
         <ul>    
-          {items.slice(0, 30).map(item => (
+          {items.map(item => (
             <li key={item.link}>
               <div className='search-item' onClick={(e)=>onClickItem(item, e)} >
                 <div className='search-item-left'>
