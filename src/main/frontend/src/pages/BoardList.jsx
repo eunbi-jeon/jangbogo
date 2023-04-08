@@ -17,7 +17,6 @@ class BoardList extends Component {
         };
     }
 
-
     // componentDidMount() {
     //     const { board_id } = this.props.match.params;
     //     const { region } = this.props.match.params;
@@ -43,9 +42,7 @@ class BoardList extends Component {
     //         })
     //         .catch((error) => {
     //             console.error(error);
-    //         });
-
-            
+    //         });         
     // }
     componentDidMount() {
         this.fetchQuestions();
@@ -96,7 +93,6 @@ class BoardList extends Component {
             console.error(error);
         }
     }
-    
 
     handlePostClick = (id) => {
         console.log('게시글 ID:', id);
@@ -124,7 +120,6 @@ class BoardList extends Component {
                 <div className="boardWrap">
                     <span className="hrLine1">
                     </span>
-                    
                     <table className="boardList">
                         <thead>
                             <tr>
@@ -146,16 +141,16 @@ class BoardList extends Component {
                                                 {question.subject}
                                             </Link>
                                             <span className="replyCount">
-                                                {question.answerList ? question.answerList.length: 0}
+                                                {question.answerList ? question.answerList.length : 0}
                                             </span>
                                         </td>
                                         <td className="bestCount">{question.voter}</td>
                                         <td className="readCount">{question.readCount}</td>
                                     </tr>
                                     <tr><td colSpan={4}><div className="hrLine3"></div></td></tr>
-                                    </>
-                                ))}
-                                
+                                </>
+                            ))}
+
                         </tbody>
                     </table>
                     <div>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jangbogo.config.security.token.CurrentUser;
@@ -34,9 +35,20 @@ public class MessageController {
     private final MessageService messageService;
     private final MemberRepository memberRepository;
 
+    
+    
+    @GetMapping("/messages/findName/{searchValue}")
+    public Response findReceiver(@PathVariable("searchValue") String nickname) {
+    	Member member = memberRepository.findByName(nickname).orElseThrow(() ->
+        new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
+        );
+        return Response.success();
+    }
+    
     @PostMapping("/messages")
     public Response createMessage(@Valid @RequestBody MessageCreateRequest req, @CurrentUser UserPrincipal userPrincipal) {
-        Member member = memberRepository.findByEmail(userPrincipal.getEmail()).orElseThrow(() ->
+
+    	Member member = memberRepository.findById(userPrincipal.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
         );
         return Response.success(messageService.createMessage(member, req));
@@ -47,11 +59,6 @@ public class MessageController {
         Member member = memberRepository.findById(userPrincipal.getId()).orElseThrow(() ->
                 new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
         );
-    	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getEmail());
-    	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getName());
-    	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getUsername());
-    	System.out.println("사용자 정보 출력 ===> : " + userPrincipal.getPassword());
-
         return Response.success(messageService.receiveMessages(member));
     }
 

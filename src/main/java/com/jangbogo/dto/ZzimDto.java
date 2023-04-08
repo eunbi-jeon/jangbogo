@@ -15,4 +15,5 @@ public class ZzimDto {
     private Long zzimId;
 
     private List<ProductRequestDto> requestDtoList;
+
 }

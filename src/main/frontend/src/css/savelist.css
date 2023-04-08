@@ -12,19 +12,18 @@ li{
 .save-item{
   margin:20px;
   width: 260px;
-  display:flex;
   border:1px solid gainsboro;
   border-radius: 8px;
-  flex-direction: column;
   align-items: center;
   justify-content:center;
   padding: 10px;
   border-bottom: 1px solid gainsboro;
+  cursor: pointer;
 }
-.save-item-left{
-  width:270px;
-  display: flex;
+.save-item-left{ 
+  
   flex-direction: row;
+  justify-content: space-between;
   align-items: flex-start;
 
 }
@@ -33,6 +32,15 @@ li{
   height: 150px;
   border-radius: 5px;
   padding:20px;
+
+  
+}
+.checkbox{
+  float:left; 
+  width:30px;
+}
+.img{
+  padding-left:40px;
 }
 .save-item-info {
   width:250px;
@@ -89,4 +97,18 @@ li{
   display: flex;
   align-items: center;
  
+}
+input[type="checkbox"] {
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  border: 1px solid #999;
+  appearance: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+input[type="checkbox"]:checked {
+  background: #ED712E;
+  border: none;
 }
