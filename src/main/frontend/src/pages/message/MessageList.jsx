@@ -34,7 +34,7 @@ class MessageList extends Component {
   render() {
     const { messages } = this.state;
     return (
-      <div className="listWrap">
+      <div className="">
         <h1>쪽지 리스트</h1>
         <hr />
         <ul>

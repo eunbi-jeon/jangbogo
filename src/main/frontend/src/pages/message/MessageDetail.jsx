@@ -10,19 +10,40 @@ class MessageDetail extends Component {
               message : {}
             };
         }
-
-        // deleteMessage(event) {
-        //     alert("쪽지를 삭제하시겠습니까?")
-        //   deleteThumb()
-        //   .then((response) => {
-        //       alert("쪽지가 삭제되었습니다.");
-        //       window.location.href = "/mypage";
-        //   }).catch((error) => {
-        //       alert((error && error.message) || '프로필 사진 삭제에 실패하였습니다. 관리자에게 문의하세요');
-        //       window.location.href = "/mypage"; 
-        //   })
-        // };
+     
+        async deleteMessage(id) {
+          try {
+            const accessToken = localStorage.getItem("accessToken");
+            await axios.delete(`/api/messages/receiver/${id}`, {
+              headers: {
+                Authorization: `Bearer ${accessToken}`
+              }
+          });
+          } catch (error) {
+            throw new Error('쪽지 삭제에 실패하였습니다. 관리자에게 문의하세요');
+          }
+        }
+      
+        async onRemove(event) {
+          const {id} = this.props.match.params; // MessageList Link 컴포넌트 경로에서 ID값을 추출하기 위해
+          // 삭제버튼 클릭시 확인창 띄우기
+          if (window.confirm("정말 쪽지를 삭제하시겠습니까?")) {
+            try {
+              await this.deleteMessage(id); // id값을 deleteMessage() 메서드에 전달
+              alert("쪽지가 삭제되었습니다.");
+              //삭제 후 리스트 페이지로 이동
+              this.props.history.push("/messages/postbox");
+              
+            } catch (error) {
+              alert(error && error.message);
+            }
+          } else {
+            alert("쪽지 삭제를 취소합니다.");
+            // 삭제 취소 후 페이지 유지
+          }
+        }
         
+
         componentDidMount() {  
             const {id} = this.props.match.params; //MessageList Link 컴포넌트 경로에서 ID값을 추출하기 위해
             const accessToken = localStorage.getItem("accessToken");
@@ -55,7 +76,7 @@ class MessageDetail extends Component {
                           <div> Sender: {message.senderName}</div><br/> 
                           <div>{message.createat}</div><br/>
                         </div>
-                        <button id='delete-btn'>삭제</button>
+                        <button id='delete-btn' onClick={(event) => this.onRemove(event)}>삭제</button>
                       </div>
                     ) : (
                         //  그렇지 않은 경우에는 "데이터를 불러오는 중입니다."라는 문구를 출력 
