@@ -6,36 +6,19 @@ function MessageForm() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [receiverNickname, setReceiver] = useState('');
-  const [receiverInfo,setReceiverInfo] = useState(null);
-
 
   const searchName = (e) => {
-    const nickname = e.target.value;
-    axios
-    .get(`/api/messages/findName/${nickname}`)
-    .then((response) => {
-      const receiverId = response.data.id;
-      axios
-      .get(`/api/messages/receiver/${receiverId}`)
-      .then((response) => {
-        setReceiverInfo(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-        setReceiverInfo(null);
-      });
-    })
-    .catch((error) => {
-      console.error(error);
-      setReceiverInfo(null);
-    });
-    setReceiver(nickname);
+    console.log(e.target.value);
+    setReceiver(e.target.value);
   };
-  
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    if (title === '' || content === '' || receiverNickname === '') {
+    alert('빈칸을 모두 채워주세요');
+    return;
+    }
 
     axios
       .post(
@@ -52,7 +35,7 @@ function MessageForm() {
         setContent('');
         setReceiver('');
         console.log('Message saved successfully');
-        window.location.href = '/messages/postbox';
+        window.location.href = '/messages/postbox/receiver';
       })
       .catch((error) => {
         console.error(error);
@@ -63,7 +46,7 @@ function MessageForm() {
     <form onSubmit={handleSubmit}>
       <div className='wrap'>
         <div>
-          <h1>쪽지보내기</h1>
+          <h1>새 쪽지</h1>
           <hr />
         </div>
         <div id='message_form'>
@@ -80,8 +63,12 @@ function MessageForm() {
           <hr />
           <div>
             <label htmlFor='title'></label>
-            <input placeholder='쪽지 제목을 입력하세요' type='text' id='title'
-              value={title} onChange={(e) => setTitle(e.target.value)}
+            <input
+              placeholder='쪽지 제목을 입력하세요'
+              type='text'
+              id='title'
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
           <div>
@@ -95,6 +82,8 @@ function MessageForm() {
           </div>
         </div>
         <button type='submit'>Send Message</button>
+        <button type="button" onClick={() => { window.location.href = '/messages/postbox/receiver'; }}>받은 쪽지 목록</button>
+        <button type="button" onClick={() => { window.location.href = '/messages/postbox/sender'; }}>보낸 쪽지 목록</button>
       </div>
     </form>
   );

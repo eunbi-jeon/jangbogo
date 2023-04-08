@@ -21,3 +21,7 @@
 #message_form{
     margin: 10px 50px;
 }
+
+.wrap button {
+    margin: 0 0 0 15px;
+}
