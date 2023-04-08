@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import com.jangbogo.domain.member.entity.Member;
 import com.jangbogo.domain.product.Product;
@@ -42,26 +43,21 @@ public class ZzimService {
 	    Zzim zzim = zzimRepository.findByUserEmail(user.getEmail());
 
 	    if (zzim == null) {
+
 	        zzim = Zzim.creatZzim(user);
-	        zzim.setCount(zzim.getCount() + 1);
 	        zzimRepository.save(zzim);
 	    }
 
-	    try {
-	        Product product = productRepository.findByZzimId(zzim.getId());
-
-	        if (product == null) {
-	            zzim.setCount(zzim.getCount() + 1);
-	            zzimRepository.save(zzim);
-	            productRepository.save(buildProductreq(req,zzim));
-	        } else {
-	            product.addCount(count);
-	        }
-	    } catch (Exception e){
-	        e.printStackTrace();
-	    }
+        Product product = productRepository.findByZzimIdAndProductId(zzim.getId(), req.getProductId());
+        if(product==null) {
+	        productRepository.save(buildProductreq(req, zzim));	
+        	zzim.setCount(zzim.getCount() + 1);
+        }else {
+        	product.getCreateAt().toString();
+        }
+	     
 	}
-
+	
 	private Product buildProductreq(ProductRequestDto req, Zzim zzim) {
 	    return Product.builder()
 	            .productId(req.getProductId())
@@ -70,11 +66,9 @@ public class ZzimService {
 	            .link(req.getLink())
 	            .lprice(req.getLprice())
 	            .mallName(req.getMallName())
-	            .count(1)
 	            .zzim(zzim)
 	            .build();
 	}
-
 		
 		//찜 리스트 조회
 		public List<Product> viewZzim(Zzim zzim){
@@ -91,9 +85,16 @@ public class ZzimService {
 		}
 		
 		//찜 product 삭제
-		public void deleteProduct(Long id) {
-			productRepository.deleteById(id);
-		}
+	    @Transactional
+	    public void deleteProduct(Long productId) {
+	        Product product = productRepository.findById(productId)
+	                .orElseThrow(() -> new NotFoundException("Product not found"));
+	        Zzim zzim = product.getZzim();
+	        zzim.getProducts().remove(product);
+	        zzim.addCount(-1);
+	        product.setZzim(null);
+	        productRepository.delete(product);
+	    }
 		
 		//찜 전체 삭제
 		public void deleteAll(Long id) {

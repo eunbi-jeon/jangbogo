@@ -4,6 +4,13 @@
     width: 1400px;
     margin-top: 30px;
 }
+.searchlist-top{
+    display: flex;
+    width:90%;
+    margin:0 auto;
+    padding-top:3%;
+    justify-content: space-between;
+}
 .sort-box{
     display: flex; 
     justify-content: right;
@@ -102,6 +109,16 @@ li{
     cursor: pointer;
 }
 
+
+.findMorebtn {
+    display: block;
+    width: 90%;
+    margin:0 auto;
+    margin-top: 20px;
+    height: 80px;
+    font-size: 30px;
+  }
+  
 .price {
     position: relative;
 }
