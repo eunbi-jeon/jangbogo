@@ -80,7 +80,7 @@ class Mypage extends Component {
                             { 
                                 this.props.currentUser.information.imageUrl ? (
                                     <img className='profile-img' 
-                                    src={path+this.props.currentUser.information.imageUrl}
+                                    src={this.props.currentUser.information.imageUrl}
                                     alt={this.props.currentUser.information.name}/>
                                 ) : (
                                     <img className='profile-img' 

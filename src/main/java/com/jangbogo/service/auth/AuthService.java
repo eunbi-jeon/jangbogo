@@ -95,7 +95,7 @@ public class AuthService {
             String oriImgName = multipartFile.getOriginalFilename();
 
             String imgName = fileService.uploadFile(oriImgName, multipartFile.getBytes());
-            String uploadDir = "/profile/" + imgName;
+            String uploadDir = "./img/profile/" + imgName;
 
             member.updateImageUrl(uploadDir);
             memberRepository.save(member);

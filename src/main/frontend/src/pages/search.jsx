@@ -118,7 +118,6 @@ function Search(props) {
                     <Save authenticated={authenticated} onClick={(e) => {e.stopPropagation()}} item={item} />
                 </div>
               </div>
-
             </div>
           </li>
         ))}

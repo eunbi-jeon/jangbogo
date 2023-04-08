@@ -54,13 +54,14 @@ header {
 }
 
 .search-form input {
-    padding: 15px 30px 15px 20px;
+    padding: 15px 30px 15px 30px;
     width: 600px;
     color: black;
     border-radius: 10px;
     background-color: rgb(237, 237, 237);
     border: none;
     margin: auto 0;
+    font-size: 24px;
 }
 
 .search-form input:focus {

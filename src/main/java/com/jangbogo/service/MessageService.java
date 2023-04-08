@@ -46,7 +46,7 @@ public class MessageService {
     @Transactional(readOnly = true)
     public List<MessageDto> receiveMessages(Member member) {
         List<DirectMessage> messageList = messageRepository.findAllByReceiverAndDeletedByReceiverFalseOrderByIdDesc(member);
-        return messageList.stream()
+                return messageList.stream()
                 .map(message -> MessageDto.toDto(message))
                 .collect(Collectors.toList());
     }
@@ -60,6 +60,8 @@ public class MessageService {
     }
 
     private void validateReceiveMessage(Member member, DirectMessage message) throws MemberNotEqualsException {
+    	System.out.println("=======message.getReceiver()============="+message.getReceiver());
+    	System.out.println("==========member========="+member);
         if (message.getReceiver() != member) {
             throw new MemberNotEqualsException();
         }

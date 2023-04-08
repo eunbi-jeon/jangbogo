@@ -22,7 +22,7 @@ function Main() {
   const month = new Date().getMonth() +1;
   
   useEffect(() => {
-    // axios.post('http://localhost:8080/')
+    axios.post('http://localhost:8080/')
     axios.get('http://localhost:8080/')
       .then(response => {
         setItems(response.data);

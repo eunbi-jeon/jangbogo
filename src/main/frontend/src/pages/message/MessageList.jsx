@@ -1,44 +1,59 @@
-import React, {useState } from 'react'
-import Modal from 'react-modal'
-import './messagelist.css'
+import React, { Component } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
-Modal.setAppElement('#root')
+class MessageList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      messages: []
+    };
+  }
+  componentDidMount() {
+    const accessToken = localStorage.getItem("accessToken");
 
-function App(){
-  const [modalIsOpen,setModalIsOpen] = useState(false)
-  return (
-    <div className='App'>
-      <button onClick={() => setModalIsOpen(true)}>Open modal</button>
-      <Modal isOpen={modalIsOpen} 
-      shouldCloseOnOverlayClick={false} 
-      onRequestClose={() => setModalIsOpen(false)}
-    
-      // 모달창 외 클릭 시 클로즈 onRequestClose={() => setModalIsOpen(false)}
-        style={
-          {
-            overlay: {
-              backgroundColor: 'grey'
-            },
-            content: {
-              color: 'orange'
-            }
-            
-            }
-          }
-    >     
-          {/* 반복되는 쪽지 출력 */}
-          <h2>받은 쪽지</h2>
-            <div className='message list'>
-            <p>쪽지 내용입니다아아아아아 길게 늘어지지이이이이</p>
-            <p>쪽지 보낸 사람</p>
-            <p>2023.04.04 02:54</p>
-            </div>
-            <div>
-              <p onClick={() => setModalIsOpen(false)}>X</p>
-            </div>
-      </Modal>
-    </div>
-  )
+    axios
+      .get("/api/messages/receiver", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then((res) => {
+        console.log("콘솔 data 출력" + res.data);
+        this.setState({ messages: res.data.result.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  handlePostClick = (id) => {
+    console.log("메세지 ID : ", id);
+  };
+
+  render() {
+    const { messages } = this.state;
+    return (
+      <div className="listWrap">
+        <h1>쪽지 리스트</h1>
+        <hr />
+        <ul>
+          {messages.map((message) => (
+            <li
+              style={{ border: "1px solid tomato", borderRadius: "5px" }}
+              key={message.id}
+            >
+              <Link to={`/messages/postbox/${message.id}`}>
+                <h2 className="listTitle">{message.title}</h2>
+                <h3 className="listSender">보낸 사람: {message.senderName}</h3>
+                <h5>{message.createat}</h5>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 }
 
-export default App
+export default MessageList;

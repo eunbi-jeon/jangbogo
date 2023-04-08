@@ -33,6 +33,7 @@ public class AnswerService {
 		answer.setQuestion(question);
 		answer.setContent(content);
 		answer.setCreateAt(LocalDateTime.now());
+		answer.setQuestion(question);
 		answer.setName(name);
 		answer.setDepth(0);
 		answer.setParent(null);
@@ -111,5 +112,4 @@ public class AnswerService {
     	
     	return this.answerRepository.findAllByOrderByParentIdDescDepthAscCreateAtDesc(pageable);
     }
-
 }

@@ -1,6 +1,8 @@
 
 .search-container{
-    margin:10px;
+    margin: 0 auto;
+    width: 1400px;
+    margin-top: 30px;
 }
 .searchlist-top{
     display: flex;
@@ -12,14 +14,15 @@
 .sort-box{
     display: flex; 
     justify-content: right;
-    margin-right: 70px;
-       
+    margin-right: 120px;
 }
+
 #sortBy{ 
     width:100px;
     height: 30px;
-    border-radius: 10px;
-    margin-top:10px;}
+    border-radius: 5px;
+    padding: 3px 5px;
+}
     
 ul{
     display: flex; 
@@ -106,6 +109,7 @@ li{
     cursor: pointer;
 }
 
+
 .findMorebtn {
     display: block;
     width: 90%;
@@ -114,3 +118,8 @@ li{
     height: 80px;
     font-size: 30px;
   }
+  
+.price {
+    position: relative;
+}
+
