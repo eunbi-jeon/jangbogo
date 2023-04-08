@@ -13,6 +13,7 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import com.jangbogo.repository.BoardRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,8 +34,14 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class QuestionService {
 
-	private final QuestionRepository questionRepository; 
-	
+	private final QuestionRepository questionRepository;
+    private final BoardRepository boardRepository;
+    //내가 쓴 글 조회
+    public ResponseEntity<List<Question>> getMyBoard(Member member){
+        List<Question> myboard = questionRepository.findByName(member);
+        return ResponseEntity.ok(myboard);
+    }
+
 	 // 금지어 리스트
     private static final List<String> PROFANITY_LIST = Arrays.asList("욕설1", "욕설2", "욕설3");
     
@@ -49,19 +56,22 @@ public class QuestionService {
     }
 	
 	// 페이징
-	//public Page<Question> getList(int page, String kw) {	
-    public Page<Question> getList(int page) {	
-		List<Sort.Order> sorts = new ArrayList(); 
-		sorts.add(Sort.Order.desc("createAt")); 
-	
-		Pageable pageable = PageRequest.of(page, 10 , Sort.by(sorts)); 
-		
-		//Specification<Question> spec = search(kw);
-		 
-		//return this.questionRepository.findAll(spec, pageable); 
-		return this.questionRepository.findAll( pageable); 
-		
-	}
+    public Page<Question> getList(Long board_id,String region,int page) {
+        List<Sort.Order> sorts = new ArrayList();
+        sorts.add(Sort.Order.desc("createAt"));
+
+        Pageable pageable = PageRequest.of(page, 10 , Sort.by(sorts));
+
+        //Specification<Question> spec = search(kw);
+
+        //return this.questionRepository.findAll(spec, pageable);
+        if(!region.equals("undefined")){
+            return this.questionRepository.findByBoardIdAndRegion(board_id,region, pageable);
+        }else {
+            return this.questionRepository.findByBoardId(board_id, pageable);
+        }
+
+    }
 	
 	// 한개 조회
 	public Question getQuestion(Long id) {
@@ -74,20 +84,21 @@ public class QuestionService {
 		}		 
 	}
 	
-	// 생성
-	public void create(Board board, String subject, String content, Member name) {
-		
-//		// 욕설 필터링
-//        if (isProfanity(subject) || isProfanity(content)) {
-//            // 욕설이 포함된 제목이나 내용을 입력한 경우 예외를 던지거나 다른 처리를 할 수 있습니다.
-//            throw new IllegalArgumentException("금지어가 포함된 제목이나 내용입니다.");
-//        }
-
+	public void create(Long board_id, String region,String subject, String content, Member name) {
+        Board board;
+        Optional<Board> ob= boardRepository.findById(board_id);
+        if(ob.isPresent()){
+            board=ob.get();
+        }else{
+            throw new DataNotFoundException("요청한 파일을 찾지 못했습니다. ");
+        }
+        System.out.println("서비스에서 board_id확인:"+board_id);
+        System.out.println("서비스에서 board_id확인:"+board.getId());
 		Question q = new Question();
 		q.setBoard(board);
 		q.setSubject(subject);
 		q.setContent(content);
-	//	q.setReadCount(0);
+		q.setRegion(region);
 		q.setCreateAt(LocalDateTime.now());
 		q.setName(name);
 

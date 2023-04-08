@@ -21,6 +21,8 @@ class BoardDetail extends Component {
       isClick: false,
       isVoted: false,
       isModify: false,
+      board_id:null,
+      region:''
     };
   }
   
@@ -55,8 +57,42 @@ class BoardDetail extends Component {
         });
     }
   }
+       
 
-  answerDeleteClick = (id) => {
+  
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    const { board_id } = this.props.match.params;
+    const { region } = this.props.match.params;
+        this.setState({
+            board_id: board_id,
+            region: region
+          });
+    const token = localStorage.getItem("accessToken");
+    console.log("idddddddddddddd:"+board_id);
+    axios
+      .get(`http://localhost:8080/board/detail/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        if (res.data.content != null) {
+          this.setState({ question: [res.data] }, () => {
+            console.log(this.state.question); 
+          });
+          this.setState({ answer: [res.data.answerList] }, () => {
+            console.log(this.state.answer);
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  
+   answerDeleteClick = (id) => {
     console.log("dddddddddddddddddddddddddddddddddddd" + id)
     const token = localStorage.getItem("accessToken");
     const result = window.confirm("댓글을 삭제 하시겠습니까?");
@@ -74,8 +110,7 @@ class BoardDetail extends Component {
           console.error(error);
         });
     }
-  }
-
+  
   
   handleEditClick = (reply) => {
     this.setState({
@@ -137,10 +172,6 @@ componentDidMount() {
       const memberId = res.data.member.id;
       const targetId = memberId; // 찾고자 하는 id 값
       const voter = res.data.question.voter;
-      // const foundObj = voter.find(obj => obj.id === targetId);
-      // console.log("foundObj"+foundObj);
-      console.log(res.data.question.answerList)
-      console.log(res.data.question.subject)
         this.setState({ 
           question: [res.data.question], 
           member: [res.data.member], 
@@ -148,7 +179,6 @@ componentDidMount() {
           answer: [res.data.question.answerList],
           isVoted: voter.find(obj => obj.id === targetId)
         });
-      // } 
     })
     .catch((error) => {
       console.error(error);

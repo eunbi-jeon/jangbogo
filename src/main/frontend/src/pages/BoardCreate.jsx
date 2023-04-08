@@ -1,15 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-
+import { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 import '../css/boardcreate.css'
 
 const BoardCreate = ({ match }) => {
-  const [subject, setSubject] = useState('');
-  const [content, setContent] = useState('');
-  const [isEditMode, setIsEditMode] = useState(false);
+  const [subject, setSubject] = useState("");
+  const [content, setContent] = useState("");
+  const [board_id, setBoardId] = useState("");
+  const [region, setRegion] = useState("");
 
-  const history = useHistory();
+ useEffect(() => {
+    const { board_id } = match.params;
+    const { region } = match.params;
+
+    setBoardId(board_id);
+    setRegion(region);
+    console.log("board_id:" + board_id);
+    console.log("region:" + region);
+  }, [match.params]);
 
   useEffect(() => {
     // 수정 페이지일 경우, 기존 글 내용 불러오기
@@ -31,13 +39,6 @@ const BoardCreate = ({ match }) => {
     }
   }, [match.params.id]);
 
-  const handleTitleChange = (e) => {
-    setSubject(e.target.value);
-  }
-
-  const handleContentChange = (e) => {
-    setContent(e.target.value);
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault(); //새로고침 방지

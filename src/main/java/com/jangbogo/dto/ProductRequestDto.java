@@ -23,7 +23,6 @@ public class ProductRequestDto {
     private String image;
     private String mallName;
     private Integer lprice;
-    private Integer count;
 
 
 }

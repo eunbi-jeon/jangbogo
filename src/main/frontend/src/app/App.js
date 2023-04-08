@@ -15,8 +15,10 @@ import BoardCreate from '../pages/BoardCreate';
 
 import FindPassword from '../pages/user/FindPassword';
 
-import MessageList from '../pages/message/MessageList';
-import MessageDetail from '../pages/message/MessageDetail';
+import MessageReceiveList from '../pages/message/MessageReceiveList';
+import MessageSenderList from '../pages/message/MessageSenderList';
+import MessageReceiverDetail from '../pages/message/MessageReceiverDetail';
+import MessageSenderDetail from '../pages/message/MessageSenderDetail';
 import MessageForm from '../pages/message/MessageForm';
 
 
@@ -99,18 +101,22 @@ class App extends Component {
               <PrivateRoute path="/setting/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={ProfileModify}></PrivateRoute>
               <Route path="/login" render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
               
-              <PrivateRoute path="/messages/postbox/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MessageDetail}></PrivateRoute>  
-              <PrivateRoute path="/messages/postbox" authenticated={this.state.authenticated} currentUser={this.state.currentUser}  component={MessageList}></PrivateRoute>
+              <PrivateRoute path="/messages/postbox/receiver/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MessageReceiverDetail}></PrivateRoute>  
+              <PrivateRoute path="/messages/postbox/sender/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MessageSenderDetail}></PrivateRoute>  
+              <PrivateRoute path="/messages/postbox/receiver" authenticated={this.state.authenticated} currentUser={this.state.currentUser}  component={MessageReceiveList}></PrivateRoute>
+              <PrivateRoute path="/messages/postbox/sender" authenticated={this.state.authenticated} currentUser={this.state.currentUser}  component={MessageSenderList}></PrivateRoute>
               <PrivateRoute path="/messages" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MessageForm}></PrivateRoute>
       
               <Route path="/signup" render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
-              <PrivateRoute path="/board/detail/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardDetail}></PrivateRoute>
-              <PrivateRoute path="/board/create" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardCreate}></PrivateRoute>
-              <PrivateRoute path="/board/list" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardList}></PrivateRoute>
+
+              <PrivateRoute path="/board/detail/:board_id/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardDetail}></PrivateRoute>
+              <PrivateRoute path="/board/create/:board_id/:region?" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardCreate}></PrivateRoute>
+              <PrivateRoute path="/board/list/:board_id/:region?" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardList}></PrivateRoute>
               <Route path="/search" render={(props) => <Search query={this.state.query} authenticated={this.state.authenticated} currentUser={this.state.currentUser} />} />
               <PrivateRoute path="/save" render={(props)=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></PrivateRoute>
               <Route path="/myfav" render={(props)=><ZzimItem authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
+
               <Route path="/password/find" component={FindPassword}></Route>
               <Route exact path="/" component={Main}></Route> 
               <Route component={NotFound}></Route>
