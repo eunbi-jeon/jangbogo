@@ -95,7 +95,7 @@ class LoginForm extends Component {
                 window.location.href = "/login";
             }
             else if (req.data === 0) {
-              alert('가입된 정보가 없습니다.</br>회원가입페이지로 이동합니다.');
+              alert('가입된 정보가 없습니다.\n회원가입페이지로 이동합니다.');
               window.location.href = "/signup";
             }
           })
