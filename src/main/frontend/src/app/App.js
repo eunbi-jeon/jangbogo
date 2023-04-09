@@ -79,6 +79,7 @@ class App extends Component {
         currentUser: null
       });
       alert("로그아웃 했습니다.");
+      window.location.href="/";
     }
   
     componentDidMount() {

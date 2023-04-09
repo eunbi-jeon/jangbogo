@@ -43,8 +43,6 @@ class Mypage extends Component {
             if (answer.data) {
               this.setState({ answers: answer.data });
             }
-            console.log(this.state.boards)
-            console.log(this.state.answers)
           }))
           .catch((error) => {
             console.error(error);

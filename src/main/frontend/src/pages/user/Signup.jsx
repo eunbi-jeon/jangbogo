@@ -71,7 +71,7 @@ const SignUpForm = () => {
     };
 
 
-    const onNameHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const onNameHandler = useCallback((e) => {
         const nameRegex =  /^(?=.*[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z]).{2,10}$/
         const nameCurrent = e.target.value
         setNickName(nameCurrent)
@@ -85,7 +85,7 @@ const SignUpForm = () => {
         }
     }, [])
 
-    const onPasswordHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) =>{
+    const onPasswordHandler = useCallback((e) =>{
         const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,25}$/
         const passwordCurrent = e.target.value
         setPassword(passwordCurrent)
@@ -99,7 +99,7 @@ const SignUpForm = () => {
         }
     },[])
 
-    const onConfirmPasswordHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>)  => {
+    const onConfirmPasswordHandler = useCallback((e)  => {
             const passwordConfirmCurrent = e.target.value
             setConfirmPassword(passwordConfirmCurrent)
 

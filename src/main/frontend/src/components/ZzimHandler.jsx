@@ -86,7 +86,7 @@ const handleCheckAll = () => {
           </button>
         </div>
       </div>
-      <div>    
+      <div className='zzimlist-wrap'>    
         {products.map(product => (
           <ZzimList
             key={product.id}

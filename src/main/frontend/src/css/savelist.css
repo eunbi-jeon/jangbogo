@@ -114,3 +114,7 @@ input[type="checkbox"]:checked {
   border-radius: 5px;
   margin-left: 10px;
 }
+
+.save-container {
+  margin-right: 30px;
+}

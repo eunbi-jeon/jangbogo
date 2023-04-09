@@ -118,7 +118,7 @@ class Header extends Component {
           <div className='header-menu-left'>
           <span className='category'>
           <img src={menuicon} alt="메뉴아이콘" style={{width:20}}/>
-          <span style={{marginLeft:10}} className='category-title'>전체 카테고리
+          <span style={{marginLeft:10}} className='category-title'>카테고리
           </span>
           <div className='dropdown-menu'>
               {this.categorymenu.map((category) => (

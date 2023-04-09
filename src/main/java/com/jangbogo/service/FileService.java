@@ -22,7 +22,7 @@ public class FileService {
     private ResourceLoader resourceLoader;
 
     public String uploadFile(String originalFileName, byte[] fileData) throws Exception{
-        String uploadpath = resourceLoader.getResource("file:/Users/jeon-eunbi/Desktop/jangbogo/src/main/frontend/public/img/profile").getFile().getAbsolutePath();
+        String uploadpath = resourceLoader.getResource("file:/Users/jeon-eunbi/Desktop/jangbogo_main/src/main/frontend/public/img/profile").getFile().getAbsolutePath();
 
         UUID uuid = UUID.randomUUID();
 
@@ -41,7 +41,7 @@ public class FileService {
     }
 
     public void deleteFile(String filePath) throws Exception{
-        String uploadpath = resourceLoader.getResource("file:/Users/jeon-eunbi/Desktop/jangbogo/src/main/frontend/public/img").getFile().getAbsolutePath();
+        String uploadpath = resourceLoader.getResource("file:/Users/jeon-eunbi/Desktop/jangbogo_main/src/main/frontend/public/img").getFile().getAbsolutePath();
 
         String deleteFilepath = uploadpath + filePath;
 

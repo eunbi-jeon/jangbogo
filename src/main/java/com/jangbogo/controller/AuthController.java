@@ -61,7 +61,12 @@ public class AuthController {
     /* 회원가입 */
     @PostMapping(value = "/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody SignUpRequest signUpRequest) {
-        log.info("회원가입 실행");
+        try {
+            return authService.signup(signUpRequest);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return authService.signup(signUpRequest);
     }
 
