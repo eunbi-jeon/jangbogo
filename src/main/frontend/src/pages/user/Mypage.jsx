@@ -16,41 +16,37 @@ class Mypage extends Component {
         this.state = { boards: [], answers: [] };
       }
 
-    componentDidMount() {
-        const token = localStorage.getItem('accessToken');
-        axios
-            .get('http://localhost:8080/board/my', {
-                headers: {
-                    Authorization: 'Bearer ' + token,
-                },
-            })
-            .then((res) => {
-                if (res.data) {
-                    this.setState({ boards : res.data });
-                    console.log(boards)
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }
+
 
     componentDidMount() {
         const token = localStorage.getItem('accessToken');
-        axios
-            .get('http://localhost:8080/answer/my', {
-                headers: {
-                    Authorization: 'Bearer ' + token,
-                },
-            })
-            .then((res) => {
-                if (res.data) {
-                    this.setState({ answers : res.data });
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+
+        const getboard = axios.get('http://localhost:8080/board/my', {
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          });
+
+        const getanswer = axios.get('http://localhost:8080/answer/my', {
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          });
+
+          axios.all([getboard, getanswer])
+          .then(axios.spread((...responses) => {
+            const board = responses[0];
+            const answer = responses[1];
+            if (board.data) {
+              this.setState({ boards: board.data });
+            }
+            if (answer.data) {
+              this.setState({ answers: answer.data });
+            }
+          }))
+          .catch((error) => {
+            console.error(error);
+          });
     }
       
       handleFileInputChange = (event) => {
