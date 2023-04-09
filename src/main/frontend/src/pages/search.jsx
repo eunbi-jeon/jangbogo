@@ -89,7 +89,6 @@ function Search(props) {
     }
 
     return (
-      <>
       <div className="search-container">
       <div className="searchlist-top">
         <div className="countItem"> 검색 결과 ({items.length >= 99 ? '99+' : items.length})</div>
@@ -102,10 +101,9 @@ function Search(props) {
           </select>
         </div>
       </div>
-      <div className="listline"></div>
-        <ul>    
+        <div className='searchitem-wrap'>    
           {items.map(item => (
-            <li key={item.link}>
+            <div key={item.link}>
               <div className='search-item' onClick={(e)=>onClickItem(item, e)} >
                 <div className='search-item-left'>
                   <img src={item.image} alt={item.title} />
@@ -119,16 +117,15 @@ function Search(props) {
                 </div>
               </div>
             </div>
-          </li>
+          </div>
         ))}
         {items.length > 0  && (
         <button onClick={loadMore} className='findMorebtn'>더 보기</button>
         )}
-      </ul>
+      </div>
     
           
-    </div>
-    </>
+      </div>
   );
 
 };

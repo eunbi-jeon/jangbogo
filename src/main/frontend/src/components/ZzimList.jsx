@@ -23,7 +23,7 @@ function ZzimList({ link, image, lprice, mallName, title, id, checked, onCheck }
 
   
   return (
-    <li key={link}>
+    <div key={link}>
       <div className="save-container">
         <div className="save-item" onClick={onClickGoToSite}>
           <div className="search-item-left">
@@ -51,7 +51,7 @@ function ZzimList({ link, image, lprice, mallName, title, id, checked, onCheck }
           </div>
         </div>
       </div>
-    </li>
+    </div>
   );
 }
 

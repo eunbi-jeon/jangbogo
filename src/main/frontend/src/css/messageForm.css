@@ -16,6 +16,7 @@
 /* 모달창 제목 스타일 */
 .modal h2 {
 margin-top: 0;
+text-align: left;
 }
 
 /* 쪽지 보내기 폼 스타일 */

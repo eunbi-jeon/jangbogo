@@ -17,3 +17,12 @@ a {
 textarea {
     resize: none;
 }
+
+ul{display: flex;
+    flex-wrap: wrap;
+    margin:0 auto;}
+  
+  
+    li{
+    list-style-type: none;
+  }

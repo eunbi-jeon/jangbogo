@@ -75,9 +75,9 @@ const handleCheckAll = () => {
   };
 
   return (
-    <>
+    <div className='zzim-wrap'>
       <div className="savelist-top">
-        <div className="countItem"> 찜한 품목({products.length})</div>
+        <div className="countItem"> 찜한 상품({products.length})</div>
         <div className="delete">
           <button className="selectAllbtn" onClick={handleCheckAll}> 
           {checkedAll ? "전체 해제" : "전체 선택"}</button>
@@ -86,8 +86,7 @@ const handleCheckAll = () => {
           </button>
         </div>
       </div>
-      <div className="listline"></div>
-      <ul>    
+      <div>    
         {products.map(product => (
           <ZzimList
             key={product.id}
@@ -101,8 +100,8 @@ const handleCheckAll = () => {
             onCheck={handleCheck}
           />
         ))}
-      </ul>
-    </>
+      </div>
+    </div>
   );
 }
 

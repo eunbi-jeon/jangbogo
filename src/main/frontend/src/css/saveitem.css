@@ -1,9 +1,15 @@
+.zzim-wrap {
+  width: 1000px;
+  margin: 30px auto;
+  padding-top: 20px;
+}
+
 .savelist-top{
   display: flex;
   justify-content: space-between;
-  margin: 2% 5% 0 5%;
-  padding-top: 100px;
+  margin-bottom: 30px;
 }
+
 .countItem{
   font-size: 40px;
 }

@@ -1,27 +1,19 @@
-
 *{
   word-break: keep-all;
 }
 
-ul{display: flex;
-  flex-wrap: wrap;
-  margin:0 auto;}
-li{
-  list-style-type: none;
-}
 .save-item{
-  margin:20px;
   width: 260px;
   border:1px solid gainsboro;
   border-radius: 8px;
   align-items: center;
   justify-content:center;
-  padding: 10px;
+  padding: 20px;
   border-bottom: 1px solid gainsboro;
   cursor: pointer;
 }
+
 .save-item-left{ 
-  
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
@@ -57,6 +49,7 @@ li{
   color:#ED712E;
   font-weight: bold;
 }
+
 .fav-title{
   height: 45px;
   font-size: 20px;
@@ -64,6 +57,7 @@ li{
   align-items: center;
   color:black;
 }
+
 .fav-price {
   height: 30px;
   font-size: 30px;
@@ -90,7 +84,6 @@ li{
 }
 
 .deletebtn{
-
   cursor: pointer;
 }
 .save-item-right {
@@ -111,4 +104,13 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked {
   background: #ED712E;
   border: none;
+}
+
+.delete > button {
+  padding: 10px 20px;
+  font-weight: bold;
+  background-color: tomato;
+  color: white;
+  border-radius: 5px;
+  margin-left: 10px;
 }

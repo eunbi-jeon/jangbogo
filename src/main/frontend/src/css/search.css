@@ -1,8 +1,10 @@
-
 .search-container{
-    margin: 0 auto;
-    width: 1400px;
-    margin-top: 30px;
+    margin: 30px auto;
+    width: 1140px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 .searchlist-top{
     display: flex;
@@ -14,7 +16,6 @@
 .sort-box{
     display: flex; 
     justify-content: right;
-    margin-right: 120px;
 }
 
 #sortBy{ 
@@ -23,20 +24,19 @@
     border-radius: 5px;
     padding: 3px 5px;
 }
-    
-ul{
-    display: flex; 
+
+.searchitem-wrap {
+    display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
-    margin: 0 auto;
-}
-li{
-	list-style-type:none;
-    margin:20px;
+    margin: 30px auto;
+    width: 1100px;
+    justify-content: space-between;
+
 }
 
 .search-item{
-    width: 530px;
+    width: 520px;
     display: flex;
     flex-direction: row;
     align-content: center;
@@ -46,6 +46,7 @@ li{
     border: 0.5px solid gainsboro;
     box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
     cursor: pointer;
+    margin-bottom: 30px;
 }
 
 .search-item-left img {
@@ -112,11 +113,15 @@ li{
 
 .findMorebtn {
     display: block;
-    width: 90%;
+    width: 100%;
     margin:0 auto;
     margin-top: 20px;
     height: 80px;
     font-size: 30px;
+    background-color: tomato;
+    color: white;
+    font-weight: bold;
+    border-radius: 30px;
   }
   
 .price {

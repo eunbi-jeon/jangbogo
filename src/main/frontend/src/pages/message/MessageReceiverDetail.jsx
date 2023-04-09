@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {withRouter} from 'react-router-dom';
+
 import "../../css/messageDetail.css";
+import '../../css/messageForm.css';
 
 class MessageDetail extends Component {
         constructor(props) {
@@ -96,6 +98,7 @@ class MessageDetail extends Component {
                   .then(() => {
                     alert('메세지 전송에 성공했습니다!');
                     this.setState({isModalOpen: false})
+                    window.location.href='/messages/postbox'
                   })
                   .catch((error) => {
                     console.error(error);

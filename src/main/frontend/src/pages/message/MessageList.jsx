@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+
 import '../../css/messageList.css';
+import '../../css/messageForm.css';
+
 
 class MessageList extends Component {
   constructor(props) {
@@ -71,6 +74,7 @@ class MessageList extends Component {
       .then(() => {
         alert('메세지 전송에 성공했습니다!');
         this.setState({isModalOpen: false})
+        window.location.href='/messages/postbox'
       })
       .catch((error) => {
         console.error(error);
@@ -176,7 +180,7 @@ class MessageList extends Component {
           {this.state.messagesSender.map((message) => (
             <div className="messages" key={message.id}>
               <Link to={`/messages/postbox/sender/${message.id}`}>
-                <pre className="listTitle">{message.title}</pre>
+                <div className="listTitle">{message.title}</div>
                 <pre className="listContent">{message.content}</pre>
                 <pre className="listName"><b>To</b> {message.receiverName}</pre>
               </Link>
