@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import '../../css/message.css';
+import '../../css/messageList.css';
 
 class MessageList extends Component {
   constructor(props) {
@@ -36,8 +36,6 @@ class MessageList extends Component {
         }
       })
     ]).then(axios.spread((resSender, resReceiver) => {
-      console.log("보낸 쪽지:", resSender.data);
-      console.log("받은 쪽지:", resReceiver.data);
   
       this.setState({
         messagesSender: resSender.data.result.data,
@@ -56,10 +54,6 @@ class MessageList extends Component {
       content: content,
       receiverName: selectedValue
     };
-
-    console.log(title);
-    console.log(content);
-    console.log(receiverName);
     
     if (title === '' || content === '' || receiverName === '') {
     alert('빈칸을 모두 채워주세요');
@@ -83,10 +77,6 @@ class MessageList extends Component {
       });
   };
   
-  handlePostClick = (id) => {
-    console.log("메세지 ID : ", id);
-  };
-
   //키보드 입력이 정지되고 1초뒤 회원정보 불러오기 실행
   handleChange = (event) => {
     const { value } = event.target;
@@ -114,9 +104,7 @@ class MessageList extends Component {
       .then((res) => {
         const names = res.data.result.data.map(obj => obj.name);
         this.setState({ findName : names })
-        console.log(this.state.findName);
       }).catch((error) => {
-        console.error(error);
       });
     }
 
@@ -127,11 +115,10 @@ class MessageList extends Component {
     }
 
   render() {
-    const { title, content, selectedValue } = this.state;
-
+    const { title, content } = this.state;
     return (
-      <div className="message-wrap">  
-      <button type="button" onClick={() => this.setState({isModalOpen: true})}>쪽지 보내기</button>
+      <div className="messagelist-wrap">  
+      <button className="DM-btn" type="button" onClick={() => this.setState({isModalOpen: true})}>쪽지 보내기</button>
           <div className="modal" style={{ display: this.state.isModalOpen ? 'block' : 'none' }}>
             <h2>새 쪽지</h2>
             <hr/>
@@ -146,8 +133,7 @@ class MessageList extends Component {
                 onChange={this.handleChange}
               />
               {this.state.findName.length > 0 && (
-                <div>
-                  <p>선택하세요:</p>
+                <div className="findName-wrap">
                   {this.state.findName.map((item, index) => (
                     <div key={index} onClick={() => this.handleSelect(item)}>
                       {item}
@@ -173,37 +159,29 @@ class MessageList extends Component {
             </div>
             <button className="close-btn" onClick={() => this.setState({isModalOpen: false})}>닫기</button>
           </div>
-      <div id="wrap">
-        <h1>받은 쪽지</h1>
-        <hr />
-        <ul>
+        <h1 className="messages-title">받은 쪽지</h1>
+      <div className="messages-wrap">
           {this.state.messagesReceiver.map((message) => (
-            <li key={message.id}
-            >
+            <div className="messages" key={message.id}>
               <Link to={`/messages/postbox/receiver/${message.id}`}>
-                <h2 className="listTitle">{message.title}</h2>
-                <h3 className="listName">보낸 사람: {message.senderName}</h3>
+                <pre className="listTitle">{message.title}</pre>
+                <pre className="listContent">{message.content}</pre>
+                <pre className="listName"><b>From</b> {message.senderName}</pre>
               </Link>
-            </li>
+            </div>
           ))}
-        </ul>
       </div>
-      <div id="wrap">
-        <h1>보낸 쪽지</h1>
-      
-        <hr />
-        <ul>
+        <h1 className="messages-title">보낸 쪽지</h1>
+        <div className="messages-wrap">
           {this.state.messagesSender.map((message) => (
-            <li key={message.id}
-            >
+            <div className="messages" key={message.id}>
               <Link to={`/messages/postbox/sender/${message.id}`}>
-                <h3 className="listName">받은 사람: {message.receiverName}</h3>
-                <h2 className="listTitle">{message.title}</h2>
-                <h5>{message.createAt}</h5>
+                <pre className="listTitle">{message.title}</pre>
+                <pre className="listContent">{message.content}</pre>
+                <pre className="listName"><b>To</b> {message.receiverName}</pre>
               </Link>
-            </li>
+            </div>
           ))}
-        </ul>
       </div>
       </div>
     );

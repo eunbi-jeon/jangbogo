@@ -1,5 +1,4 @@
 header {
-    width: 100vw;
     box-shadow: 5px 5px 5px 5px rgba(223, 223, 223, 0.328);
 }
 
@@ -61,7 +60,7 @@ header {
     background-color: rgb(237, 237, 237);
     border: none;
     margin: auto 0;
-    font-size: 24px;
+    font-size: 20px;
 }
 
 .search-form input:focus {

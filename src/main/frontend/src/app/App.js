@@ -16,11 +16,9 @@ import BoardCreate from '../pages/BoardCreate';
 import FindPassword from '../pages/user/FindPassword';
 
 
-import MessageList from '../pages/message/MessageSenderList';
+import MessageList from '../pages/message/MessageList';
 import MessageReceiverDetail from '../pages/message/MessageReceiverDetail';
 import MessageSenderDetail from '../pages/message/MessageSenderDetail';
-import MessageForm from '../pages/message/MessageForm';
-
 
 import Search from '../pages/Search';
 import ZzimItem from '../components/ZzimHandler'
@@ -106,7 +104,6 @@ class App extends Component {
               <PrivateRoute path="/messages/postbox/receiver/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MessageReceiverDetail}></PrivateRoute>  
               <PrivateRoute path="/messages/postbox/sender/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MessageSenderDetail}></PrivateRoute>  
               <PrivateRoute path="/messages/postbox" authenticated={this.state.authenticated} currentUser={this.state.currentUser}  component={MessageList}></PrivateRoute>
-              <PrivateRoute path="/messages" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={MessageForm}></PrivateRoute>
       
               <Route path="/signup" render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>

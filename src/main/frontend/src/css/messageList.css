@@ -1,0 +1,73 @@
+.messagelist-wrap {
+    width: 1000px;
+    padding: 30px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.messages {
+    width: 150px;
+    padding: 20px;
+    height: 200px;
+    border: 2px rgb(173, 173, 173);
+    border-style: dashed;
+    border-width: 3px;
+    margin: 10px;
+}
+
+.messages > a {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    overflow: auto;
+    position: relative;
+}
+
+.messages-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-bottom: 50px;
+}
+
+.messages-title {
+    font-size: 34px;
+}
+
+.listTitle {
+    margin: 0;
+    width: 100%;
+    font-size: 28px;
+    font-weight: bold;
+    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.listContent {
+    height: 100px;
+    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
+}
+
+.listName {
+    font-size: 12px;
+    text-align: right;
+}
+
+.DM-btn {
+    text-align: center;
+    padding: 20px 10px;
+    margin: auto;
+    width: 300px;
+    font-size: 14px;
+    border-radius: 10px;
+    background-color: tomato;
+    color: white;
+    font-weight: bold;
+}
+
