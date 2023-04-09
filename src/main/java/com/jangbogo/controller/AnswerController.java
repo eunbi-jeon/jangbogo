@@ -93,26 +93,28 @@ public class AnswerController {
         
         return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
     }
-    
-    @GetMapping("/answer/vote/{id}")
-    public String answerVote(@CurrentUser UserPrincipal userPrincipal, @PathVariable("id") Long id) {
-        Answer answer = this.answerService.getAnswer(id);
-        Member member = this.memberService.getMember(userPrincipal.getEmail());
-        this.answerService.vote(answer, member);
 
-        return String.format("redirect:/question/detail/%s#answer_%s", 
-                answer.getQuestion().getId(), answer.getId());
-    }
-    
-    @GetMapping("/answer/report/{id}")
-    public String answerReport(@CurrentUser UserPrincipal userPrincipal, @PathVariable("id") Long id) {
+    //답변 추천
+//    @GetMapping("/answer/vote/{id}")
+//    public String answerVote(@CurrentUser UserPrincipal userPrincipal, @PathVariable("id") Long id) {
+//        Answer answer = this.answerService.getAnswer(id);
+//        Member member = this.memberService.getMember(userPrincipal.getEmail());
+//        this.answerService.vote(answer, member);
+//
+//        return String.format("redirect:/question/detail/%s#answer_%s",
+//                answer.getQuestion().getId(), answer.getId());
+//    }
 
-            Answer answer = this.answerService.getAnswer(id);
-            Member member = this.memberService.getMember(userPrincipal.getEmail());
-            this.answerService.report(answer, member);
-        return String.format("redirect:/question/detail/%s#answer_%s", 
-                answer.getQuestion().getId(), answer.getId());
-    }
+    //답변 신고
+//    @GetMapping("/answer/report/{id}")
+//    public String answerReport(@CurrentUser UserPrincipal userPrincipal, @PathVariable("id") Long id) {
+//
+//            Answer answer = this.answerService.getAnswer(id);
+//            Member member = this.memberService.getMember(userPrincipal.getEmail());
+//            this.answerService.report(answer, member);
+//        return String.format("redirect:/question/detail/%s#answer_%s",
+//                answer.getQuestion().getId(), answer.getId());
+//    }
     
 //	@PostMapping("/board/answer/list/{id}")
 //	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

@@ -46,7 +46,7 @@ public class AnswerService {
 		answer.setCreateAt(LocalDateTime.now());
 		answer.setName(name);
 		answer.setDepth(0);
-		answer.setParentId(null);
+//		answer.setParentId(null);
 		
 		
 		this.answerRepository.save(answer); 
@@ -66,7 +66,7 @@ public class AnswerService {
 		childReply.setName(name);
 		childReply.setCreateAt(LocalDateTime.now());
 		childReply.setDepth(parentReply.getDepth() + 1);
-		childReply.setParentId(parentReply);
+//		childReply.setParentId(parentReply);
 		
 		return answerRepository.save(childReply);
 	}
@@ -103,25 +103,25 @@ public class AnswerService {
         this.answerRepository.delete(answer);
     }
     
-    //답변의 추천기능
-    public void vote(Answer answer, Member name) {
-        answer.getVoter().add(name);
-        this.answerRepository.save(answer);
-    }
+//    //답변의 추천기능
+//    public void vote(Answer answer, Member name) {
+//        answer.getVoter().add(name);
+//        this.answerRepository.save(answer);
+//    }
     
-    //답변의 신고기능
-    public void report(Answer answer, Member name) {
-        answer.getReport().add(name);
-        this.answerRepository.save(answer);
-    }
-    
-    public Page<Answer> getList(int page){
-    	List<Sort.Order> sorts = new ArrayList();
-    	sorts.add(Sort.Order.desc("createAt"));
-    	
-    	Pageable pageable =PageRequest.of(page, 10, Sort.by(sorts));
-    	
-    	return this.answerRepository.findAllByOrderByParentIdDescDepthAscCreateAtDesc(pageable);
-    }
+//    //답변의 신고기능
+//    public void report(Answer answer, Member name) {
+//        answer.getReport().add(name);
+//        this.answerRepository.save(answer);
+//    }
+//
+//    public Page<Answer> getList(int page){
+//    	List<Sort.Order> sorts = new ArrayList();
+//    	sorts.add(Sort.Order.desc("createAt"));
+//
+//    	Pageable pageable =PageRequest.of(page, 10, Sort.by(sorts));
+//
+//    	return this.answerRepository.findAllByOrderByParentIdDescDepthAscCreateAtDesc(pageable);
+//    }
 
 }

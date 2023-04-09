@@ -39,7 +39,7 @@ public class MessageService {
     }
 
     private Member getReceiver(MessageCreateRequest req) {
-        return memberRepository.findByName(req.getReceiverNickname())
+        return memberRepository.findByName(req.getReceiverName())
                 .orElseThrow(MemberNotFoundException::new);
     }
 

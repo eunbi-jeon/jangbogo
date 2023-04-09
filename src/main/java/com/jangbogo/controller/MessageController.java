@@ -25,6 +25,8 @@ import com.jangbogo.service.MessageService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Tag(name = "Messages Controller", description = "Messages")
 @RequiredArgsConstructor
 @RestController
@@ -35,16 +37,19 @@ public class MessageController {
     private final MessageService messageService;
     private final MemberRepository memberRepository;
 
-    
-    
+
     @GetMapping("/messages/findName/{searchValue}")
     public Response findReceiver(@PathVariable("searchValue") String nickname) {
-    	Member member = memberRepository.findByName(nickname).orElseThrow(() ->
-        new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.")
-        );
-        return Response.success();
+    	List<Member> user = memberRepository.findByNameContaining(nickname);
+
+        if(user == null) {
+            new UsernameNotFoundException("유저 정보를 찾을 수 없습니다.");
+        }
+
+        return Response.success(user);
     }
-    
+
+
     @PostMapping("/messages")
     public Response createMessage(@Valid @RequestBody MessageCreateRequest req, @CurrentUser UserPrincipal userPrincipal) {
 

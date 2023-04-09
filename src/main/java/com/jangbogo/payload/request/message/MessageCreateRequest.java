@@ -19,5 +19,5 @@ public class MessageCreateRequest {
     private String content;
 
     @NotNull(message = "받는 사람 닉네임을 입력해주세요")
-    private String receiverNickname;
+    private String receiverName;
 }

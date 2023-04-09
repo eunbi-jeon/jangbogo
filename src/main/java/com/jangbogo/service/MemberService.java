@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -27,5 +28,10 @@ public class MemberService {
         } else {
             throw new DataNotFoundException("siteuser not found - 해당 사용자는 존재하지 않습니다. ");
         }
+    }
+
+    public List<Member> getMultiMember(String name) {
+        List<Member> userName = memberRepository.findByNameContaining(name);
+        return userName;
     }
 }

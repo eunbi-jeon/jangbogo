@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
 	
-	Page<Answer> findAllByOrderByParentIdDescDepthAscCreateAtDesc(Pageable pageable);
+//	Page<Answer> findAllByOrderByParentIdDescDepthAscCreateAtDesc(Pageable pageable);
 	List<Answer> findByName(Member member);
 
 
