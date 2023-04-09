@@ -10,12 +10,6 @@ import icon500 from '../img/priceInfo_icon/500.png';
 import icon600 from '../img/priceInfo_icon/600.png';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid ,ResponsiveContainer } from 'recharts';
 
-import banner1 from '../img/banner/april-main-banner-1.jpg'
-import banner2 from '../img/banner/april-main-banner-2.jpg'
-import banner3 from '../img/banner/april-main-banner-3.jpg'
-import banner4 from '../img/banner/april-main-banner-4.jpg'
-
-
 function Main(props) {
   const [items, setItems] = useState([]);
   const [currentItem, setCurrentItem] = useState(null);
@@ -49,19 +43,6 @@ function Main(props) {
   const dpr1Value = currentItem && currentItem.dpr1 ? parseInt(currentItem.dpr1.replace(/,/g, ""), 10) : 0;
 
   const m = currentItem && currentItem.dpr1 - currentItem && currentItem
-
-   //배너 이미지 슬라이드
-  const bannerimg = [banner1, banner2, banner3, banner4];
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((currentSlide) =>
-        currentSlide === bannerimg.length - 1 ? 0 : currentSlide + 1
-      );
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
 
 
   const data = [
@@ -100,7 +81,7 @@ function Main(props) {
   const getItemCodeMessage = (itemCode) => {
     if (itemCode >= 100 && itemCode < 200) {
       return {
-        message: '쌀/잡곡',
+        message: '식량작물',
         image: icon100
       };
     } else if (itemCode >= 200 && itemCode < 300) {
@@ -199,34 +180,6 @@ function Main(props) {
           </ul>
         </div>
       </div>
-      {/* 배너 이미지 슬라이드 */}
-      <div className="main-banner">
-      <div className="main-banner-title">
-        {month}월은 어떤 제철음식이 있을까요?
-      </div>
-      <div className="main-banner-slide">
-        <ul
-          className="banner-img-list"
-          style={{
-            transform: `translateX(-${currentSlide * (385/bannerimg.length)}%)`,
-            whiteSpace: "nowrap",
-            display: "inline-block"
-          }}
-        >
-          {bannerimg.map((image, index) => (
-            <li key={index} className="banner-img-item" style={{display: "inline-block"}}>
-              <img
-                src={image}
-                alt=""
-                className="banner-img"
-                width="100%"
-                height="auto"
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
     </div>
     
   );

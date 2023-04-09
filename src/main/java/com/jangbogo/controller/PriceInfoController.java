@@ -5,11 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -71,6 +67,17 @@ public class PriceInfoController {
         System.err.println(jsonString);
         return jsonString;
     }
-    
-    
+
+    @GetMapping("/api/price/{keyword}")
+    public List<PriceInfo> getItemInfo(@PathVariable("keyword") String keyword) {
+        System.out.println("keyword = " + keyword);
+        try {
+            List<PriceInfo> getItem = priceInfoRepository.findByKeyword(keyword);
+            return getItem;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return priceInfoRepository.findByKeyword(keyword);
+    }
 }

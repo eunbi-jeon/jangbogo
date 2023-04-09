@@ -35,7 +35,6 @@ class Header extends Component {
 
   handleInputChange = (e) => {
     const query=e.target.value;
-    console.log(query);
     this.setState({query},()=>{
       this.forceUpdate();
     });

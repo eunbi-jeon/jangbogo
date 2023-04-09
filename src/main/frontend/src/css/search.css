@@ -128,3 +128,33 @@
     position: relative;
 }
 
+.priceinfo-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: tomato;
+    color: white;
+    border-radius: 10px;
+    align-items: center;
+    font-weight: bold;
+    margin: auto;
+    width: 430px;
+}
+
+.price-search-wrap {
+    width: 1140px;
+    margin: auto;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    background-color: white;
+}
+
+.price-item-rank {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.price-item-item {
+    margin-left: 30px;
+}

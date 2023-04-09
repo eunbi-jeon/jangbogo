@@ -16,10 +16,42 @@ function Search(props) {
   const [start, setStart] = useState(1);
   const [display, setDisplay] = useState(99);
 
+  const [priceinfo, setpriceinfo] = useState([]);
+  const [currentpriceInfo, setcurrentpriceInfo] = useState(null);
 
   const boldText = (text) => {
     return text.replaceAll(query, `<b>${query}</b>`);
   };
+
+   //가격정보 검색
+   useEffect(() => {
+    setpriceinfo([]);
+    setcurrentpriceInfo(null);
+    if (query) {
+      const keyword = query;
+      axios.get(`http://localhost:8080/api/price/${keyword}`)
+        .then(response => {
+          setpriceinfo(response.data);
+          setcurrentpriceInfo(response.data[0])
+        })
+        .catch(error => {
+        });
+    }
+  }, [query]);
+
+  // n초 마다 정보 변경 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const currentIndex = priceinfo.findIndex(item => item === currentpriceInfo);
+      if (currentIndex === priceinfo.length - 1) {
+        setcurrentpriceInfo(priceinfo[0]);
+        console.log(currentpriceInfo);
+      } else {
+        setcurrentpriceInfo(priceinfo[currentIndex + 1]);
+      }
+    }, 5000);
+    return () => clearInterval(intervalId);
+  }, [currentpriceInfo, priceinfo, query]);
 
   const fetchData = async () => {
     if (query) {
@@ -88,8 +120,21 @@ function Search(props) {
       setItems([]); 
     }
 
+   
+
     return (
       <div className="search-container">
+        <div className='price-search-wrap'>
+          {currentpriceInfo && (
+            <div key={currentpriceInfo.id} className='priceinfo-wrap'>
+              <div className='price-item-item'>{currentpriceInfo.itemName}</div>
+              <div className='price-item-name'>{currentpriceInfo.kindName}</div>
+              <div className='price-item-rank'>{currentpriceInfo.rank}</div>
+              <div className='price-item-price'>당일</div><b style={{fontSize:32}}>{currentpriceInfo.dpr1}</b>
+              <div style={{marginRight:30}}>원</div>
+            </div>
+          )}
+          </div>
       <div className="searchlist-top">
         <div className="countItem"> 검색 결과 ({items.length >= 99 ? '99+' : items.length})</div>
         <div className='sort-box'>
