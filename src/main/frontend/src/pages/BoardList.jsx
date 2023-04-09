@@ -109,8 +109,8 @@ class BoardList extends Component {
 
 
         return (
-            <div><h2 >{region}</h2>
                 <div className="boardWrap">
+                    <h1><span>l</span>{region} 지역 게시판 입니다<span>l</span></h1>
                     <span className="hrLine1">
                     </span>
                     <table className="boardList">
@@ -146,18 +146,17 @@ class BoardList extends Component {
 
                         </tbody>
                     </table>
-                    <div>
+                    {/* <div> 페이징 주석
                         {pageNumbers.map((page) => (
                             <span key={page} onClick={() => this.handlePageClick(page)}>
                                 {page}
                             </span>
                         ))}
-                    </div>
+                    </div> */}
                     <button className="boardCreate">
                         <Link to={`/board/create/${this.state.board_id}/${this.state.region ? this.state.region : ''}`} style={{color:'white'}}>글 쓰기</Link>
                     </button>
                 </div>
-            </div>
         );
     }
 }

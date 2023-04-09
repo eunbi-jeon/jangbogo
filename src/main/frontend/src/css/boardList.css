@@ -2,7 +2,7 @@
   width: 1000px;
   margin: 0 auto;
   padding: 20px 30px;
-  margin-top: 50px;
+  margin-top: 30px;
   text-align: center;
 }
 
@@ -58,4 +58,13 @@
 
 tbody {
   margin-top: 10px;
+}
+
+.boardWrap >h1 {
+  margin-bottom: 80px;
+}
+
+.boardWrap >h1 >span {
+  margin: 30px;
+  font-weight: lighter;
 }
