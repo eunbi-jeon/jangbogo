@@ -92,8 +92,8 @@ public class QuestionController {
 	}
 		
 	@PutMapping("/board/modify/{id}")
-	public String questionModify(@RequestBody QuestionDto questionDto, BindingResult bindingResult, 
-	    Principal principal, @PathVariable("id") Long id) {
+	public String questionModify(@RequestBody QuestionDto questionDto, BindingResult bindingResult,
+								 @CurrentUser UserPrincipal userPrincipal, @PathVariable("id") Long id) {
 	
 	
 	if (bindingResult.hasErrors()) {
@@ -103,7 +103,7 @@ public class QuestionController {
 	Question question = this.questionService.getQuestion(id);
 	
 	
-	if (!question.getName().getEmail().equals(principal.getName())) {
+	if (!question.getName().getEmail().equals(userPrincipal.getEmail())) {
 	    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 	}
 	
@@ -115,11 +115,11 @@ public class QuestionController {
 	
 	
 	@GetMapping("/board/delete/{id}")
-	public String questionDelete(Principal principal, @PathVariable("id") Long id) {
+	public String questionDelete(@CurrentUser UserPrincipal userPrincipall, @PathVariable("id") Long id) {
 	
 	Question question = this.questionService.getQuestion(id);
 	
-	if (!question.getName().getEmail().equals(principal.getName())) {
+	if (!question.getName().getEmail().equals(userPrincipall.getEmail())) {
 		
 	    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
 	    
@@ -131,7 +131,7 @@ public class QuestionController {
 	}
 	
 	@GetMapping("/board/{id}")
-	public void getQuestion(Principal principal, @PathVariable("id") Long id) {
+	public void getQuestion(@CurrentUser UserPrincipal userPrincipal, @PathVariable("id") Long id) {
 		Question question = this.questionService.getQuestion(id);
 		System.out.println("question 호출 겟");
 		question.setSubject(question.getSubject());
@@ -151,18 +151,18 @@ public class QuestionController {
 	}
 	
 	@PutMapping("/board/{id}/vote")
-	public String questionVote(Principal principal, @PathVariable("id") Long id) {
+	public String questionVote(@CurrentUser UserPrincipal userPrincipal, @PathVariable("id") Long id) {
 		System.out.println("vote 컨트롤러 호출");
 	Question question = this.questionService.getQuestion(id);
-	Member member = this.memberService.getMember(principal.getName());
+	Member member = this.memberService.getMember(userPrincipal.getEmail());
 	this.questionService.vote(question, member);
 	return String.format("redirect:/booard/detail/%s", id);
 	}
 	
 	@GetMapping("/board/report/{id}")
-	public String questionReport(Principal principal, @PathVariable("id") Long id) {
+	public String questionReport(@CurrentUser UserPrincipal userPrincipal, @PathVariable("id") Long id) {
 	Question question = this.questionService.getQuestion(id);
-	Member member = this.memberService.getMember(principal.getName());
+	Member member = this.memberService.getMember(userPrincipal.getEmail());
 	this.questionService.report(question, member);
 	return String.format("redirect:/question/detail/%s", id);
 	}

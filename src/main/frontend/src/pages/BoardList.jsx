@@ -40,16 +40,11 @@ class BoardList extends Component {
                             if (res.data) {
                                 this.setState({ questions: res.data.content || [] });
                                 this.setState({ totalPage : Math.ceil(res.data.content.length / 10)});
-                                console.log("testt23232ttttt"+ Math.ceil(res.data.content.length / 10));
                             }
                         })
                         .catch((error) => {
                             console.error(error);
                         });
-    
-            console.log("totalCount"+this.state.totalPage);
-            console.log(this.state.questions);
-           
     
         } catch (error) {
             console.error(error);
@@ -57,7 +52,6 @@ class BoardList extends Component {
     }
 
     handlePostClick = (id) => {
-        console.log('게시글 ID:', id);
         const token = localStorage.getItem('accessToken');
         axios
             .post(`http://localhost:8080/board/increment-read-count/${id}`, null, {
@@ -88,14 +82,32 @@ class BoardList extends Component {
       }
 
     render() {
-        const{board_id}=this.state;
-        const{region}=this.state;
+        const regions = [
+            { id: 'seoul', value: '서울' },
+            { id: 'gyeonggi', value: '경기' },
+            { id: 'incheon', value: '인천' },
+            { id: 'gangwon', value: '강원' },
+            { id: 'chungcheong', value: '충청' },
+            { id: 'daejeon', value: '대전' },
+            { id: 'daegu', value: '대구' },
+            { id: 'gwangju', value: '광주' },
+            { id: 'busan', value: '부산' },
+            { id: 'ulsan', value: '울산' },
+            { id: 'jeonla', value: '전라' },
+            { id: 'gyeongsang', value: '경상' },
+            { id: 'jeju', value: '제주' }
+          ];
+
+        // const{board_id}=this.state;
+        const region = regions.find((item) => item.id === this.state.region)?.value;
         const { questions, totalPage, currentPage } = this.state;
 
         const pageNumbers = [];
         for (let i = 1; i <= totalPage; i++) {
           pageNumbers.push(i);
         }
+
+
         return (
             <div><h2 >{region}</h2>
                 <div className="boardWrap">

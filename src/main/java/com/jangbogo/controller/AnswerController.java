@@ -42,30 +42,34 @@ public class AnswerController {
     }
 
 	@PostMapping("/board/answer/create/{id}")
-	public void answerCreate(@RequestBody AnswerDto answerDto,@PathVariable("id") Long id ,BindingResult bindingResult, Principal principal) {
-	    System.out.println("댓글/대댓글 컨트롤러 호출");
+	public void answerCreate(@RequestBody AnswerDto answerDto,@PathVariable("id") Long id ,BindingResult bindingResult, @CurrentUser UserPrincipal userPrincipal) {
 
 	    Question question = this.questionService.getQuestion(id);
-	    Member member = this.memberService.getMember(principal.getName());
+	    Member member = this.memberService.getMember(userPrincipal.getEmail());
 
-	    if (answerDto.getParentId() == null) { // 댓글 생성
-	        this.answerService.create(question, answerDto.getContent(), member);
-	    } else { // 대댓글 생성
-	        this.answerService.createChildReply(question, answerDto.getParentId().getId(), answerDto.getContent(), member);
-	    }
+        try {
+
+            if (answerDto.getParentId() == null) { // 댓글 생성
+                this.answerService.create(question, answerDto.getContent(), member);
+            } else { // 대댓글 생성
+                this.answerService.createChildReply(question, answerDto.getParentId().getId(), answerDto.getContent(), member);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
     
     //답변 수정
     @PutMapping("/answer/modify/{id}")
     public String answerModify(@RequestBody AnswerDto answerDto, BindingResult bindingResult,
-            @PathVariable("id") Long id, Principal principal) {
+            @PathVariable("id") Long id, @CurrentUser UserPrincipal userPrincipal) {
     	
-    	System.out.println("모디파이 댓글~~~~~");
         if (bindingResult.hasErrors()) {
             return "answer_form";
         }
         Answer answer = this.answerService.getAnswer(id);
-        if (!answer.getName().getEmail().equals(principal.getName())) {
+        if (!answer.getName().getEmail().equals(userPrincipal.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.answerService.modify(answer, answerDto.getContent());
@@ -76,11 +80,11 @@ public class AnswerController {
     
     //답변 삭제 
     @GetMapping("/answer/delete/{id}")
-    public String answerDelete(Principal principal, @PathVariable("id") Long id) {
+    public String answerDelete(@CurrentUser UserPrincipal userPrincipal, @PathVariable("id") Long id) {
     	
         Answer answer = this.answerService.getAnswer(id);
         
-        if (!answer.getName().getEmail().equals(principal.getName())) {
+        if (!answer.getName().getEmail().equals(userPrincipal.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
         
@@ -91,9 +95,9 @@ public class AnswerController {
     }
     
     @GetMapping("/answer/vote/{id}")
-    public String answerVote(Principal principal, @PathVariable("id") Long id) {
+    public String answerVote(@CurrentUser UserPrincipal userPrincipal, @PathVariable("id") Long id) {
         Answer answer = this.answerService.getAnswer(id);
-        Member member = this.memberService.getMember(principal.getName());
+        Member member = this.memberService.getMember(userPrincipal.getEmail());
         this.answerService.vote(answer, member);
 
         return String.format("redirect:/question/detail/%s#answer_%s", 
@@ -101,11 +105,11 @@ public class AnswerController {
     }
     
     @GetMapping("/answer/report/{id}")
-    public String answerReport(Principal principal, @PathVariable("id") Long id) {
-        Answer answer = this.answerService.getAnswer(id);
-        Member member = this.memberService.getMember(principal.getName());
-        this.answerService.report(answer, member);
+    public String answerReport(@CurrentUser UserPrincipal userPrincipal, @PathVariable("id") Long id) {
 
+            Answer answer = this.answerService.getAnswer(id);
+            Member member = this.memberService.getMember(userPrincipal.getEmail());
+            this.answerService.report(answer, member);
         return String.format("redirect:/question/detail/%s#answer_%s", 
                 answer.getQuestion().getId(), answer.getId());
     }

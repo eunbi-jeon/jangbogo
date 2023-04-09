@@ -43,6 +43,8 @@ class Mypage extends Component {
             if (answer.data) {
               this.setState({ answers: answer.data });
             }
+            console.log(this.state.boards)
+            console.log(this.state.answers)
           }))
           .catch((error) => {
             console.error(error);
@@ -124,7 +126,7 @@ class Mypage extends Component {
                         <div className='etc-box'>
                             <div className='box-title'>내가 작성한 글</div>
                             {this.state.boards.map((board) => (
-                                    <li><Link to={`/board/detail/${board.id}`}>
+                                    <li><Link to={`/board/detail/${board.board.id}/${board.id}`}>
                                                 {board.subject}
                                         </Link></li>
                                         ))}
@@ -134,7 +136,7 @@ class Mypage extends Component {
                             <div className='box-title'>내가 작성한 댓글</div>
                             {this.state.answers.map((answer) => (
                                     <li><Link to={`/board/detail/${answer.id}`}>
-                                                {answer.subject}
+                                                {answer.content}
                                         </Link></li>
                                         ))}
                             <button className='more-btn'>더보기</button>

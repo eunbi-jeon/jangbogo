@@ -39,30 +39,20 @@ table .detailSubject{
     border: 0px;
   }
   .detailContent{
-    width: 1000px;
+    height: 300px;
+    vertical-align: top;
+    padding: 30px 10px;
   }
+
   .replyContent{
     width: 1500px;
-    padding-left: 10px;
   }
   .replyNickName{
     width: 150px;
   }
-  .modifyBtn, .deleteBtn{
-    text-align: center;
-    width: 60px;
-    border: 1px solid rgb(255, 200, 150);
-    background-color: rgb(255, 235, 199);
-    border-radius: 10px;
-    font-size: 13px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    cursor: pointer;
-  }
 
   .best{
     text-align: center;
-    margin-top: 100px;
   }
   .bestBtn{
     width: 40px;
@@ -103,14 +93,6 @@ table .detailSubject{
     background-color: rgb(248, 248, 248);
   }
 
-  .answer-btn {
-    margin-left: 30px;
-    height: 80px;
-    color: white;
-    font-weight: bold;
-    background-color: tomato;
-  }
-
   .answer-wrap {
     width: 100%;
     display: flex;
@@ -118,3 +100,51 @@ table .detailSubject{
     align-items: center;
   }
 
+  .detailmodifyBtn{
+    text-align: center;
+    height: 80px;
+  }
+
+  .detailmodifyBtn > .modifyBtn, 
+  .detailmodifyBtn > .deleteBtn{
+    text-align: center;
+    padding: 10px 15px;
+    margin: 10px;
+    color: white;
+    font-weight: bold;
+    background-color: tomato;
+    border-radius: 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .detailmodifyBtn > .modifyBtn > a {
+    color: white;
+  }
+
+  .replytable > td > .modifyBtn,
+  .replytable > td > .deleteBtn {
+    text-align: center;
+    margin: 3px;
+    padding: 5px 10px;
+    color: black;
+    font-weight: bold;
+    background-color: rgb(255, 228, 203);
+    border: solid 1px rgb(255, 220, 174);
+    border-radius: 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .replytable > td {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .answer-btn {
+    margin-left: 30px;
+    height: 80px;
+    color: white;
+    font-weight: bold;
+    background-color: tomato;
+  }

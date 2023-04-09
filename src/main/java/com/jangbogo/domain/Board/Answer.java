@@ -22,11 +22,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jangbogo.domain.common.BaseTimeEntity;
 import com.jangbogo.domain.member.entity.Member;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -40,27 +38,23 @@ public class Answer extends BaseTimeEntity {
 	private String content; 
 	
 	// 대댓글 부모
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "parent_id")
-	private Answer parentId;
-	
-	@OneToMany(mappedBy = "parentId", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-	private List<Answer> child = new ArrayList<>();
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "parent_id")
+//	private Answer parentId;
+//
+//	@OneToMany(mappedBy = "parentId", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+//	private List<Answer> child = new ArrayList<>();
 	
 	private Integer depth;
-	
-	@ManyToOne		
+
 	@JsonBackReference
+	@ManyToOne		
 	private Question question;
 
 	@ManyToOne
     private Member name;
-	
-	// 추천
-	@ManyToMany
-    Set<Member> voter;
-	
-	// 신고
-	@ManyToMany
-	Set<Member> report= new HashSet<>();
+
+//	// 신고
+//	@ManyToMany
+//	Set<Member> report= new HashSet<>();
 }
