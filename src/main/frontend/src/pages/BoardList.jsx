@@ -29,10 +29,7 @@ class BoardList extends Component {
                 board_id: board_id,
                 region: region
             });
-            console.log("board_id:" + board_id);
-            console.log("region:" + region);
-            console.log("this.state.board_id:" + this.state.board_id);
-            console.log("this.state.region:" + this.state.region);
+            
             const token = localStorage.getItem('accessToken');
             const res = await axios .get(`http://localhost:8080/board/list/${board_id}?region=${region}`, { //&page=${this.state.currentPage} 붙여!!!!!!!!!!!!!!!!!!
                             headers: {
@@ -49,14 +46,6 @@ class BoardList extends Component {
                         .catch((error) => {
                             console.error(error);
                         });
-            
-          //  const questions = res.data.questions;
-           // const totalPage = Math.ceil(res.data.content.length / 10);
-    
-            // this.setState({
-            //     questions: questions,
-            //     totalPage: totalPage
-            // });
     
             console.log("totalCount"+this.state.totalPage);
             console.log(this.state.questions);
@@ -92,8 +81,6 @@ class BoardList extends Component {
     };
     
     
-    
-
     handlePageClick(page) {
         this.setState({ currentPage: page }, () => {
           this.fetchQuestions();
@@ -101,9 +88,7 @@ class BoardList extends Component {
       }
 
     render() {
-        console.log("testttttttttttt:"+this.state.board_id);
         const{board_id}=this.state;
-        console.log("testttttttttttt:"+this.state.board_id);
         const{region}=this.state;
         const { questions, totalPage, currentPage } = this.state;
 

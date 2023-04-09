@@ -188,9 +188,10 @@ const SignUpForm = (props) => {
                                 value={checkpw}  onChange={onConfirmPasswordHandler} required/>
                         <span className="err-msg">{confirmPasswordMes}</span>
                         <input type="text" name='nickname' placeholder='닉네임을 입력해주세요' className="form-input" 
+                                style={{width:340, marginRight:18}}
                                 defaultValue={props.currentUser.information.name} onChange={onNameHandler} required/>
-                        <div className='err-box'>
                         <button onClick={handleNameCheck} className='check-btn'>중복확인</button>
+                        <div className='err-box'>
                         <span className="err-msg" style={{marginBottom:0, marginLeft:10}}>{nameMes}</span>
                         </div>
                         <div className="form-item">

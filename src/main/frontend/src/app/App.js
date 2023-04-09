@@ -70,6 +70,8 @@ class App extends Component {
         });  
       });    
     }
+
+
     handleLogout() {
       localStorage.removeItem(ACCESS_TOKEN);
       localStorage.removeItem(REFRESH_TOKEN);
@@ -118,7 +120,7 @@ class App extends Component {
               <Route path="/myfav" render={(props)=><ZzimItem authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
 
               <Route path="/password/find" component={FindPassword}></Route>
-              <Route exact path="/" component={Main}></Route> 
+              <Route exact path="/" render={(props) => <Main currentUser={this.state.currentUser}/>}></Route> 
               <Route component={NotFound}></Route>
             </Switch>
           </div>

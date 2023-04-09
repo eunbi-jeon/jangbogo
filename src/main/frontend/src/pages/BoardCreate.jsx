@@ -16,8 +16,6 @@ const BoardCreate = ({ match }) => {
 
     setBoardId(board_id);
     setRegion(region);
-    console.log("board_id:" + board_id);
-    console.log("region:" + region);
   }, [match.params]);
 
   const handleTitleChange = (e) => {

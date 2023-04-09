@@ -16,11 +16,13 @@ import banner3 from '../img/banner/april-main-banner-3.jpg'
 import banner4 from '../img/banner/april-main-banner-4.jpg'
 
 
-function Main() {
+function Main(props) {
   const [items, setItems] = useState([]);
   const [currentItem, setCurrentItem] = useState(null);
   const month = new Date().getMonth() +1;
   
+  console.log(props.currentUser);
+
   useEffect(() => {
     axios.post('http://localhost:8080/')
     axios.get('http://localhost:8080/')
@@ -34,6 +36,14 @@ function Main() {
       });
   }, []);
 
+  useEffect(() => {
+    if(props.currentUser != null) {
+    if(props.currentUser.information.region == null) {
+      alert("지역정보 입력이 필요합니다.\n회원정보 수정 페이지로 이동합니다.")
+      window.location.href = "/setting/profile"
+    }
+  }
+  },[])
 
   // 그래프 data
   const dpr3Value = currentItem && currentItem.dpr3 ? parseInt(currentItem.dpr3.replace(/,/g, ""), 10) : 0;
@@ -55,9 +65,6 @@ function Main() {
     return () => clearInterval(interval);
   }, []);
 
-  const nextSlide = () => {
-    setCurrentSlide(currentSlide === bannerimg.length - 1 ? 0 : currentSlide + 1);
-  };
 
   const data = [
     {
