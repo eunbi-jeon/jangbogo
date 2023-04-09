@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,5 +27,10 @@ public class Board {
 	private String type;
 	
 	private String name;
-	
+
+	@Builder
+	public Board(String type, String name) {
+		this.type = type;
+		this.name = name;
+	}
 }

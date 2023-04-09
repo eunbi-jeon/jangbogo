@@ -43,7 +43,6 @@ const SignUpForm = (props) => {
     const [selectedRegion, setSelectedRegion] = useState('');
     const [selectedAge, setSelectedAge] = useState('');
 
-
     // 오류 메세지
     const [nameMes, setNameMes] = useState("")
     const [pwMes, setPwMes] = useState("")

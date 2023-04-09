@@ -10,6 +10,9 @@ const BoardCreate = ({ match }) => {
   const [region, setRegion] = useState("");
   const [isEditMode, setIsEditMode] = useState(false);
 
+  const history = useHistory(); // useHistory로 history 객체 얻어오기
+
+
  useEffect(() => {
     const { board_id } = match.params;
     const { region } = match.params;
@@ -29,7 +32,9 @@ const BoardCreate = ({ match }) => {
   useEffect(() => {
     // 수정 페이지일 경우, 기존 글 내용 불러오기
     if (match.params.id) {
+      console.log(match.params.id);
       const token = localStorage.getItem("accessToken");
+      
       axios.get(`http://localhost:8080/board/detail/${match.params.id}`, {
         headers: {
           Authorization: "Bearer " + token,
@@ -60,7 +65,7 @@ const BoardCreate = ({ match }) => {
       .then(response => {
         alert("글 수정 완료");
         //글 수정 완료 후 리스트페이지로 이동 추가
-        history.push("/board/list");
+        history.push(`/board/list/${board_id}/${region}`);
       })
       .catch(error => {
         // 에러 처리 로직
@@ -68,7 +73,7 @@ const BoardCreate = ({ match }) => {
         console.error(error);
       });
     } else { // 새로운 글 작성일 경우, 글 등록 API 호출
-      axios.post('http://localhost:8080/board/create', { subject, content }, {
+      axios.post(`http://localhost:8080/board/create/${board_id}`, { subject, content }, {
         headers: {
           Authorization: "Bearer " + token,
         }
@@ -76,7 +81,7 @@ const BoardCreate = ({ match }) => {
       .then(response => {
         alert("글 등록 완료");
         //글 작성 완료 후 리스트페이지로 이동 추가
-        history.push("/board/list");
+        history.push(`/board/list/${board_id}/${region}`);
       })
       .catch(error => {
         // 에러 처리 로직

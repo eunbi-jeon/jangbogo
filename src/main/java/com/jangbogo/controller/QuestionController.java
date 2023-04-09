@@ -60,7 +60,7 @@ public class QuestionController {
 	}
 
 	@PostMapping("/board/create/{board_id}")
-	public void questionCreate(@PathVariable("board_id") Long board_id,@RequestBody QuestionDto questionDto, BindingResult bindingResult, Principal principal) {
+	public void questionCreate(@PathVariable("board_id") Long board_id, @RequestBody QuestionDto questionDto, BindingResult bindingResult, @CurrentUser UserPrincipal userPrincipal) {
 		// @RequestBody 어노테이션을 추가하여 Request Body에서 데이터를 읽어옴
 		System.out.println("create controller 호출");
 		if (bindingResult.hasErrors()) {
@@ -68,9 +68,9 @@ public class QuestionController {
 
 		}
 
-		Member member = this.memberService.getMember(principal.getName());
+		Member member = this.memberService.getMember(userPrincipal.getEmail());
 
-		this.questionService.create(board_id, questionDto.getRegion(),questionDto.getSubject(), questionDto.getContent(), member);
+		this.questionService.create(board_id, member.getRegion(), questionDto.getSubject(), questionDto.getContent(), member);
 
 	}
 	

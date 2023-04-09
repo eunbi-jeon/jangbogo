@@ -20,8 +20,7 @@ function Main(props) {
   const [items, setItems] = useState([]);
   const [currentItem, setCurrentItem] = useState(null);
   const month = new Date().getMonth() +1;
-  
-  console.log(props.currentUser);
+
 
   useEffect(() => {
     axios.post('http://localhost:8080/')
@@ -29,7 +28,6 @@ function Main(props) {
       .then(response => {
         setItems(response.data);
         setCurrentItem(response.data[0]);
-        console.log(response);
       })
       .catch(error => {
         console.log(error);

@@ -13,7 +13,7 @@ class Header extends Component {
     super(props);
     this.state={
       query:'',
-      boardLink:`/board/list/1/${this.props.currentUser.information.region}`
+      boardLink:'/board/list/:board_id/:region?'
     };
     this.handleInputChange=this.handleInputChange.bind(this);
     this.handleKeyPress=this.handleKeyPress.bind(this);
@@ -23,6 +23,13 @@ class Header extends Component {
     const query=new URLSearchParams(window.location.search).get('query');
     if(query){
       this.setState({query});
+    }
+  }
+
+  componentDidMount() {
+    if(this.props.currentUser != null) {
+      const boardLink = `/board/list/1/${this.props.currentUser.information.region}`;
+      this.setState({boardLink});
     }
   }
 

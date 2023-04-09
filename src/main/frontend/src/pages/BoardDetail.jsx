@@ -21,8 +21,8 @@ class BoardDetail extends Component {
       isClick: false,
       isVoted: false,
       isModify: false,
-      board_id:null,
-      region:''
+      board_id: this.props.match.params,
+      region: this.props.currentUser.information.region
     };
   }
   
@@ -37,9 +37,44 @@ class BoardDetail extends Component {
     this.setState({ showReplyForm: true, selectedReplyId: parentId });
   };
 
+  //글 정보 불러오기
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    const token = localStorage.getItem("accessToken");
+  
+    axios
+      .get(`http://localhost:8080/board/detail/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        const memberId = res.data.member.id;
+        const targetId = memberId; // 찾고자 하는 id 값
+        const voter = res.data.question.voter;
+          this.setState({ 
+            question: [res.data.question], 
+            member: [res.data.member], 
+            memberId: memberId,
+            answer: [res.data.question.answerList],
+            isVoted: voter.find(obj => obj.id === targetId)
+          });
+          console.log(question);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   // 게시글 삭제
   questionDeleteClick = () => {
     const { id } = this.props.match.params;
+    const { board_id, region } = this.state;
+
+    console.log(board_id, region);
+
+    const path = `/board/list/${board_id.board_id}/${region}`;
+
     const token = localStorage.getItem("accessToken");
     const result = window.confirm("게시글을 삭제 하시겠습니까?");
     if (result) {
@@ -50,7 +85,7 @@ class BoardDetail extends Component {
           },
         })
         .then((res) => {
-          window.location.href = `/board/list`;
+          window.location.href = path;
         })
         .catch((error) => { 
           console.error(error);
@@ -113,7 +148,7 @@ class BoardDetail extends Component {
           },
         })
         .then((res) => {
-          window.location.href = `/board/detail/${id}`;
+          window.location.reload(); // 페이지 리프래시
         })
         .catch((error) => {
           console.error(error);
@@ -124,66 +159,6 @@ class BoardDetail extends Component {
   });
 };
 
-componentDidMount() {
-  const { id } = this.props.match.params;
-  const { board_id } = this.props.match.params;
-  const { region } = this.props.match.params;
-      
-  this.setState({
-          board_id: board_id,
-          region: region
-  });
-  
-  const token = localStorage.getItem("accessToken");
-
-  axios
-    .get(`http://localhost:8080/board/detail/${id}`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-    .then((res) => {
-      if (res.data.content != null) {
-        this.setState({ question: [res.data] }, () => {
-          console.log(this.state.question); 
-        });
-        this.setState({ answer: [res.data.answerList] }, () => {
-          console.log(this.state.answer);
-        });
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-}
-
-
-componentDidMount() {
-  const { id } = this.props.match.params;
-  const token = localStorage.getItem("accessToken");
-  
-  axios
-    .get(`http://localhost:8080/board/detail/${id}`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-    .then((res) => {
-      const memberId = res.data.member.id;
-      const targetId = memberId; // 찾고자 하는 id 값
-      const voter = res.data.question.voter;
-        this.setState({ 
-          question: [res.data.question], 
-          member: [res.data.member], 
-          memberId: memberId,
-          answer: [res.data.question.answerList],
-          isVoted: voter.find(obj => obj.id === targetId)
-        });
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-}
 
 handleSaveEditClick = (id) => {
   const token = localStorage.getItem("accessToken");
@@ -213,6 +188,7 @@ handleSaveEditClick = (id) => {
     this.setState({ isModify: false, selectedReplyId: null, replyContent: "" });
   };
 
+  //댓글 작성 
   handleSubmitAnswer = (parentId) => {
     const { id } = this.props.match.params;
     const token = localStorage.getItem("accessToken");
@@ -229,8 +205,7 @@ handleSaveEditClick = (id) => {
             }
           )
           .then((res) => {
-            window.location.href = `/board/detail/${id}`;
-    
+            window.location.reload();
           })
           .catch((error) => {
             console.error(error);
@@ -258,7 +233,7 @@ handleSaveEditClick = (id) => {
                  <span className='detailCreateAt'>{new Date(board.createAt).toLocaleDateString()}</span> </td>
                  <td className='detailReadCount'>조회수 {board.readCount}</td>
                  <td className='detailBestCount'>추천 수 {board.voter ? board.voter.length : 0}</td></tr>
-                 <td className="detailmodifyBtn"><span className='modifyBtn'><Link to={`/board/modify/${board.id}`}>수정</Link></span><span className='deleteBtn' onClick={this.questionDeleteClick}>삭제</span></td>
+                 <td className="detailmodifyBtn"><span className='modifyBtn'><Link to={`/board/modify/${board.board.id}/${board.id}/${board.region}`}>수정</Link></span><span className='deleteBtn' onClick={this.questionDeleteClick}>삭제</span></td>
 
              <tr><td colSpan={3}><hr className='hrLine2'></hr></td></tr>
 
@@ -357,7 +332,7 @@ handleSaveEditClick = (id) => {
                  <span className='detailCreateAt'>{new Date(board.createAt).toLocaleDateString()}</span> </td>
                  <td className='detailReadCount'>조회수 {board.readCount}</td>
                  <td className='detailBestCount'>추천 수 {board.voter ? board.voter.length : 0}</td>
-                 </tr> <td className="detailmodifyBtn"><span className='modifyBtn'><Link to={`/board/modify/${board.id}`}>수정</Link></span><span className='deleteBtn' onClick={this.questionDeleteClick}>삭제</span></td>
+                 </tr> <td className="detailmodifyBtn"><span className='modifyBtn'><Link to={`/board/modify/${board.board.id}/${board.id}/${board.region}`}>수정</Link></span><span className='deleteBtn' onClick={this.questionDeleteClick}>삭제</span></td>
 
 
              <tr><td colSpan={3}><hr className='hrLine2'></hr></td></tr>

@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
 
@@ -75,27 +76,31 @@ public class QuestionService {
 			throw new DataNotFoundException("요청한 파일을 찾지 못했습니다. "); 
 		}		 
 	}
-	
-	public void create(Long board_id, String region,String subject, String content, Member name) {
-        Board board;
-        Optional<Board> ob= boardRepository.findById(board_id);
-        if(ob.isPresent()){
-            board=ob.get();
-        }else{
-            throw new DataNotFoundException("요청한 파일을 찾지 못했습니다. ");
-        }
-        System.out.println("서비스에서 board_id확인:"+board_id);
-        System.out.println("서비스에서 board_id확인:"+board.getId());
-		Question q = new Question();
-		q.setBoard(board);
-		q.setSubject(subject);
-		q.setContent(content);
-		q.setRegion(region);
-		q.setCreateAt(LocalDateTime.now());
-		q.setName(name);
 
-		this.questionRepository.save(q);     
-		
+    public Board saveBoardType(Long board_id) {
+
+        Board ob = boardRepository.findById(board_id).orElse(null);
+        if (ob == null) {
+            ob = new Board("community", "region");
+        }
+
+        boardRepository.save(ob);
+
+        return ob;
+    }
+
+	public void create(Long board_id, String region, String subject, String content, Member name) {
+
+            Board ob = saveBoardType(board_id);
+
+            Question q = new Question();
+            q.setBoard(ob);
+            q.setSubject(subject);
+            q.setContent(content);
+            q.setRegion(region);
+            q.setName(name);
+
+            this.questionRepository.save(q);
 	}
 	
 	// 수정

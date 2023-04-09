@@ -13,11 +13,10 @@ class Mypage extends Component {
     constructor(props) {
         super(props);
         this.fileInputRef = React.createRef();
-        this.state = { boards: [] };
+        this.state = { boards: [], answers: [] };
       }
 
-      componentDidMount() {
-        console.log("내가 작성한 글 요청")
+    componentDidMount() {
         const token = localStorage.getItem('accessToken');
         axios
             .get('http://localhost:8080/board/my', {
@@ -27,11 +26,26 @@ class Mypage extends Component {
             })
             .then((res) => {
                 if (res.data) {
-                    console.log("게시글 출력")
-                    console.log(res.data);
                     this.setState({ boards : res.data });
-                    console.log(this.state.boards)
-                    
+                    console.log(boards)
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    componentDidMount() {
+        const token = localStorage.getItem('accessToken');
+        axios
+            .get('http://localhost:8080/answer/my', {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+            .then((res) => {
+                if (res.data) {
+                    this.setState({ answers : res.data });
                 }
             })
             .catch((error) => {
@@ -90,7 +104,6 @@ class Mypage extends Component {
                                 )
                             }
                         </div>
-
                         <div className='img-form-box'>
                                 <input
                                     type="file"
@@ -114,22 +127,20 @@ class Mypage extends Component {
                     <div className='profile-info-etc'>
                         <div className='etc-box'>
                             <div className='box-title'>내가 작성한 글</div>
-                            {/* <ul> */}
                             {this.state.boards.map((board) => (
                                     <li><Link to={`/board/detail/${board.id}`}>
                                                 {board.subject}
                                         </Link></li>
                                         ))}
-                                        {/* </ul> */}
                             <button className='more-btn'>더보기</button>
                         </div>
                         <div className='etc-box'>
                             <div className='box-title'>내가 작성한 댓글</div>
-                                <li>작성 댓글 1</li>
-                                <li>작성 댓글 2</li>
-                                <li>작성 댓글 3</li>
-                                <li>작성 댓글 4</li>
-                                <li>작성 댓글 5</li>
+                            {this.state.answers.map((answer) => (
+                                    <li><Link to={`/board/detail/${answer.id}`}>
+                                                {answer.subject}
+                                        </Link></li>
+                                        ))}
                             <button className='more-btn'>더보기</button>
                         </div>
                     </div>
