@@ -203,8 +203,8 @@ const SignUpForm = (props) => {
                                 id={region.id}
                                 name="region"
                                 value={region.value}
-                                checked={selectedRegion === region.value}
-                                onChange={(e) => setSelectedRegion(e.target.value)}
+                                checked={selectedRegion === region.id}
+                                onChange={(e) => setSelectedRegion(e.target.id)}
                             />
                             <label htmlFor={region.id}>{region.value}</label>
                             </div>

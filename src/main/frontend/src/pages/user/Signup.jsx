@@ -256,7 +256,7 @@ const SignUpForm = () => {
                                 name="region"
                                 value={region.value}
                                 checked={selectedRegion === region.value}
-                                onChange={(e) => setSelectedRegion(e.target.value)}
+                                onChange={(e) => setSelectedRegion(e.target.id)}
                             />
                             <label htmlFor={region.id}>{region.value}</label>
                             </div>
