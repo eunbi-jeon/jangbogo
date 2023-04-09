@@ -9,11 +9,11 @@ import menuicon from "../img/menu-icon.png"
 class Header extends Component {
 
   // 검색 관련 요청 시작
-
   constructor(props){
     super(props);
     this.state={
       query:'',
+      boardLink:`/board/list/1/${this.props.currentUser.information.region}`
     };
     this.handleInputChange=this.handleInputChange.bind(this);
     this.handleKeyPress=this.handleKeyPress.bind(this);
@@ -32,7 +32,6 @@ class Header extends Component {
     this.setState({query},()=>{
       this.forceUpdate();
     });
-
   };
   
   handleKeyPress = (e) => {
@@ -47,7 +46,6 @@ class Header extends Component {
     }
   
   };
-
   // 검색 관련 요청 끝
 
   //드롭다운 메뉴 배열
@@ -121,7 +119,7 @@ class Header extends Component {
                   <div key={category.id} onClick={() => this.handleCategoryClick(category.value)}>{category.value}</div> ))}
             </div>
           </span>
-          <span style={{marginRight:30}}><Link activeClassName="active" to='/board/list/1/seoul'>커뮤니티</Link></span>
+          <span style={{marginRight:30}}><Link activeClassName="active" to={this.state.boardLink}>커뮤니티</Link></span>
           </div>
           { this.props.authenticated ? (
             <div>

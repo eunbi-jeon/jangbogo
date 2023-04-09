@@ -95,7 +95,7 @@ class App extends Component {
         <div className="app">
             <BrowserRouter>
           <div className="app-top-box">
-            <Header authenticated={this.state.authenticated} onLogout={this.handleLogout} onSearch={this.handleSearch} />
+            <Header authenticated={this.state.authenticated} currentUser={this.state.currentUser} onLogout={this.handleLogout} onSearch={this.handleSearch} />
           </div>
           <div className="app-body">
             <Switch>

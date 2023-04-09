@@ -13,7 +13,7 @@ class BoardList extends Component {
             totalPage: null,
             error: null,
             board_id:0,
-            region:''
+            region:props.currentUser.information.region
         };
     }
 
