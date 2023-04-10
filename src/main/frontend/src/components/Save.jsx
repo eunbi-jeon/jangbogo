@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
-
-function Save({item, authenticated}) {
+function Save({item, currentUser, authenticated}) {
 
   
         const saveItem = async () => {
@@ -16,6 +16,7 @@ function Save({item, authenticated}) {
                 image: item.image,
                 mallName: item.mallName,
                 lprice: item.lprice,
+                currentUser
               },
               {
                 headers: {

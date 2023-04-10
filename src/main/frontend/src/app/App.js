@@ -109,6 +109,7 @@ class App extends Component {
       
               <Route path="/signup" render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
+<<<<<<< HEAD
 
               <PrivateRoute path="/board/detail/:board_id/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardDetail}></PrivateRoute>
               <PrivateRoute path="/board/create/:board_id/:region?" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardCreate}></PrivateRoute>
@@ -118,6 +119,14 @@ class App extends Component {
               <PrivateRoute path="/save" render={(props)=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></PrivateRoute>
               <Route path="/myfav" render={(props)=><ZzimItem authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>}></Route>
 
+=======
+              <PrivateRoute path="/board/detail/:id" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardDetail}></PrivateRoute>
+              <PrivateRoute path="/board/create" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardCreate}></PrivateRoute>
+              <PrivateRoute path="/board/list" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardList}></PrivateRoute>
+              <Route path="/search" render={(props) => <Search query={this.state.query} authenticated={this.state.authenticated} currentUser={this.state.currentUser} {...props} />} />
+              <PrivateRoute path="/save" render={(props)=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}{...props}/>}/>
+              <Route path="/myfav" render={(props)=><ZzimItem authenticated={this.state.authenticated} currentUser={this.state.currentUser}{...props}/>}></Route>
+>>>>>>> 9d067f8212151a43aee43e65baf9c94f4ab721e5
               <Route path="/password/find" component={FindPassword}></Route>
               <Route exact path="/" render={(props) => <Main currentUser={this.state.currentUser}/>}></Route> 
               <Route component={NotFound}></Route>
