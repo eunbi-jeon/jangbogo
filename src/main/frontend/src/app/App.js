@@ -101,6 +101,7 @@ class App extends Component {
               <PrivateRoute path="/board/create" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardCreate}></PrivateRoute>
               <PrivateRoute path="/board/list" authenticated={this.state.authenticated} currentUser={this.state.currentUser} component={BoardList}></PrivateRoute>
               <Route path="/search" render={(props) => <Search query={this.state.query} authenticated={this.state.authenticated} currentUser={this.state.currentUser} {...props} />} />
+              <PrivateRoute path="/save" render={(props)=><Save authenticated={this.state.authenticated} currentUser={this.state.currentUser}{...props}/>}/>
               <Route path="/myfav" render={(props)=><ZzimItem authenticated={this.state.authenticated} currentUser={this.state.currentUser}{...props}/>}></Route>
               <Route path="/password/find" component={FindPassword}></Route>
               <Route exact path="/" component={Main}></Route> 
