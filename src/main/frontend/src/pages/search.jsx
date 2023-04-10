@@ -1,3 +1,4 @@
+
 import React, {useState, useEffect} from 'react';
 import '../css/search.css'
 import axios from 'axios';
@@ -10,6 +11,7 @@ function numberWithCommas(pNumber) {
 
 function Search(props) {
   const query = props.query;
+
   const authenticated=props.authenticated;
   const [items, setItems] = useState([]);
   const [sortBy, setSortBy] = useState('관련도순');
@@ -73,25 +75,23 @@ function Search(props) {
   } 
   
 
-	const handleSortByChange = (e) => {
-        const selectedValue = e.target.value;
-        
-        if (selectedValue === "관련도순") {
-          setSortBy("sim");
-        
-        } else if (selectedValue === "최신순") {
-          setSortBy("date");
-        
-        } else if (selectedValue === "낮은가격순") {
-          setSortBy("asc");
-        
-        }
-  }
-
-
-
+  const handleSortByChange = (e) => {
+    const selectedValue = e.target.value;
+    switch (selectedValue) {
+      case "관련도순":
+        setSortBy("sim");
+        break;
+      case "최신순":
+        setSortBy("date");
+        break;
+      case "낮은가격순":
+        setSortBy("asc");
+        break;
+      default: break;
+    }
+    setSortBy(selectedValue);
+};
   
-
 
     return (
       <>
@@ -106,7 +106,7 @@ function Search(props) {
           </select>
         </div>
         <ul>    
-          {items.map(item => (
+          {items.slice(0, 30).map(item => (
             <li key={item.link}>
               <div className='search-item' onClick={(e)=>onClickItem(item, e)} >
                 <div className='search-item-left'>
@@ -121,7 +121,6 @@ function Search(props) {
                    
                 </div>
               </div>
-
             </div>
           </li>
         ))}

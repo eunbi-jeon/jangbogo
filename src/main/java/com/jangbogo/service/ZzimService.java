@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import com.jangbogo.domain.member.entity.Member;
 import com.jangbogo.domain.product.Product;
@@ -84,18 +85,16 @@ public class ZzimService {
 		}
 		
 		//찜 product 삭제
-		public Optional<Product> deleteProduct(Long id) {
-		    Optional<Product> productOptional = productRepository.findById(id);
-		    log.info(id.toString());
-		    if (productOptional.isPresent()) {
-		    	log.info(id.toString());
-		        productRepository.deleteById(id);
-		    } else {
-		        throw new RuntimeException("Product not found with id: " + id);
-		    }
-		    return productOptional;
-		}
-
+	    @Transactional
+	    public void deleteProduct(Long productId) {
+	        Product product = productRepository.findById(productId)
+	                .orElseThrow(() -> new NotFoundException("Product not found"));
+	        Zzim zzim = product.getZzim();
+	        zzim.getProducts().remove(product);
+	        zzim.addCount(-1);
+	        product.setZzim(null);
+	        productRepository.delete(product);
+	    }
 		
 		//찜 전체 삭제
 		public void deleteAll(Long id) {

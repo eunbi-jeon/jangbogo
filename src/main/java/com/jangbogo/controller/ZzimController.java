@@ -66,17 +66,12 @@ public class ZzimController {
 
     @DeleteMapping("api/products/{prodId}")
     public ResponseEntity<?> removeProductFromFavList(@CurrentUser UserPrincipal currentUser, @PathVariable("prodId")  Long prodId) {
-    	Member user = memberRepository.findByEmail(currentUser.getEmail()).orElse(null); 
-    	Zzim zzim = zzimRepository.findByUserEmail(user.getEmail());
-        
-        int beforeSize = zzim.getProducts().size();
-        zzim.removeProduct(prodId);
-        int afterSize = zzim.getProducts().size();
-        zzim.setCount(zzim.getCount()-1);
-        
-        System.out.println("before size: " + beforeSize + ", after size: " + afterSize);
-        entityManager.detach(zzim); 
-        
+    	  Member user = memberRepository.findByEmail(currentUser.getEmail()).orElse(null); 
+    	    Zzim zzim = zzimRepository.findByUserIdAndProducts_Id(user.getId(), prodId);
+    	 
+    	     zzimService.deleteProduct(prodId);
+    	
+    	    
         return ResponseEntity.ok().build();
     }
     
